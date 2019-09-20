@@ -34,7 +34,7 @@ class nwswa_cpt_location {
 			'new_item'           => __( 'Neuer Standort', 'nwswa_exex' ),
 			'all_items'          => __( 'Alle Standorte', 'nwswa_exex' ),
 			'view_item'          => __( 'Standort ansehen', 'nwswa_exex' ),
-			'search_items'       => __( 'Standortw durchsuchen', 'nwswa_exex' ),
+			'search_items'       => __( 'Standorte durchsuchen', 'nwswa_exex' ),
 			'not_found'          => __( 'Keinen Standort gefunden', 'nwswa_exex' ),
 			'not_found_in_trash' => __( 'Keinen Standort im Papierkorb gefunden', 'nwswa_exex' ),
 			'parent_item_colon'  => '',
@@ -108,8 +108,6 @@ class nwswa_cpt_location {
 		while ( $loop->have_posts() ) : $loop->the_post();
 			// post id abfragen
 			$post_id = get_the_ID();
-			// abfrage unseres custom fields "position"
-			$position = get_post_meta( $post_id, 'position' );
 
 			// Template Ausgabe
 			?>
@@ -118,7 +116,6 @@ class nwswa_cpt_location {
 
 				<span style="font-size: 1.5rem; font-weight: 700; color: #0e7c7b;" class="text-center"><?php echo get_the_title( $post_id ) ?></span>
 				<p class="text-center">
-					<b><?php echo $position[0] ?></b><br>
 					<a href="<?php echo get_the_permalink( $post_id ) ?>" class="btn btn-tobi2" >Mehr erfahren</a>
 				</p>
 			</div>
