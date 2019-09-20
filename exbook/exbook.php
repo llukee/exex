@@ -10,4 +10,6 @@
 * Domain Path: /languages
 */
 
+require_once('cpt/cpt-mailtpl.php');
 require_once('cpt/cpt-location.php');
+require_once('cpt/cpt-show.php');
