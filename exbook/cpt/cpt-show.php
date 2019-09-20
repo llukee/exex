@@ -26,17 +26,17 @@ class nwswa_cpt_show {
 	public function register_custom_post_type(){
 		// Backend string values
 		$labels = array(
-			'name'               => _x( 'Veranstaltungen', 'post type general name', 'nwswa_exex' ),
-			'singular_name'      => _x( 'Veranstaltung', 'post type singular name', 'nwswa_exex' ),
-			'add_new'            => __( 'Neue Veranstaltung anlegen', 'nwswa_exex'),
-			'add_new_item'       => __( 'Neue Veranstaltung anlegen', 'nwswa_exex' ),
-			'edit_item'          => __( 'Veranstaltung Daten bearbeiten', 'nwswa_exex' ),
-			'new_item'           => __( 'Neue Veranstaltung', 'nwswa_exex' ),
-			'all_items'          => __( 'Alle Veranstaltungen', 'nwswa_exex' ),
-			'view_item'          => __( 'Veranstaltung ansehen', 'nwswa_exex' ),
-			'search_items'       => __( 'Veranstaltungen durchsuchen', 'nwswa_exex' ),
-			'not_found'          => __( 'Keinen Veranstaltung gefunden', 'nwswa_exex' ),
-			'not_found_in_trash' => __( 'Keinen Veranstaltung im Papierkorb gefunden', 'nwswa_exex' ),
+			'name'               => _x( 'Veranstaltungen', 'post type general name', 'nwswa_exbook' ),
+			'singular_name'      => _x( 'Veranstaltung', 'post type singular name', 'nwswa_exbook' ),
+			'add_new'            => __( 'Neue Veranstaltung anlegen', 'nwswa_exbook'),
+			'add_new_item'       => __( 'Neue Veranstaltung anlegen', 'nwswa_exbook' ),
+			'edit_item'          => __( 'Veranstaltung Daten bearbeiten', 'nwswa_exbook' ),
+			'new_item'           => __( 'Neue Veranstaltung', 'nwswa_exbook' ),
+			'all_items'          => __( 'Alle Veranstaltungen', 'nwswa_exbook' ),
+			'view_item'          => __( 'Veranstaltung ansehen', 'nwswa_exbook' ),
+			'search_items'       => __( 'Veranstaltungen durchsuchen', 'nwswa_exbook' ),
+			'not_found'          => __( 'Keinen Veranstaltung gefunden', 'nwswa_exbook' ),
+			'not_found_in_trash' => __( 'Keinen Veranstaltung im Papierkorb gefunden', 'nwswa_exbook' ),
 			'parent_item_colon'  => '',
 			'menu_name'          => 'Veranstaltungen'
 		);
