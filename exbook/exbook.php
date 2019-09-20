@@ -14,3 +14,4 @@ require_once('cpt/cpt-mailtpl.php');
 require_once('cpt/cpt-location.php');
 require_once('cpt/cpt-show.php');
 require_once('cpt/cpt-event.php');
+require_once('cpt/cpt-reservation.php');

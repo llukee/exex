@@ -54,7 +54,7 @@ class nwswa_cpt_mailtpl {
 			'mailtpl_in_admin_bar'   => true,
 			'mailtpl_in_nav_menus'   => true,
 			'capability_type'     => 'page',
-			'publicly_queryable'  => true,
+			'publicly_queryable'  => false,
 			'exclude_from_search' => true,
 			'supports'            => false,
 			'has_archive'         => false,
