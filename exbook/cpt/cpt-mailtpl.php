@@ -177,11 +177,6 @@ label {
         default:
             break;
     }
-}
-
-	private function _debug($exit=true){
-  	var_dump(debug_backtrace());
-    return ($exit)? exit(): false;
 	}
 
 }

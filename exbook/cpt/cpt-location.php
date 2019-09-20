@@ -17,6 +17,8 @@ class nwswa_cpt_location {
 		add_shortcode('locations-list', array( $this, 'locations_list' ));
 		// Post Template Mapping
 		add_filter('single_template', array( $this, 'custom_post_type_single_mapping' ));
+		// Set columns in list view admin
+		add_action('manage_nwswa_location_posts_columns', array($this, '_add_columns'), 10, 2);
 	}
 
 	/*
@@ -131,6 +133,12 @@ class nwswa_cpt_location {
 
 		// return buffer
 		return ob_get_clean();
+	}
+
+	public function _add_columns($columns) {
+		unset($columns['date']);
+		$columns['title'] = 'Name';
+		return $columns;
 	}
 
 }

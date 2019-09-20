@@ -17,6 +17,9 @@ class nwswa_cpt_show {
 		add_shortcode('shows-list', array( $this, 'shows_list' ));
 		// Post Template Mapping
 		add_filter('single_template', array( $this, 'custom_post_type_single_mapping' ));
+		// Set columns in list view admin
+		add_action('manage_nwswa_show_posts_columns', array($this, '_add_columns'), 10, 2);
+		add_action('manage_nwswa_show_posts_custom_column', array($this, '_fill_columns'), 10, 2);
 	}
 
 	/*
@@ -131,6 +134,37 @@ class nwswa_cpt_show {
 
 		// return buffer
 		return ob_get_clean();
+	}
+
+	public function _add_columns($columns) {
+		unset($columns['date']);
+		$columns['title'] = 'Name';
+		$columns['events'] = 'Vorstellungen';
+		return $columns;
+	}
+
+	public function _fill_columns($column_name, $post_id) {
+    global $wpdb;
+    switch ($column_name) {
+        case 'events':
+					$args = array(
+		        'post_type'     => 'nwswa_event',
+		        'post_status'   => 'publish',
+		        'meta_query'    => array(
+	            array(
+	                'key'   => 'nwswa_event_show',
+	                'value' => $post_id,
+	                'compare'   => 'LIKE'
+	            ))
+			    );
+
+					$events = get_posts($args);
+					echo count($events);
+
+            break;
+        default:
+            break;
+    }
 	}
 
 }
