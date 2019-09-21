@@ -1,4 +1,9 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('memory_limit','64M');
+ini_set('max_execution_time', 240);
 define('WP_USE_THEMES', false);
 require('../../../wp-load.php');
 global $wpdb;
@@ -20,6 +25,7 @@ function mycode_table_column_exists( $table_name, $column_name ) {
  * 2. Standalone Tabellen ohne Verknüpfungen
  * 3. Tabellen mit Verknüpfungen und auslesen der IDs über bestehende Einträge
  */
+
 
  /* remove all entries from wp tables with custom post types */
  $results = $wpdb->get_results( "SELECT meta_id FROM {$wpdb->prefix}postmeta WHERE meta_key LIKE 'nwswa_%'", OBJECT );
