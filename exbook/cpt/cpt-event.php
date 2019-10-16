@@ -88,6 +88,7 @@ class nwswa_cpt_event {
 		return $single;
 	}
 
+	
 	/*
 	 * Creates the shortcode to display all events
 	 * */
@@ -97,7 +98,12 @@ class nwswa_cpt_event {
 		$args = array(
 			'post_type'         => 'nwswa_event',
 			'post_status'       => array( 'publish' ),
-			'posts_per_page'    => -1 // -1 = all posts
+			'posts_per_page'    => -1, // -1 = all posts
+			'orderby' => 'meta_value_num',
+			'order' => 'ASC',
+			'meta_key'  => 'nwswa_event_datetime',
+			'meta_value' => date( "U" ),
+			'meta_compare' => '>'
 		);
 
 		// Daten abfragen
@@ -115,16 +121,39 @@ class nwswa_cpt_event {
 		while ( $loop->have_posts() ) : $loop->the_post();
 			// post id abfragen
 			$post_id = get_the_ID();
+			
+			// post id von show abfragen
+			$post_id_show = get_post_meta( $post_id, 'nwswa_event_show', true );
+			
+			// location
+			$event_location = get_post_meta( $post_id, 'nwswa_event_location', true );
+			$location = get_post($event_location);
+			
+			// seats
+			$event_seats = get_post_meta( $post_id, 'nwswa_event_seats', true );
+			
+			// date
+			$event_datetime = get_post_meta( $post_id, 'nwswa_event_datetime', true );
+					
+			// number of reservations
+			$reservation_quantity = get_post_meta( $post_id, 'reservation_quantity', true );
+			
 
 			// Template Ausgabe
 			?>
 			<div class="col-md-4 text-center">
-				<img style="max-height: 100px;" class="img-fluid mx-auto d-block rounded-circle" src="<?php echo get_the_post_thumbnail_url( $post_id, 'full' ) ?>">
-
-				<span style="font-size: 1.5rem; font-weight: 700; color: #0e7c7b;" class="text-center"><?php echo get_the_title( $post_id ) ?></span>
-				<p class="text-center">
-					<a href="<?php echo get_the_permalink( $post_id ) ?>" class="btn btn-tobi2" >Mehr erfahren</a>
-				</p>
+				
+				<?php 
+					if($event_datetime>0) {
+							echo date("d.m.Y H:i", $event_datetime);
+						}
+				?><br />
+				<?php echo get_the_title( $post_id_show ) ?>
+				<br />
+				<a href="<?php echo get_the_permalink( $event_location ) ?>" class="btn btn-tobi2" ><?php echo $location->post_title; ?></a><br />
+				<?php echo $reservation_quantity; ?>/<?php echo $event_seats; ?><br />
+				<a href="<?php echo get_the_permalink( $post_id_show ) ?>" class="btn btn-tobi2" >reservieren</a><br /><br />
+				
 			</div>
 		<?php
 		// Ende unserer while-schleife
@@ -152,6 +181,7 @@ class nwswa_cpt_event {
 			'default'
 		);
 	}
+	
 
 	/**
 	 * Output the HTML for the metabox.
@@ -401,5 +431,8 @@ label {
             break;
     }
 	}
+	
+	
+	
 
 }
