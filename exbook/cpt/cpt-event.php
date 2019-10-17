@@ -137,7 +137,36 @@ class nwswa_cpt_event {
 					
 			// number of reservations
 			$reservation_quantity = get_post_meta( $post_id, 'reservation_quantity', true );
-			
+
+				$args = array ( 
+				// Post or Page ID
+				'post_type' => 'nwswa_reservation',
+				'meta_key'  => 'nwswa_reservation_event',
+				'meta_value' => $post_id,
+				'meta_compare' => '='
+				);
+				 
+				// The Query
+				$the_query = new WP_Query( $args );
+				 
+				// The Loop
+				if ( $the_query->have_posts() ) {
+				 
+					while ( $the_query->have_posts() ) {
+						$the_query->the_post();
+						$reservation_quantity = get_post_meta( get_the_ID(), 'nwswa_reservation_quantity', true);
+						}
+				 
+					 
+					/* Restore original Post Data */
+					wp_reset_postdata();
+				 
+				} else {
+				 
+				$reservation_quantity = 0;
+					 
+				}
+
 
 			// Template Ausgabe
 			?>
@@ -151,8 +180,23 @@ class nwswa_cpt_event {
 				<?php echo get_the_title( $post_id_show ) ?>
 				<br />
 				<a href="<?php echo get_the_permalink( $event_location ) ?>" class="btn btn-tobi2" ><?php echo $location->post_title; ?></a><br />
-				<?php echo $reservation_quantity; ?>/<?php echo $event_seats; ?><br />
-				<a href="<?php echo get_the_permalink( $post_id_show ) ?>" class="btn btn-tobi2" >reservieren</a><br /><br />
+				<?php 
+					$free_seats = $event_seats - $reservation_quantity;
+					$free_seats_text = "freie Plätze ";
+					
+					if ($reservation_quantity >= $event_seats){
+						$free_seats_text = "ausverkauft";
+						echo $free_seats_text;
+					}
+					else{
+						echo $free_seats_text.$free_seats;
+						?>
+						<a href="<?php echo get_the_permalink( $post_id_show ) ?>" class="btn btn-tobi2" >reservieren</a>
+						<?php
+					}
+					
+				?><br /><br /><br />
+				
 				
 			</div>
 		<?php
