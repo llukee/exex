@@ -156,8 +156,8 @@ class nwswa_cpt_event {
 						$the_query->the_post();
 						$nwswa_reservation_quantity = get_post_meta( get_the_ID(), 'nwswa_reservation_quantity', true);
 						echo get_the_ID().':';
-						var_dump($nwswa_reservation_quantity);
-						$reservation_quantity += (int)$nwswa_reservation_quantity;
+						var_dump((int)$nwswa_reservation_quantity);
+						$reservation_quantity += intval($nwswa_reservation_quantity);
 						}
 				 
 					 
