@@ -136,38 +136,37 @@ class nwswa_cpt_event {
 			$event_datetime = get_post_meta( $post_id, 'nwswa_event_datetime', true );
 					
 			// number of reservations
-			$reservation_quantity = get_post_meta( $post_id, 'reservation_quantity', true );
+			$reservation_quantity = (int)get_post_meta( $post_id, 'reservation_quantity', true );
 
-				$args = array ( 
-				// Post or Page ID
-				'post_type' => 'nwswa_reservation',
-				'meta_key'  => 'nwswa_reservation_event',
-				'meta_value' => $post_id,
-				'meta_compare' => '='
-				);
-				 
-				// The Query
-				$the_query = new WP_Query( $args );
-				 
-				// The Loop
-				if ( $the_query->have_posts() ) {
-				 
-					while ( $the_query->have_posts() ) {
-						$the_query->the_post();
-						$nwswa_reservation_quantity = get_post_meta( get_the_ID(), 'nwswa_reservation_quantity', true);
-						$nwswa_reservation_quantity = (int)$nwswa_reservation_quantity;
-						$reservation_quantity += $nwswa_reservation_quantity;
-						}
-				 
-					 
-					/* Restore original Post Data */
-					wp_reset_postdata();
-				 
-				} else {
-				 
-				$reservation_quantity = 0;
-					 
+			$args = array ( 
+			// Post or Page ID
+			'post_type' => 'nwswa_reservation',
+			'meta_key'  => 'nwswa_reservation_event',
+			'meta_value' => $post_id,
+			'meta_compare' => '='
+			);
+
+			// The Query
+			$the_query = new WP_Query( $args );
+
+			// The Loop
+			if ( $the_query->have_posts() ) {
+
+				while ( $the_query->have_posts() ) {
+					$the_query->the_post();
+					$nwswa_reservation_quantity = get_post_meta( get_the_ID(), 'nwswa_reservation_quantity', true);
+					$reservation_quantity += (int)$nwswa_reservation_quantity;
 				}
+
+
+				/* Restore original Post Data */
+				wp_reset_postdata();
+
+			} else {
+
+			$reservation_quantity = 0;
+
+			}
 
 
 			// Template Ausgabe
