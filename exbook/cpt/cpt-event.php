@@ -92,20 +92,52 @@ class nwswa_cpt_event {
 	/*
 	 * Creates the shortcode to display all events
 	 * */
-	public function events_list() {
-
+	public function events_list($atts, $content = null ) {
+		$a = shortcode_atts( array(
+			'location' => 'loca-not-defined',
+			'show'  =>  'show-not-defined'
+		), $atts );
+	
 		// Loop Arguments
 		$args = array(
 			'post_type'         => 'nwswa_event',
 			'post_status'       => array( 'publish' ),
 			'posts_per_page'    => -1, // -1 = all posts
-			'orderby' => 'meta_value_num',
-			'order' => 'ASC',
-			'meta_key'  => 'nwswa_event_datetime',
-			'meta_value' => date( "U" ),
-			'meta_compare' => '>'
+			
+			'relation' => 'AND', // Optional, defaults to "OR"
+
+			'meta_query' => array(
+				
+				'date_ordering' => array(
+					'key'  		=> 'nwswa_event_datetime',
+					'value' => date( "U" ),
+					'compare' => '>'
+				),
+				
+				array(
+					'meta_key'  => 'nwswa_event_location',
+					'meta_value' => '8', //$a['location']
+					'meta_compare' => '='
+				),
+				
+				array(
+					'meta_key'  => 'nwswa_event_show',
+					'meta_value' => 'warten-auf-godot', //$a['show']
+					'meta_compare' => '='
+				),
+				
+			),
+			
+			
+			
+		'orderby' => 'date_ordering',
+		'order' => 'ASC',
+			
+			
 		);
 
+					
+					
 		// Daten abfragen
 		$loop = new WP_Query( $args );
 
@@ -113,9 +145,60 @@ class nwswa_cpt_event {
 		ob_start();
 		?>
 
+		<style>
+				.container_fluid{
+					line-height:1.3;
+					font-size:14pt;
+					
+				}
+				.table-row {
+				  display: flex;           display: -webkit-flex;
+				  flex-direction: row;     -webkit-flex-direction: row;
+				  flex-grow: 0;            -webkit-flex-grow: 0;
+				  flex-wrap: nowrap;         -webkit-flex-wrap: nowrap;
+				  width: 100%;
+				  padding-left: 15px;
+				  padding-right: 15px;
+				}
+				
+				.text {
+				  flex-grow: 1;            -webkit-flex-grow: 1;
+				  
+				  
+				  
+				  padding-right: 20px;
+				}
+				.table-row {
+				  border-collapse: collapse;
+				  padding-top: 10px;
+				}
 
-		<div class="row">
+				.table-row.header {
+				  background-color:;
+				  font-weight: bold;
+				  padding-top: 8px;
+				  padding-bottom: 0px;
+				}
+				.text {
+				  width:140px;
+				}
+				
+				.long {
+				  width:250px;
+				}
 
+				.short {
+				  width: 40px;
+				}
+		</style>
+		<div class="container_fluid">
+			<div class="table-row header">
+				<div class="text short">Tag</div>
+				<div class="text">Datum/Zeit</div>
+				<div class="text long">Stück</div>
+				<div class="text">Ort</div>
+				<div class="text">freie Plätze</div>
+			  </div>
 		<?php
 		// start des WordPress Loops für unseren post type
 		while ( $loop->have_posts() ) : $loop->the_post();
@@ -145,6 +228,8 @@ class nwswa_cpt_event {
 			'meta_value' => $post_id,
 			'meta_compare' => '='
 			);
+			
+			
 
 			// The Query
 			$the_query = new WP_Query( $args );
@@ -171,40 +256,71 @@ class nwswa_cpt_event {
 
 			// Template Ausgabe
 			?>
-			<div class="col-md-4 text-center">
+			
+			
+
+
+  
+
+  
+    
+
+  
+  
+
+
+			<div class="table-row">
 				
-				<?php 
-					if($event_datetime>0) {
-							echo date("d.m.Y H:i", $event_datetime);
-						}
-				?><br />
-				<?php echo get_the_title( $post_id_show ) ?>
-				<br />
-				<a href="<?php echo get_the_permalink( $event_location ) ?>" class="btn btn-tobi2" ><?php echo $location->post_title; ?></a><br />
-				<?php 
-					$free_seats = $event_seats - $reservation_quantity;
-					$free_seats_text = "freie Plätze ";
-					
-					if ($reservation_quantity >= $event_seats){
-						$free_seats_text = "ausverkauft";
-						echo $free_seats_text;
-					}
-					else{
-						echo $free_seats_text.$free_seats;
-						?>
-						<a href="<?php echo get_the_permalink( $post_id_show ) ?>" class="btn btn-tobi2" >reservieren</a>
-						<?php
-					}
-					
-				?><br /><br /><br />
+				<?php
+				// Get event Date
+				if($event_datetime>0) {$text_event_datetime = date("d.m.Y H:i", $event_datetime);}
+				
+				// Get Day
+				$day = date("l", $event_datetime);
+				switch($day)
+				{
+				case "Monday": $day = "Mo"; break;
+				case "Tuesday": $day = "Di"; break;
+				case "Wednesday": $day = "Mi"; break;
+				case "Thursday": $day = "Do"; break;
+				case "Friday": $day = "Fr"; break;
+				case "Saturday": $day = "Sa"; break;
+				case "Sunday": $day = "So"; break;
+				};
+				
+				// Get event title
+				$text_event_title = get_the_title( $post_id_show );
+				
+				// Calculate free seats
+				$free_seats = $event_seats - $reservation_quantity;
+				
+				// Define free seats text
+				if ($reservation_quantity >= $event_seats){$free_seats_text = "ausverkauft";}
+				else{$free_seats_text = $free_seats."<br /><a href='".get_the_permalink( $post_id_show )."#reservieren' class='btn btn-tobi2' >reservieren</a>";}
+				
+				//echo esc_attr($a['location']);
+				//echo esc_attr($a['show']);
+				?>
+				
+				<div class="text short"><?php echo $day ?></div>
+				<div class="text">
+					<?php echo $text_event_datetime ?>
+				</div>
+				<div class="text long">
+					<a href="<?php echo get_the_permalink( $post_id_show ) ?>" class="btn btn-tobi2" ><?php echo $text_event_title ?></a>
+					<?php // echo $text_event_title ?>
+				</div>
+				<div class="text"><a href="<?php echo get_the_permalink( $event_location ) ?>" class="btn btn-tobi2" ><?php echo $location->post_title; ?></a></div>
+				<div class="text"><?php echo $free_seats_text ?></div>
 				
 				
 			</div>
+			
 		<?php
 		// Ende unserer while-schleife
 		endwhile;
 		?>
-		</div>
+</div>
 
 		<?php
 		// reset data
