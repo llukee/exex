@@ -163,9 +163,6 @@ class nwswa_cpt_event {
 				
 				.text {
 				  flex-grow: 1;            -webkit-flex-grow: 1;
-				  
-				  
-				  
 				  padding-right: 20px;
 				}
 				.table-row {
@@ -180,7 +177,7 @@ class nwswa_cpt_event {
 				  padding-bottom: 0px;
 				}
 				.text {
-				  width:140px;
+				  width:150px;
 				}
 				
 				.long {
