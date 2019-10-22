@@ -76,8 +76,8 @@ class nwswa_cpt_show {
 		global $post;
 
 		if ( $post->post_type == 'nwswa_show' ) {
-		    if ( file_exists( plugin_dir_path( __FILE__ ) . '/templates/'.$post->post_type.'_single.php' ) ) {
-			    return plugin_dir_path( __FILE__ ) . '/templates/'.$post->post_type.'_single.php';
+		    if ( file_exists( plugin_dir_path( __DIR__ ) . '/templates/'.$post->post_type.'_single.php' ) ) {
+			    return plugin_dir_path( __DIR__ ) . '/templates/'.$post->post_type.'_single.php';
 		    }
 		}
 
