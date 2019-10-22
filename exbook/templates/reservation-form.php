@@ -1,25 +1,3 @@
-<?php
-/**
- * The template for displaying all single shows
- */
- 
-
-get_header();
-?>
-
-<section id="primary" class="content-area">
-		<main id="main" class="site-main">
-			<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-				<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
-
-				<header class="entry-header">	
-					<h1 class="entry-title"><a href="<?php the_permalink(); ?>" rel="bookmark" title="Permanent Link to <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h1>
-				</header>
-					
-				<div class="entry-content">
-					<?php the_content(); ?>
-					
-						
 					<form id="reservieren">
 					<h2>Reservieren</h2>
 					<?php wp_nonce_field( 'contact_form_submit', 'cform_generate_nonce' );?>
@@ -59,7 +37,7 @@ get_header();
 								<p><label>Telefon</label> <input type="text" name="telefon" class="text" id="telefon"></p>
 								<p><label>Email</label> <input type="email" name="email" class="text" id="email"></p>
 								
-								<p><label for="reservation_quantity">Anzahl Plätze:</label>
+								<p><label for="reservation_quantity">Anzahl Pl&auml;tze:</label>
 									<select name="reservation_quantity">
 									 <?php for($q=1;$q<=100;$q++) {
 										$selected = '';
@@ -77,14 +55,3 @@ get_header();
 								
 								<div class="formmessage"><p>Das Formular wurde erfolgreich gesandt.</p></div>
 							</form>
-						
-					<?php endwhile; else : ?>
-						<p><?php esc_html_e( 'Sorry, no posts matched your criteria.' ); ?></p>
-					<?php endif; ?>
-				</div>	
-			</article><!-- #post-<?php the_ID(); ?> -->
-		</main><!-- #main -->
-	</section><!-- #primary -->
-
-<?php
-get_footer();
