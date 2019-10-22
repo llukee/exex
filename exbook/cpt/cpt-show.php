@@ -16,7 +16,8 @@ class nwswa_cpt_show {
 		// Shortcode für die Ausgabe aller Veranstaltungen
 		add_shortcode('shows-list', array( $this, 'shows_list' ));
 		// Post Template Mapping
-		add_filter('single_template', array( $this, 'custom_post_type_single_mapping' ));
+		// add_filter('single_template', array( $this, 'custom_post_type_single_mapping' ));
+		add_filter ('the_content', array( $this, 'insertReservation'));
 		// Set columns in list view admin
 		add_action('manage_nwswa_show_posts_columns', array($this, '_add_columns'), 10, 2);
 		add_action('manage_nwswa_show_posts_custom_column', array($this, '_fill_columns'), 10, 2);
@@ -71,17 +72,93 @@ class nwswa_cpt_show {
 	 * Checks if post is from our Post Type
 	 * if so, we return our custom single template
 	 * */
-	public function custom_post_type_single_mapping($single) {
+	// public function custom_post_type_single_mapping($single) {
 
+		// global $post;
+
+		// if ( $post->post_type == 'nwswa_show' ) {
+		    // if ( file_exists( plugin_dir_path( __DIR__ ) . '/templates/'.$post->post_type.'_single.php' ) ) {
+			    // return plugin_dir_path( __DIR__ ) . '/templates/'.$post->post_type.'_single.php';
+		    // }
+		// }
+
+		// return $single;
+	// }
+	
+	
+	
+	
+		/*
+	 * Checks if post is from our Post Type
+	 * if so, we include and return our form template
+	 * */
+	public function insertReservation($content) {
+		
 		global $post;
+		
+	   if ( $post->post_type == 'nwswa_show' ) {
+				if ( file_exists( plugin_dir_path( __DIR__ ) . 'templates/reservation-form.php' ) ) {
+					$content .= include (plugin_dir_path( __DIR__ ) . 'templates/reservation-form.php');
+				}
+			}
+			
+	   return $content;
+	}
 
-		if ( $post->post_type == 'nwswa_show' ) {
-		    if ( file_exists( plugin_dir_path( __DIR__ ) . '/templates/'.$post->post_type.'_single.php' ) ) {
-			    return plugin_dir_path( __DIR__ ) . '/templates/'.$post->post_type.'_single.php';
-		    }
+
+
+	
+	/*
+	 * Save registration form input data
+	 * */
+	public function _save($post_id, $post, $update){
+
+		$post_type = get_post_type($post_id);
+		if ( "nwswa_event" != $post_type ) return;
+
+		// Return if the user doesn't have edit permissions.
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return $post_id;
 		}
 
-		return $single;
+		// If this is just a revision, don't send the email.
+		if ( wp_is_post_revision( $post_id ) ) {
+			return;
+	  }
+
+		// Verify this came from the our screen and with proper authorization,
+		// because save_post can be triggered at other times.
+		if ( ! isset( $_POST['nwswa_event_fields'] ) || ! wp_verify_nonce( $_POST['nwswa_event_fields'], plugin_basename(__FILE__) ) ) {
+			return $post_id;
+		}
+
+		$event_meta = array(
+			'event_datetime',
+			'event_seats',
+			'event_show',
+			'event_location',
+			'event_mailtpl',
+		);
+
+		foreach($event_meta as $event_meta_key) {
+			$key = 'nwswa_'.$event_meta_key;
+			$value = $_POST[$event_meta_key];
+			if(is_string($_POST[$event_meta_key])) {
+				$value = esc_textarea($_POST[$event_meta_key]);
+			}
+			if($event_meta_key=='event_datetime') {
+				$datetime_array = $_POST[$event_meta_key];
+				$value = mktime($datetime_array['hour'], $datetime_array['minute'], 0, $datetime_array['month'], $datetime_array['day'], $datetime_array['year']);
+			}
+
+			if ( get_post_meta( $post_id, $key, FALSE ) ) { // If the custom field already has a value
+	        update_post_meta( $post_id, $key, $value );
+	    } else { // If the custom field doesn't have a value
+	        add_post_meta( $post_id, $key, $value );
+	    }
+	    if ( !$value ) delete_post_meta( $post_id, $key ); // Delete if blank
+		}
+
 	}
 
 	/*
