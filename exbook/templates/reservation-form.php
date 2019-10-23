@@ -1,3 +1,19 @@
+					<style>
+						#reservieren label {
+							display: block;
+						}
+						#reservieren .text {
+							width: 60%;
+							min-width: 250px;
+							padding: 0.36rem 0.66rem;
+						}
+						#reservation_event {
+							width: 60%;
+							min-width: 250px;
+							padding: 0.36rem 0.66rem;
+						}
+					</style>
+					
 					<form id="reservieren">
 					<h2>Reservieren</h2>
 					<?php wp_nonce_field( 'contact_form_submit', 'cform_generate_nonce' );?>
@@ -7,7 +23,27 @@
 						
 						<?php 
 						// Query the shows here
-						$query = new WP_Query( 'post_type=nwswa_event' );
+						$post_id = get_the_ID();
+						$args = array(
+								'post_type'         => 'nwswa_event',
+								'post_status'       => array( 'publish' ),
+								'posts_per_page'    => -1, // -1 = all posts
+								'meta_query' => array(
+									'relation' 				=> 'AND', // Optional, defaults to "OR"
+									'date_ordering' => array(
+										'key'  		=> 'nwswa_event_datetime',
+										'value' => date( "U" ),
+										'compare' => '>'
+									),
+									array(
+										'key' => 'nwswa_event_show',
+										'value' => $post_id,
+									)
+								),
+							'orderby' => 'date_ordering',
+							'order' => 'ASC',
+							);
+						$query = new WP_Query( $args );
 						while ( $query->have_posts() ) {
 									$option_text = '';
 							$query->the_post();
@@ -35,11 +71,12 @@
 								<p><label>Vorname</label> <input type="text" name="vorname" class="text" id="vorname"></p>
 								<p><label>Nachname</label> <input type="text" name="nachname" class="text" id="nachname"></p>
 								<p><label>Telefon</label> <input type="text" name="telefon" class="text" id="telefon"></p>
-								<p><label>Email</label> <input type="email" name="email" class="text" id="email"></p>
+								<p><label>E-Mail</label> <input type="email" name="email" class="text" id="email"></p>
 								
-								<p><label for="reservation_quantity">Anzahl Pl&auml;tze:</label>
+								<p><label for="reservation_quantity">Anzahl Pl&auml;tze :</label>
+								
 									<select name="reservation_quantity">
-									 <?php for($q=1;$q<=100;$q++) {
+									 <?php for($q=1;$q<=10;$q++) {
 										$selected = '';
 										if($q==$quantity) {
 											$selected = ' selected="selected" ';
