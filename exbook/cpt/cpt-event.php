@@ -94,47 +94,126 @@ class nwswa_cpt_event {
 	 * */
 	public function events_list($atts, $content = null ) {
 		$a = shortcode_atts( array(
-			'location' => 'loca-not-defined',
-			'show'  =>  'show-not-defined'
+			'location' => 0,
+			'show'  => 0
 		), $atts );
 	
+	// Checks if the shortcode loation attribute is not defined and create the args withouth this meta filter
+	if (0 == ($a['location']) && 0 != ($a['show'])) {
+		// echo "1";
 		// Loop Arguments
 		$args = array(
 			'post_type'         => 'nwswa_event',
 			'post_status'       => array( 'publish' ),
 			'posts_per_page'    => -1, // -1 = all posts
 			
-			'relation' => 'AND', // Optional, defaults to "OR"
-
 			'meta_query' => array(
-				
+				'relation' 				=> 'AND', // Optional, defaults to "OR"
 				'date_ordering' => array(
 					'key'  		=> 'nwswa_event_datetime',
 					'value' => date( "U" ),
 					'compare' => '>'
 				),
-				
 				array(
-					'meta_key'  => 'nwswa_event_location',
-					'meta_value' => '8', //$a['location']
-					'meta_compare' => '='
+					'key'  => 'nwswa_event_show',
+					'value' => $a['show'], 
+					'compare' => '=',
 				),
-				
+			),
+			
+		'orderby' => 'date_ordering',
+		'order' => 'ASC',
+		);
+	}
+	
+	// Checks if the shortcode show attribute is not defined and create the args withouth this meta filter
+	elseif (0 == ($a['show']) && 0 != ($a['location'])) {
+		// echo "2";
+		// Loop Arguments
+		$args = array(
+			'post_type'         => 'nwswa_event',
+			'post_status'       => array( 'publish' ),
+			'posts_per_page'    => -1, // -1 = all posts
+			
+			'meta_query' => array(
+				'relation' 				=> 'AND', // Optional, defaults to "OR"
+				'date_ordering' => array(
+					'key'  		=> 'nwswa_event_datetime',
+					'value' => date( "U" ),
+					'compare' => '>'
+				),
+
 				array(
-					'meta_key'  => 'nwswa_event_show',
-					'meta_value' => 'warten-auf-godot', //$a['show']
-					'meta_compare' => '='
+					'key'  => 'nwswa_event_location',
+					'value' => $a['location'], 
+					'compare' => '=',
 				),
 				
 			),
 			
+		'orderby' => 'date_ordering',
+		'order' => 'ASC',
+		);
+	}
+	// If both shortcode  attributes are  defined create the args with all filters
+	elseif (0 != ($a['show']) && 0 != ($a['location'])) {
+		// echo "3";
+		// Loop Arguments
+		$args = array(
+			'post_type'         => 'nwswa_event',
+			'post_status'       => array( 'publish' ),
+			'posts_per_page'    => -1, // -1 = all posts
 			
+			'meta_query' => array(
+				'relation' 				=> 'AND', // Optional, defaults to "OR"
+				'date_ordering' => array(
+					'key'  		=> 'nwswa_event_datetime',
+					'value' => date( "U" ),
+					'compare' => '>'
+				),
+
+				array(
+					'key'  => 'nwswa_event_location',
+					'value' => $a['location'], 
+					'compare' => '=',
+				),
+				
+				array(
+					'key'  => 'nwswa_event_show',
+					'value' => $a['show'], 
+					'compare' => '=',
+				),
+			),
 			
 		'orderby' => 'date_ordering',
 		'order' => 'ASC',
-			
-			
 		);
+	}
+	
+	// If no  shortcode  attributes are  defined create the args without  all filters
+	else {
+		// echo "4";
+		// Loop Arguments
+		$args = array(
+			'post_type'         => 'nwswa_event',
+			'post_status'       => array( 'publish' ),
+			'posts_per_page'    => -1, // -1 = all posts
+			
+			'meta_query' => array(
+				'relation' 				=> 'AND', // Optional, defaults to "OR"
+				'date_ordering' => array(
+					'key'  		=> 'nwswa_event_datetime',
+					'value' => date( "U" ),
+					'compare' => '>'
+				),
+),
+	
+			
+		'orderby' => 'date_ordering',
+		'order' => 'ASC',
+		);
+	}
+		
 
 					
 					
@@ -253,19 +332,6 @@ class nwswa_cpt_event {
 
 			// Template Ausgabe
 			?>
-			
-			
-
-
-  
-
-  
-    
-
-  
-  
-
-
 			<div class="table-row">
 				
 				<?php
@@ -327,6 +393,22 @@ class nwswa_cpt_event {
 		return ob_get_clean();
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/*
 	 * add metaboxes */
 	public function custom_post_type_add_metabox() {
