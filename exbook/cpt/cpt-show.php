@@ -16,8 +16,8 @@ class nwswa_cpt_show {
 		// Shortcode für die Ausgabe aller Veranstaltungen
 		add_shortcode('shows-list', array( $this, 'shows_list' ));
 		// Post Template Mapping
-		// add_filter('single_template', array( $this, 'custom_post_type_single_mapping' ));
-		add_filter ('the_content', array( $this, 'insertReservation'));
+		add_filter('single_template', array( $this, 'custom_post_type_single_mapping' ));
+		//add_filter ('the_content', array( $this, 'insertReservation'));
 		// Set columns in list view admin
 		add_action('manage_nwswa_show_posts_columns', array($this, '_add_columns'), 10, 2);
 		add_action('manage_nwswa_show_posts_custom_column', array($this, '_fill_columns'), 10, 2);
@@ -72,42 +72,42 @@ class nwswa_cpt_show {
 	 * Checks if post is from our Post Type
 	 * if so, we return our custom single template
 	 * */
-	// public function custom_post_type_single_mapping($single) {
+	public function custom_post_type_single_mapping($single) {
 
-		// global $post;
+		global $post;
 
-		// if ( $post->post_type == 'nwswa_show' ) {
-		    // if ( file_exists( plugin_dir_path( __DIR__ ) . '/templates/'.$post->post_type.'_single.php' ) ) {
-			    // return plugin_dir_path( __DIR__ ) . '/templates/'.$post->post_type.'_single.php';
-		    // }
-		// }
+		if ( $post->post_type == 'nwswa_show' ) {
+		    if ( file_exists( plugin_dir_path( __DIR__ ) . '/templates/'.$post->post_type.'_single.php' ) ) {
+			    return plugin_dir_path( __DIR__ ) . '/templates/'.$post->post_type.'_single.php';
+		    }
+		}
 
-		// return $single;
-	// }
-	
-	
-	
-	
+		return $single;
+	}
+
+
+
+
 		/*
 	 * Checks if post is from our Post Type
 	 * if so, we include and return our form template
 	 * */
 	public function insertReservation($content) {
-		
+
 		global $post;
-		
+
 	   if ( $post->post_type == 'nwswa_show' ) {
 				if ( file_exists( plugin_dir_path( __DIR__ ) . 'templates/reservation-form.php' ) ) {
 					$content .= include (plugin_dir_path( __DIR__ ) . 'templates/reservation-form.php');
 				}
 			}
-			
+
 	   return $content;
 	}
 
 
 
-	
+
 	/*
 	 * Save registration form input data
 	 * */
