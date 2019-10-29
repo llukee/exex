@@ -24,6 +24,7 @@ class nwswa_cpt_event {
 		// Set columns in list view admin
 		add_action('manage_nwswa_event_posts_columns', array($this, '_add_columns'), 10, 2);
 		add_action('manage_nwswa_event_posts_custom_column', array($this, '_fill_columns'), 10, 2);
+		add_action('post_row_actions', array($this, '_row_actions'), 10, 2);
 	}
 
 	/*
@@ -88,7 +89,7 @@ class nwswa_cpt_event {
 		return $single;
 	}
 
-	
+
 	/*
 	 * Creates the shortcode to display all events
 	 * */
@@ -97,7 +98,7 @@ class nwswa_cpt_event {
 			'location' => 0,
 			'show'  => 0
 		), $atts );
-	
+
 	// Checks if the shortcode loation attribute is not defined and create the args withouth this meta filter
 	if (0 == ($a['location']) && 0 != ($a['show'])) {
 		// echo "1";
@@ -106,7 +107,7 @@ class nwswa_cpt_event {
 			'post_type'         => 'nwswa_event',
 			'post_status'       => array( 'publish' ),
 			'posts_per_page'    => -1, // -1 = all posts
-			
+
 			'meta_query' => array(
 				'relation' 				=> 'AND', // Optional, defaults to "OR"
 				'date_ordering' => array(
@@ -116,16 +117,16 @@ class nwswa_cpt_event {
 				),
 				array(
 					'key'  => 'nwswa_event_show',
-					'value' => $a['show'], 
+					'value' => $a['show'],
 					'compare' => '=',
 				),
 			),
-			
+
 		'orderby' => 'date_ordering',
 		'order' => 'ASC',
 		);
 	}
-	
+
 	// Checks if the shortcode show attribute is not defined and create the args withouth this meta filter
 	elseif (0 == ($a['show']) && 0 != ($a['location'])) {
 		// echo "2";
@@ -134,7 +135,7 @@ class nwswa_cpt_event {
 			'post_type'         => 'nwswa_event',
 			'post_status'       => array( 'publish' ),
 			'posts_per_page'    => -1, // -1 = all posts
-			
+
 			'meta_query' => array(
 				'relation' 				=> 'AND', // Optional, defaults to "OR"
 				'date_ordering' => array(
@@ -145,12 +146,12 @@ class nwswa_cpt_event {
 
 				array(
 					'key'  => 'nwswa_event_location',
-					'value' => $a['location'], 
+					'value' => $a['location'],
 					'compare' => '=',
 				),
-				
+
 			),
-			
+
 		'orderby' => 'date_ordering',
 		'order' => 'ASC',
 		);
@@ -163,7 +164,7 @@ class nwswa_cpt_event {
 			'post_type'         => 'nwswa_event',
 			'post_status'       => array( 'publish' ),
 			'posts_per_page'    => -1, // -1 = all posts
-			
+
 			'meta_query' => array(
 				'relation' 				=> 'AND', // Optional, defaults to "OR"
 				'date_ordering' => array(
@@ -174,22 +175,22 @@ class nwswa_cpt_event {
 
 				array(
 					'key'  => 'nwswa_event_location',
-					'value' => $a['location'], 
+					'value' => $a['location'],
 					'compare' => '=',
 				),
-				
+
 				array(
 					'key'  => 'nwswa_event_show',
-					'value' => $a['show'], 
+					'value' => $a['show'],
 					'compare' => '=',
 				),
 			),
-			
+
 		'orderby' => 'date_ordering',
 		'order' => 'ASC',
 		);
 	}
-	
+
 	// If no  shortcode  attributes are  defined create the args without  all filters
 	else {
 		// echo "4";
@@ -198,7 +199,7 @@ class nwswa_cpt_event {
 			'post_type'         => 'nwswa_event',
 			'post_status'       => array( 'publish' ),
 			'posts_per_page'    => -1, // -1 = all posts
-			
+
 			'meta_query' => array(
 				'relation' 				=> 'AND', // Optional, defaults to "OR"
 				'date_ordering' => array(
@@ -207,16 +208,16 @@ class nwswa_cpt_event {
 					'compare' => '>'
 				),
 ),
-	
-			
+
+
 		'orderby' => 'date_ordering',
 		'order' => 'ASC',
 		);
 	}
-		
 
-					
-					
+
+
+
 		// Daten abfragen
 		$loop = new WP_Query( $args );
 
@@ -228,7 +229,7 @@ class nwswa_cpt_event {
 				.container_fluid{
 					line-height:1.3;
 					font-size:14pt;
-					
+
 				}
 				.table-row {
 				  display: flex;           display: -webkit-flex;
@@ -239,7 +240,7 @@ class nwswa_cpt_event {
 				  padding-left: 15px;
 				  padding-right: 15px;
 				}
-				
+
 				.text {
 				  flex-grow: 1;            -webkit-flex-grow: 1;
 				  padding-right: 20px;
@@ -258,7 +259,7 @@ class nwswa_cpt_event {
 				.text {
 				  width:150px;
 				}
-				
+
 				.long {
 				  width:250px;
 				}
@@ -280,32 +281,32 @@ class nwswa_cpt_event {
 		while ( $loop->have_posts() ) : $loop->the_post();
 			// post id abfragen
 			$post_id = get_the_ID();
-			
+
 			// post id von show abfragen
 			$post_id_show = get_post_meta( $post_id, 'nwswa_event_show', true );
-			
+
 			// location
 			$event_location = get_post_meta( $post_id, 'nwswa_event_location', true );
 			$location = get_post($event_location);
-			
+
 			// seats
 			$event_seats = get_post_meta( $post_id, 'nwswa_event_seats', true );
-			
+
 			// date
 			$event_datetime = get_post_meta( $post_id, 'nwswa_event_datetime', true );
-					
+
 			// number of reservations
 			$reservation_quantity = (int)get_post_meta( $post_id, 'reservation_quantity', true );
 
-			$args = array ( 
+			$args = array (
 			// Post or Page ID
 			'post_type' => 'nwswa_reservation',
 			'meta_key'  => 'nwswa_reservation_event',
 			'meta_value' => $post_id,
 			'meta_compare' => '='
 			);
-			
-			
+
+
 
 			// The Query
 			$the_query = new WP_Query( $args );
@@ -333,11 +334,11 @@ class nwswa_cpt_event {
 			// Template Ausgabe
 			?>
 			<div class="table-row">
-				
+
 				<?php
 				// Get event Date
 				if($event_datetime>0) {$text_event_datetime = date("d.m.Y H:i", $event_datetime);}
-				
+
 				// Get Day
 				$day = date("l", $event_datetime);
 				switch($day)
@@ -350,21 +351,21 @@ class nwswa_cpt_event {
 				case "Saturday": $day = "Sa"; break;
 				case "Sunday": $day = "So"; break;
 				};
-				
+
 				// Get event title
 				$text_event_title = get_the_title( $post_id_show );
-				
+
 				// Calculate free seats
 				$free_seats = $event_seats - $reservation_quantity;
-				
+
 				// Define free seats text
 				if ($reservation_quantity >= $event_seats){$free_seats_text = "ausverkauft";}
 				else{$free_seats_text = $free_seats."<br /><a href='".get_the_permalink( $post_id_show )."#reservieren' class='btn btn-tobi2' >reservieren</a>";}
-				
+
 				//echo esc_attr($a['location']);
 				//echo esc_attr($a['show']);
 				?>
-				
+
 				<div class="text short"><?php echo $day ?></div>
 				<div class="text">
 					<?php echo $text_event_datetime ?>
@@ -375,10 +376,10 @@ class nwswa_cpt_event {
 				</div>
 				<div class="text"><a href="<?php echo get_the_permalink( $event_location ) ?>" class="btn btn-tobi2" ><?php echo $location->post_title; ?></a></div>
 				<div class="text"><?php echo $free_seats_text ?></div>
-				
-				
+
+
 			</div>
-			
+
 		<?php
 		// Ende unserer while-schleife
 		endwhile;
@@ -393,22 +394,22 @@ class nwswa_cpt_event {
 		return ob_get_clean();
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	/*
 	 * add metaboxes */
 	public function custom_post_type_add_metabox() {
@@ -421,7 +422,7 @@ class nwswa_cpt_event {
 			'default'
 		);
 	}
-	
+
 
 	/**
 	 * Output the HTML for the metabox.
@@ -671,8 +672,57 @@ label {
             break;
     }
 	}
-	
-	
-	
+
+	public function _row_actions($actions, $post) {
+		if ($post->post_type=='nwswa_event' && $post->ID>0) {
+        $actions['pdf'] = '<a href="'.wp_nonce_url(sprintf('admin.php?post=%d&action=nwswa_reservation_pdf',$post->ID), basename(__FILE__), 'nwswa_reservation_pdf_nonce').'" target="_blank" title="" rel="permalink">PDF</a>';
+    }
+    return $actions;
+	}
+
+
+
 
 }
+
+
+function nwswa_reservation_pdf(){
+	global $wpdb;
+
+	if ( !file_exists( plugin_dir_path( __FILE__ ) . '../exbook_mpdf.php' ) ) {
+		wp_die('mpdf not found.');
+	}
+	require_once( plugin_dir_path( __FILE__ ) . '../exbook_mpdf.php' );
+
+	if (! ( isset( $_GET['post']) || isset( $_POST['post'])  || ( isset($_REQUEST['action']) && 'nwswa_reservation_pdf' == $_REQUEST['action'] ) ) ) {
+		wp_die('No event selected.');
+	}
+
+	/*
+	 * Nonce verification
+	 */
+	if ( !isset( $_GET['nwswa_reservation_pdf_nonce'] ) || !wp_verify_nonce( $_GET['nwswa_reservation_pdf_nonce'], basename( __FILE__ ) ) ) {
+		return;
+	}
+
+	/*
+	 * get the original post id
+	 */
+	$post_id = (isset($_GET['post']) ? absint( $_GET['post'] ) : absint( $_POST['post'] ) );
+	/*
+	 * and all the original post data then
+	 */
+	$post = get_post( $post_id );
+
+	// set pdf template file
+	$pdf_template_file = plugin_dir_path( __FILE__ ) . '../templates/nwswa_reservation_pdf.php';
+	if ( !file_exists( $pdf_template_file ) ) {
+		wp_die(sprintf('pdf template %s not found.', $pdf_template_file));
+	}
+
+	mpdf_create($post->ID, $pdf_template_file);
+
+	exit();
+}
+
+add_action( 'admin_action_nwswa_reservation_pdf', 'nwswa_reservation_pdf' );
