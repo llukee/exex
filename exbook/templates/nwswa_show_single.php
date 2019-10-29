@@ -37,7 +37,7 @@ get_header();
 
 					<form id="reservation">
 					<h2>Reservieren</h2>
-					<?php wp_nonce_field( 'contact_form_submit', 'cform_generate_nonce' );?>
+					<?php wp_nonce_field( 'reservaton_form_submit', 'cform_generate_nonce' );?>
 
 					<p><label for="reservation_event">Vorstellung:</label>
 					<select id="reservation_event" name="reservation_event">

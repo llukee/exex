@@ -17,7 +17,6 @@ class nwswa_cpt_show {
 		add_shortcode('shows-list', array( $this, 'shows_list' ));
 		// Post Template Mapping
 		add_filter('single_template', array( $this, 'custom_post_type_single_mapping' ));
-		//add_filter ('the_content', array( $this, 'insertReservation'));
 		// Set columns in list view admin
 		add_action('manage_nwswa_show_posts_columns', array($this, '_add_columns'), 10, 2);
 		add_action('manage_nwswa_show_posts_custom_column', array($this, '_fill_columns'), 10, 2);
@@ -77,6 +76,7 @@ class nwswa_cpt_show {
 		global $post;
 
 		if ( $post->post_type == 'nwswa_show' ) {
+				$this->save_frontend_registration();
 		    if ( file_exists( plugin_dir_path( __DIR__ ) . '/templates/'.$post->post_type.'_single.php' ) ) {
 			    return plugin_dir_path( __DIR__ ) . '/templates/'.$post->post_type.'_single.php';
 		    }
@@ -86,27 +86,42 @@ class nwswa_cpt_show {
 	}
 
 
+	public function save_frontend_registration() {
+		if(!isset($_POST['reservaton_form_submit'])) {
+			return;
+		}
 
+		if( !wp_verify_nonce($_POST['reservaton_form_submit'], 'reservaton_form_submit') ) {
+				echo 'Bitte nur 1x eintragen.';
+				return;
+		}
 
-		/*
-	 * Checks if post is from our Post Type
-	 * if so, we include and return our form template
-	 * */
-	public function insertReservation($content) {
+		if ( !isset($_POST['firstname']) ) {
+				return;
+		}
 
-		global $post;
+		if (strlen($_POST['firstname']) < 3) {
+				echo 'Fehler-Div: Bitte einen Vornamen eintragen.';
+				return;
+		}
+		if ($_POST['reservation_quantity'] <= 0) {
+				echo 'Fehler-Div: Sie müssen mindestens 1 Platz auswählen.';
+				return;
+		}
 
-	   if ( $post->post_type == 'nwswa_show' ) {
-				if ( file_exists( plugin_dir_path( __DIR__ ) . 'templates/reservation-form.php' ) ) {
-					$content .= include (plugin_dir_path( __DIR__ ) . 'templates/reservation-form.php');
-				}
-			}
+		// Add the content of the form to $post as an array
+		$post = array(
+				'post_title'    => $_POST['title'],
+				'post_content'  => $_POST['content'],
+				'post_status'   => 'publish',
+				'post_type' 	=> 'nwswa_show'
+		);
+		wp_insert_post($post);
 
-	   return $content;
+		/* todo: insert into mailchimp */
+		
+		echo 'Success-Div: Reservation eingetragen.';
 	}
-
-
-
 
 	/*
 	 * Save registration form input data
