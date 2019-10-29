@@ -87,21 +87,29 @@ class nwswa_cpt_show {
 
 
 	public function save_frontend_registration() {
-		if(!isset($_POST['reservaton_form_submit'])) {
+		
+		
+		if(!isset($_POST['submit'])) {
 			return;
 		}
+			 // echo 'Test';
 
-		if( !wp_verify_nonce($_POST['reservaton_form_submit'], 'reservaton_form_submit') ) {
-				echo 'Bitte nur 1x eintragen.';
+		if( !wp_verify_nonce($_POST['cform_generate_nonce'], 'submit') ) {
+				return;
+		}
+		echo 'Nonce: Ok';
+		
+
+		if ( !isset($_POST['reservation_firstname']) ) {
+				echo '<br />Kein Name.';
+				
+				$message = "Kein Name!!";
+				global $message;
 				return;
 		}
 
-		if ( !isset($_POST['firstname']) ) {
-				return;
-		}
-
-		if (strlen($_POST['firstname']) < 3) {
-				echo 'Fehler-Div: Bitte einen Vornamen eintragen.';
+		if (strlen($_POST['reservation_firstname']) < 3) {
+				echo '<br />Dein Name ist ungültig.';
 				return;
 		}
 		if ($_POST['reservation_quantity'] <= 0) {
@@ -111,10 +119,19 @@ class nwswa_cpt_show {
 
 		// Add the content of the form to $post as an array
 		$post = array(
-				'post_title'    => $_POST['title'],
-				'post_content'  => $_POST['content'],
+				// 'post_title'    => $_POST['title'],
+				// 'post_content'  => $_POST['content'],
 				'post_status'   => 'publish',
-				'post_type' 	=> 'nwswa_show'
+				'post_type' 	=> 'nwswa_reservation',
+				'meta_input'   => array(
+                    'nwswa_reservation_event' => $_POST['reservation_event'],
+					'nwswa_reservation_firstname' => $_POST['reservation_firstname'],
+					'nwswa_reservation_lastname' => $_POST['reservation_lastname'],
+					'nwswa_reservation_phone' => $_POST['reservation_phone'],
+					'nwswa_reservation_email' => $_POST['reservation_email'],
+                    'nwswa_reservation_quantity'   => $_POST['reservation_quantity'],
+					'nwswa_reservation_newsletter'   => $_POST['reservation_newsletter'],
+                ),
 		);
 		wp_insert_post($post);
 
@@ -132,14 +149,14 @@ class nwswa_cpt_show {
 		if ( "nwswa_event" != $post_type ) return;
 
 		// Return if the user doesn't have edit permissions.
-		// if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			// return $post_id;
-		// }
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return $post_id;
+		}
 
 		// If this is just a revision, don't send the email.
-		// if ( wp_is_post_revision( $post_id ) ) {
-			// return;
-	  // }
+		if ( wp_is_post_revision( $post_id ) ) {
+			return;
+	  }
 
 		// Verify this came from the our screen and with proper authorization,
 		// because save_post can be triggered at other times.
@@ -148,18 +165,11 @@ class nwswa_cpt_show {
 		}
 
 		$event_meta = array(
-			//'event_datetime',
-			//'event_seats',
+			'event_datetime',
+			'event_seats',
 			'event_show',
-			//'event_location',
+			'event_location',
 			'event_mailtpl',
-			'reservation_firstname',
-			'reservation_lastname',
-			'reservation_phone',
-			'reservation_email',
-			'reservation_quantity',
-			'reservation_newsletter',
-			
 		);
 
 		foreach($event_meta as $event_meta_key) {
@@ -168,10 +178,10 @@ class nwswa_cpt_show {
 			if(is_string($_POST[$event_meta_key])) {
 				$value = esc_textarea($_POST[$event_meta_key]);
 			}
-			// if($event_meta_key=='event_datetime') {
-				// $datetime_array = $_POST[$event_meta_key];
-				// $value = mktime($datetime_array['hour'], $datetime_array['minute'], 0, $datetime_array['month'], $datetime_array['day'], $datetime_array['year']);
-			// }
+			if($event_meta_key=='event_datetime') {
+				$datetime_array = $_POST[$event_meta_key];
+				$value = mktime($datetime_array['hour'], $datetime_array['minute'], 0, $datetime_array['month'], $datetime_array['day'], $datetime_array['year']);
+			}
 
 			if ( get_post_meta( $post_id, $key, FALSE ) ) { // If the custom field already has a value
 	        update_post_meta( $post_id, $key, $value );
