@@ -35,9 +35,9 @@ get_header();
 					<?php the_content(); ?>
 
 
-					<form id="reservation">
+					<form id="reservation" name="contact-form" action="" method="post">
 					<h2>Reservieren</h2>
-					<?php wp_nonce_field( 'contact_form_submit', 'cform_generate_nonce' );?>
+					<?php wp_nonce_field( 'submit', 'cform_generate_nonce' );?>
 
 					<p><label for="reservation_event">Vorstellung:</label>
 					<select id="reservation_event" name="reservation_event">
@@ -66,8 +66,12 @@ get_header();
 							);
 						$query = new WP_Query( $args );
 						while ( $query->have_posts() ) {
+									//Chek if there are free seats available
+									// To Do
+
+									
 									$option_text = '';
-							$query->the_post();
+									$query->the_post();
 									$event_id = get_the_ID();
 
 									// show title + event datetime
@@ -96,6 +100,14 @@ get_header();
 								
 								<p><label for="reservation_quantity">Anzahl Pl&auml;tze :</label>
 								
+								<?php 
+								// Check how many seats are available
+								
+								
+								
+								
+								
+								?>
 									<select name="reservation_quantity">
 									 <?php for($q=1;$q<=10;$q++) {
 										$selected = '';
@@ -108,10 +120,12 @@ get_header();
 								
 								<p><label>News abonnieren?</label> <input type="checkbox"name="reservation_newsletter" checked="checked"></input></p>
 								
-								<input name="action" type="hidden" value="simple_contact_form_process" />
-								<p><input type="submit" name="submit_form" class="button" value="Reservierung absenden" id="sendmessage"></p>
 								
-								<div class="formmessage"><p>Das Formular wurde erfolgreich gesandt.</p></div>
+								<p><input type="submit" name="submit" class="button" value="Reservierung absenden" id="sendmessage"></p>
+								
+								<div class="formmessage"><p><?php echo $message; ?></p></div>
+								
+								
 							</form>
 
 					<?php endwhile; else : ?>
