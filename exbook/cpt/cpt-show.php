@@ -132,14 +132,14 @@ class nwswa_cpt_show {
 		if ( "nwswa_event" != $post_type ) return;
 
 		// Return if the user doesn't have edit permissions.
-		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			return $post_id;
-		}
+		// if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			// return $post_id;
+		// }
 
 		// If this is just a revision, don't send the email.
-		if ( wp_is_post_revision( $post_id ) ) {
-			return;
-	  }
+		// if ( wp_is_post_revision( $post_id ) ) {
+			// return;
+	  // }
 
 		// Verify this came from the our screen and with proper authorization,
 		// because save_post can be triggered at other times.
@@ -148,11 +148,18 @@ class nwswa_cpt_show {
 		}
 
 		$event_meta = array(
-			'event_datetime',
-			'event_seats',
+			//'event_datetime',
+			//'event_seats',
 			'event_show',
-			'event_location',
+			//'event_location',
 			'event_mailtpl',
+			'reservation_firstname',
+			'reservation_lastname',
+			'reservation_phone',
+			'reservation_email',
+			'reservation_quantity',
+			'reservation_newsletter',
+			
 		);
 
 		foreach($event_meta as $event_meta_key) {
@@ -161,10 +168,10 @@ class nwswa_cpt_show {
 			if(is_string($_POST[$event_meta_key])) {
 				$value = esc_textarea($_POST[$event_meta_key]);
 			}
-			if($event_meta_key=='event_datetime') {
-				$datetime_array = $_POST[$event_meta_key];
-				$value = mktime($datetime_array['hour'], $datetime_array['minute'], 0, $datetime_array['month'], $datetime_array['day'], $datetime_array['year']);
-			}
+			// if($event_meta_key=='event_datetime') {
+				// $datetime_array = $_POST[$event_meta_key];
+				// $value = mktime($datetime_array['hour'], $datetime_array['minute'], 0, $datetime_array['month'], $datetime_array['day'], $datetime_array['year']);
+			// }
 
 			if ( get_post_meta( $post_id, $key, FALSE ) ) { // If the custom field already has a value
 	        update_post_meta( $post_id, $key, $value );
