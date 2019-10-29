@@ -101,19 +101,57 @@ class nwswa_cpt_show {
 		
 
 		if ( !isset($_POST['reservation_firstname']) ) {
-				echo '<br />Kein Name.';
-				
-				$message = "Kein Name!!";
-				global $message;
+				echo 'Kein Namen';
+				$message = "Kein Namen";
 				return;
 		}
 
 		if (strlen($_POST['reservation_firstname']) < 3) {
-				echo '<br />Dein Name ist ungültig.';
+				echo 'Bitte füllen Sie das Feld Vorname aus.';
+				$message = "Bitte füllen Sie das Feld Vorname aus.";
 				return;
 		}
+		
+		if ( !isset($_POST['reservation_lastname']) ) {
+				echo 'Kein Nachnamen';
+				$message = "Kein Nachnamen";
+				return;
+		}
+
+		if (strlen($_POST['reservation_lastname']) < 3) {
+				echo 'Bitte füllen Sie das Feld Nachname aus.';
+				$message = "Bitte füllen Sie das Feld Nachname aus.";
+				return;
+		}
+		
+		if ( !isset($_POST['reservation_phone']) ) {
+				echo 'Kein Telefon';
+				$message = "Kein Nachnamen";
+				return;
+		}
+
+		if (strlen($_POST['reservation_phone']) < 3) {
+				echo 'Bitte füllen Sie das Feld Telefon aus.';
+				$message = "Bitte füllen Sie das Feld Telefon aus.";
+				return;
+		}
+		
+		if ( !isset($_POST['reservation_email']) ) {
+				echo 'Kein EMail';
+				$message = "Kein E-Mail";
+				return;
+		}
+
+		if (strlen($_POST['reservation_email']) < 3) {
+				echo 'Bitte füllen Sie das Feld E-Mail aus.';
+				$message = "Bitte füllen Sie das Feld E-Mail aus.";
+				return;
+		}
+		
+		
 		if ($_POST['reservation_quantity'] <= 0) {
-				echo 'Fehler-Div: Sie müssen mindestens 1 Platz auswählen.';
+				echo 'Sie müssen mindestens 1 Platz auswählen.';
+				$message = "Sie müssen mindestens 1 Platz auswählen.";
 				return;
 		}
 
@@ -137,7 +175,8 @@ class nwswa_cpt_show {
 
 		/* todo: insert into mailchimp */
 		
-		echo 'Success-Div: Reservation eingetragen.';
+		echo "Vielen Dank für Ihre Reservierung. Sie werden eine Bestätigung per E-Mail erhalten.";
+		$message = "Vielen Dank für Ihre Reservierung. Sie werden eine Bestätigung per E-Mail erhalten.";
 	}
 
 	/*
