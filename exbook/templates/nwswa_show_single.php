@@ -123,7 +123,7 @@ get_header();
 								
 								<p><input type="submit" name="submit" class="button" value="Reservierung absenden" id="sendmessage"></p>
 								
-								<div class="formmessage"><p><?php echo $message; ?></p></div>
+								<div class="formmessage"><p>Meldung: <?php echo $message; ?></p></div>
 								
 								
 							</form>
