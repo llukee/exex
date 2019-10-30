@@ -224,7 +224,8 @@ class nwswa_cpt_event {
 		// Start output buffering
 		ob_start();
 		?>
-
+		
+		<?php if ( $loop->have_posts() ){ ?>
 		<style>
 				.container_fluid{
 					line-height:1.3;
@@ -295,7 +296,7 @@ class nwswa_cpt_event {
 			// date
 			$event_datetime = get_post_meta( $post_id, 'nwswa_event_datetime', true );
 
-			// number of reservations
+			// Get number of reservations
 			$reservation_quantity = (int)get_post_meta( $post_id, 'reservation_quantity', true );
 
 			$args = array (
@@ -305,8 +306,6 @@ class nwswa_cpt_event {
 			'meta_value' => $post_id,
 			'meta_compare' => '='
 			);
-
-
 
 			// The Query
 			$the_query = new WP_Query( $args );
@@ -320,14 +319,11 @@ class nwswa_cpt_event {
 					$reservation_quantity += (int)$nwswa_reservation_quantity;
 				}
 
-
-				/* Restore original Post Data */
+			// Restore original Post Data
 				wp_reset_postdata();
-
+				
 			} else {
-
-			$reservation_quantity = 0;
-
+				$reservation_quantity = 0;
 			}
 
 
@@ -389,6 +385,8 @@ class nwswa_cpt_event {
 		<?php
 		// reset data
 		wp_reset_postdata();
+		
+		}
 
 		// return buffer
 		return ob_get_clean();
