@@ -34,6 +34,29 @@ get_header();
 				<div class="entry-content">
 					<?php the_content(); ?>
 
+				<?php
+				// Check if there are events in the future. If true, display registration form.
+						$post_id = get_the_ID();
+						$args = array(
+								'post_type'         => 'nwswa_event',
+								'post_status'       => array( 'publish' ),
+								'posts_per_page'    => -1, // -1 = all posts
+								'meta_query' => array(
+									'relation' 				=> 'AND', // Optional, defaults to "OR"
+									'date_ordering' => array(
+										'key'  		=> 'nwswa_event_datetime',
+										'value' => date( "U" ),
+										'compare' => '>'
+									),
+									array(
+										'key' => 'nwswa_event_show',
+										'value' => $post_id,
+									)
+								),
+							);
+						$query = new WP_Query( $args );
+						while ( $query->have_posts() ) { ?>
+
 
 					<form id="reservation" name="contact-form" action="" method="post">
 					<h2>Reservieren</h2>
@@ -66,14 +89,66 @@ get_header();
 							);
 						$query = new WP_Query( $args );
 						while ( $query->have_posts() ) {
-									//Chek if there are free seats available
-									// To Do
+									
 
 									
 									$option_text = '';
 									$query->the_post();
 									$event_id = get_the_ID();
+									
+									
+									//////////////
+									// Start
+									// Chek if there are free seats available
+									//////////
+									
+									// Get total seats
+									$event_seats = get_post_meta( $event_id, 'nwswa_event_seats', true );
+								
+									// Get number of reservations
+									//$reservation_quantity = (int)get_post_meta( $post_id, 'reservation_quantity', true );
 
+									$args = array (
+									// Post or Page ID
+									'post_type' => 'nwswa_reservation',
+									'meta_key'  => 'nwswa_reservation_event',
+									'meta_value' => $event_id,
+									'meta_compare' => '='
+									);
+
+									// The Query
+									$the_query = new WP_Query( $args );
+
+									// The Loop
+									if ( $the_query->have_posts() ) {
+
+										while ( $the_query->have_posts() ) {
+											$the_query->the_post();
+											$nwswa_reservation_quantity = get_post_meta( get_the_ID(), 'nwswa_reservation_quantity', true);
+											$reservation_quantity += (int)$nwswa_reservation_quantity;
+										}
+
+									// Restore original Post Data
+										wp_reset_postdata();
+										
+									} else {
+										$reservation_quantity = 0;
+									}
+
+									
+									// Calculate free seats
+									$free_seats = $event_seats - $reservation_quantity;
+									
+									// Create reservation text
+									if ($reservation_quantity >= $event_seats){$free_seats_text = "ausverkauft";}
+									else{$free_seats_text = "Freie Plätze: ".$free_seats;}
+									
+									//////////////
+									// End
+									// Chek if there are free seats available 
+									//////////
+									
+									
 									// show title + event datetime
 									$show_id = get_post_meta( $event_id, 'nwswa_event_show', true );
 									$show = get_post($show_id);
@@ -82,16 +157,24 @@ get_header();
 									$option_text .= $show->post_title;
 									$option_text .= ' - ';
 									$option_text .= date("d.m.Y H:i", $datetime_ts);
+									$option_text .= ' - ';
+									$option_text .= $free_seats_text;
 
 							$selected = "";
 
 							if($event_id == $event){
 								$selected = ' selected="selected"';
 							}
-							echo '<option' . $selected . ' value=' . $event_id . '>' . $option_text . '</option>';
+							if ($free_seats_text == "ausverkauft"){
+										contine;
+									}
+							else{
+								echo '<option' . $selected . ' value=' . $event_id . '>' . $option_text . '</option>';
+							}
 						}
 					  ?>
 					  </select></p>
+					  
 
 								<p><label>Vorname</label> <input type="text" name="reservation_firstname" class="text" id="vorname"></p>
 								<p><label>Nachname</label> <input type="text" name="reservation_lastname" class="text" id="nachname"></p>
@@ -127,6 +210,7 @@ get_header();
 								
 								
 							</form>
+					<?php } ?>
 
 					<?php endwhile; else : ?>
 						<p><?php esc_html_e( 'Sorry, no posts matched your criteria.' ); ?></p>
