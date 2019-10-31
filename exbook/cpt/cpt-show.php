@@ -86,6 +86,7 @@ class nwswa_cpt_show {
 	}
 
 
+
 	public function save_frontend_registration() {
 		
 		
@@ -97,64 +98,79 @@ class nwswa_cpt_show {
 		if( !wp_verify_nonce($_POST['cform_generate_nonce'], 'submit') ) {
 				return;
 		}
-		echo 'Nonce: Ok';
+		// echo 'Nonce: Ok';
 		
+		
+		$message = array();
 
 		if ( !isset($_POST['reservation_firstname']) ) {
-				echo 'Kein Namen';
-				$message = "Kein Namen";
-				return;
+				// echo 'Kein Namen';
+				$message[] = "Kein Namen";
 		}
 
 		if (strlen($_POST['reservation_firstname']) < 3) {
-				echo 'Bitte füllen Sie das Feld Vorname aus.';
-				$message = "Bitte füllen Sie das Feld Vorname aus.";
-				return;
+				// echo 'Bitte füllen Sie das Feld Vorname aus.';
+				$message[] .= "Bitte füllen Sie das Feld Vorname aus.";
 		}
 		
 		if ( !isset($_POST['reservation_lastname']) ) {
-				echo 'Kein Nachnamen';
-				$message = "Kein Nachnamen";
-				return;
+				// echo 'Kein Nachnamen';
+				$message[] .= "Kein Nachnamen";
 		}
 
 		if (strlen($_POST['reservation_lastname']) < 3) {
-				echo 'Bitte füllen Sie das Feld Nachname aus.';
-				$message = "Bitte füllen Sie das Feld Nachname aus.";
-				return;
+				// echo 'Bitte füllen Sie das Feld Nachname aus.';
+				$message[] .= "Bitte füllen Sie das Feld Nachname aus.";
 		}
 		
 		if ( !isset($_POST['reservation_phone']) ) {
-				echo 'Kein Telefon';
-				$message = "Kein Nachnamen";
-				return;
+				// echo 'Kein Telefon';
+				$message[] .= "Kein Nachnamen";
 		}
 
 		if (strlen($_POST['reservation_phone']) < 3) {
-				echo 'Bitte füllen Sie das Feld Telefon aus.';
-				$message = "Bitte füllen Sie das Feld Telefon aus.";
-				return;
+				// echo 'Bitte füllen Sie das Feld Telefon aus.';
+				$message[] .= "Bitte füllen Sie das Feld Telefon aus.";
 		}
 		
 		if ( !isset($_POST['reservation_email']) ) {
-				echo 'Kein EMail';
-				$message = "Kein E-Mail";
-				return;
+				// echo 'Kein EMail';
+				$message[] .= "Kein E-Mail";
 		}
 
 		if (strlen($_POST['reservation_email']) < 3) {
-				echo 'Bitte füllen Sie das Feld E-Mail aus.';
-				$message = "Bitte füllen Sie das Feld E-Mail aus.";
-				return;
+				// echo 'Bitte füllen Sie das Feld E-Mail aus.';
+				$message[] .= "Bitte füllen Sie das Feld E-Mail aus.";
 		}
 		
 		
 		if ($_POST['reservation_quantity'] <= 0) {
-				echo 'Sie müssen mindestens 1 Platz auswählen.';
-				$message = "Sie müssen mindestens 1 Platz auswählen.";
-				return;
+				// echo 'Sie müssen mindestens 1 Platz auswählen.';
+				$message[] .= "Sie müssen mindestens 1 Platz auswählen.";
 		}
-
+		var_dump($message);
+		
+		 // Save post field user input into variables to ouptput as default form values
+		 $reservation_firstname = '';
+		 $reservation_lastname = '';
+		 $reservation_phone = '';
+		 $reservation_email = '';
+		 
+		 if ($_POST['reservation_firstname']){
+		 $firstname = $_POST['reservation_firstname'];}
+		 
+		 if ($_POST['reservation_lastname']){
+		 $firstname = $_POST['reservation_lastname'];}
+		 
+		 if ($_POST['reservation_phone']){
+		 $firstname = $_POST['reservation_phone'];}
+		 
+		 if ($_POST['reservation_email']){
+		 $firstname = $_POST['reservation_email'];}
+	 
+	 echo $firstname;
+	 // wp_mail....
+		
 		// Add the content of the form to $post as an array
 		$post = array(
 				// 'post_title'    => $_POST['title'],
@@ -175,15 +191,36 @@ class nwswa_cpt_show {
 
 		/* todo: insert into mailchimp */
 
-		echo "Vielen Dank für Ihre Reservierung. Sie werden eine Bestätigung per E-Mail erhalten.";
-		$message = "Vielen Dank für Ihre Reservierung. Sie werden eine Bestätigung per E-Mail erhalten.";
-
+		// echo "Vielen Dank für Ihre Reservierung. Sie werden eine Bestätigung per E-Mail erhalten.";
+		
+		
+		if (is_array($message) && count($message)>0) {
+			$message_html .= '<ul>';
+			
+			foreach($message as $msg_line) {
+				$message_html .= '<li>'.$msg_line.'</li>';
+			}
+			
+			$message_html .= '</ul>';
+			
+			return $message_html;
+		}
+		
+		else {
+			$message_html = "Vielen Dank für Ihre Reservierung. Sie werden eine Bestätigung per E-Mail erhalten.";
+		}
+		
+		var_dump ($message_html);
 	}
-
+	
+	 
+	 
+	 
 	/*
 	 * Save registration form input data
 	 * */
 	public function _save($post_id, $post, $update){
+		
 
 		$post_type = get_post_type($post_id);
 		if ( "nwswa_event" != $post_type ) return;

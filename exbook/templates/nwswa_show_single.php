@@ -176,12 +176,12 @@ get_header();
 					  </select></p>
 					  
 
-								<p><label>Vorname</label> <input type="text" name="reservation_firstname" class="text" id="vorname"></p>
-								<p><label>Nachname</label> <input type="text" name="reservation_lastname" class="text" id="nachname"></p>
-								<p><label>Telefon</label> <input type="text" name="reservation_phone" class="text" id="telefon"></p>
-								<p><label>E-Mail</label> <input type="email" name="reservation_email" class="text" id="email"></p>
+								<p><label>Vorname</label> <input type="text" value="<?php echo $firstname; ?>" name="reservation_firstname" class="text" id="vorname"></p>
+								<p><label>Nachname</label> <input type="text" value="<?php echo $reservation_lastname; ?>" name="reservation_lastname" class="text" id="nachname"></p>
+								<p><label>Telefon</label> <input type="text" value="<?php echo $reservation_phone; ?>" name="reservation_phone" class="text" id="telefon"></p>
+								<p><label>E-Mail</label> <input type="email" value="<?php echo $reservation_email; ?>" name="reservation_email" class="text" id="email"></p>
 								
-								<p><label for="reservation_quantity">Anzahl Pl&auml;tze :</label>
+								<p><label for="reservation_quantity" value="text">Anzahl Pl&auml;tze :</label>
 								
 								<?php 
 								// Check how many seats are available
@@ -206,7 +206,7 @@ get_header();
 								
 								<p><input type="submit" name="submit" class="button" value="Reservierung absenden" id="sendmessage"></p>
 								
-								<div class="formmessage"><p>Meldung: <?php echo $message; ?></p></div>
+								<div class="formmessage"><p>Meldung: <?php echo $message_html; ?></p></div>
 								
 								
 							</form>
