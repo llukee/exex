@@ -223,7 +223,7 @@ class nwswa_cpt_show {
 		$subject = "Ihre Reservation";
 		$message = "Steve, I think this computer thing might really take off.";
 		$headers = array(
-			'From:' .get_bloginfo( 'name' ). '<'.get_bloginfo( 'admin_email' ).'>;',			
+			'From: '.get_bloginfo( 'name' ).' <'.get_bloginfo( 'admin_email' ).'>'
 		);
 
 		wp_mail( $to, $subject, $message );
