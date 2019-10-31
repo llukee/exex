@@ -119,7 +119,7 @@ class nwswa_cpt_show {
 		wp_insert_post($post);
 
 		/* todo: insert into mailchimp */
-		
+
 		echo 'Success-Div: Reservation eingetragen.';
 	}
 

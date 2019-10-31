@@ -25,6 +25,14 @@ class nwswa_cpt_event {
 		add_action('manage_nwswa_event_posts_columns', array($this, '_add_columns'), 10, 2);
 		add_action('manage_nwswa_event_posts_custom_column', array($this, '_fill_columns'), 10, 2);
 		add_action('post_row_actions', array($this, '_row_actions'), 10, 2);
+		// add css to frontend
+		add_action( 'wp_enqueue_scripts', array($this, 'enqueue_scripts') );
+
+	}
+
+	public function enqueue_scripts() {
+		wp_register_style( 'exbook_frontend_stylesheet', plugins_url( '../assets/exbook_frontend.css', __FILE__ ) );
+    wp_enqueue_style( 'exbook_frontend_stylesheet' );
 	}
 
 	/*
@@ -94,304 +102,145 @@ class nwswa_cpt_event {
 	 * Creates the shortcode to display all events
 	 * */
 	public function events_list($atts, $content = null ) {
-		$a = shortcode_atts( array(
+
+		$attributes_event_list = shortcode_atts( array(
 			'location' => 0,
 			'show'  => 0
 		), $atts );
 
-	// Checks if the shortcode loation attribute is not defined and create the args withouth this meta filter
-	if (0 == ($a['location']) && 0 != ($a['show'])) {
-		// echo "1";
-		// Loop Arguments
-		$args = array(
-			'post_type'         => 'nwswa_event',
-			'post_status'       => array( 'publish' ),
-			'posts_per_page'    => -1, // -1 = all posts
-
-			'meta_query' => array(
-				'relation' 				=> 'AND', // Optional, defaults to "OR"
-				'date_ordering' => array(
-					'key'  		=> 'nwswa_event_datetime',
-					'value' => date( "U" ),
-					'compare' => '>'
-				),
-				array(
-					'key'  => 'nwswa_event_show',
-					'value' => $a['show'],
-					'compare' => '=',
-				),
-			),
-
-		'orderby' => 'date_ordering',
-		'order' => 'ASC',
-		);
-	}
-
-	// Checks if the shortcode show attribute is not defined and create the args withouth this meta filter
-	elseif (0 == ($a['show']) && 0 != ($a['location'])) {
-		// echo "2";
-		// Loop Arguments
-		$args = array(
-			'post_type'         => 'nwswa_event',
-			'post_status'       => array( 'publish' ),
-			'posts_per_page'    => -1, // -1 = all posts
-
-			'meta_query' => array(
-				'relation' 				=> 'AND', // Optional, defaults to "OR"
-				'date_ordering' => array(
-					'key'  		=> 'nwswa_event_datetime',
-					'value' => date( "U" ),
-					'compare' => '>'
-				),
-
-				array(
-					'key'  => 'nwswa_event_location',
-					'value' => $a['location'],
-					'compare' => '=',
-				),
-
-			),
-
-		'orderby' => 'date_ordering',
-		'order' => 'ASC',
-		);
-	}
-	// If both shortcode  attributes are  defined create the args with all filters
-	elseif (0 != ($a['show']) && 0 != ($a['location'])) {
-		// echo "3";
-		// Loop Arguments
-		$args = array(
-			'post_type'         => 'nwswa_event',
-			'post_status'       => array( 'publish' ),
-			'posts_per_page'    => -1, // -1 = all posts
-
-			'meta_query' => array(
-				'relation' 				=> 'AND', // Optional, defaults to "OR"
-				'date_ordering' => array(
-					'key'  		=> 'nwswa_event_datetime',
-					'value' => date( "U" ),
-					'compare' => '>'
-				),
-
-				array(
-					'key'  => 'nwswa_event_location',
-					'value' => $a['location'],
-					'compare' => '=',
-				),
-
-				array(
-					'key'  => 'nwswa_event_show',
-					'value' => $a['show'],
-					'compare' => '=',
-				),
-			),
-
-		'orderby' => 'date_ordering',
-		'order' => 'ASC',
-		);
-	}
-
-	// If no  shortcode  attributes are  defined create the args without  all filters
-	else {
-		// echo "4";
-		// Loop Arguments
-		$args = array(
-			'post_type'         => 'nwswa_event',
-			'post_status'       => array( 'publish' ),
-			'posts_per_page'    => -1, // -1 = all posts
-
-			'meta_query' => array(
-				'relation' 				=> 'AND', // Optional, defaults to "OR"
-				'date_ordering' => array(
-					'key'  		=> 'nwswa_event_datetime',
-					'value' => date( "U" ),
-					'compare' => '>'
-				),
-),
-
-
-		'orderby' => 'date_ordering',
-		'order' => 'ASC',
-		);
-	}
-
-
-
+		$arguments_event_list = $this->get_eventlist_args_by_attrs($attributes_event_list);
 
 		// Daten abfragen
-		$loop = new WP_Query( $args );
-
-		// Start output buffering
+		$events_list = new WP_Query( $arguments_event_list );
 		ob_start();
-		?>
-
-		<style>
-				.container_fluid{
-					line-height:1.3;
-					font-size:14pt;
-
-				}
-				.table-row {
-				  display: flex;           display: -webkit-flex;
-				  flex-direction: row;     -webkit-flex-direction: row;
-				  flex-grow: 0;            -webkit-flex-grow: 0;
-				  flex-wrap: nowrap;         -webkit-flex-wrap: nowrap;
-				  width: 100%;
-				  padding-left: 15px;
-				  padding-right: 15px;
-				}
-
-				.text {
-				  flex-grow: 1;            -webkit-flex-grow: 1;
-				  padding-right: 20px;
-				}
-				.table-row {
-				  border-collapse: collapse;
-				  padding-top: 10px;
-				}
-
-				.table-row.header {
-				  background-color:;
-				  font-weight: bold;
-				  padding-top: 8px;
-				  padding-bottom: 0px;
-				}
-				.text {
-				  width:150px;
-				}
-
-				.long {
-				  width:250px;
-				}
-
-				.short {
-				  width: 40px;
-				}
-		</style>
-		<div class="container_fluid">
-			<div class="table-row header">
-				<div class="text short">Tag</div>
-				<div class="text">Datum/Zeit</div>
-				<div class="text long">Stück</div>
-				<div class="text">Ort</div>
-				<div class="text">freie Plätze</div>
-			  </div>
-		<?php
-		// start des WordPress Loops für unseren post type
-		while ( $loop->have_posts() ) : $loop->the_post();
-			// post id abfragen
-			$post_id = get_the_ID();
-
-			// post id von show abfragen
-			$post_id_show = get_post_meta( $post_id, 'nwswa_event_show', true );
-
-			// location
-			$event_location = get_post_meta( $post_id, 'nwswa_event_location', true );
-			$location = get_post($event_location);
-
-			// seats
-			$event_seats = get_post_meta( $post_id, 'nwswa_event_seats', true );
-
-			// date
-			$event_datetime = get_post_meta( $post_id, 'nwswa_event_datetime', true );
-
-			// number of reservations
-			$reservation_quantity = (int)get_post_meta( $post_id, 'reservation_quantity', true );
-
-			$args = array (
-			// Post or Page ID
-			'post_type' => 'nwswa_reservation',
-			'meta_key'  => 'nwswa_reservation_event',
-			'meta_value' => $post_id,
-			'meta_compare' => '='
-			);
-
-
-
-			// The Query
-			$the_query = new WP_Query( $args );
-
-			// The Loop
-			if ( $the_query->have_posts() ) {
-
-				while ( $the_query->have_posts() ) {
-					$the_query->the_post();
-					$nwswa_reservation_quantity = get_post_meta( get_the_ID(), 'nwswa_reservation_quantity', true);
-					$reservation_quantity += (int)$nwswa_reservation_quantity;
-				}
-
-
-				/* Restore original Post Data */
-				wp_reset_postdata();
-
-			} else {
-
-			$reservation_quantity = 0;
-
-			}
-
-
-			// Template Ausgabe
-			?>
-			<div class="table-row">
-
-				<?php
-				// Get event Date
-				if($event_datetime>0) {$text_event_datetime = date("d.m.Y H:i", $event_datetime);}
-
-				// Get Day
-				$day = date("l", $event_datetime);
-				switch($day)
-				{
-				case "Monday": $day = "Mo"; break;
-				case "Tuesday": $day = "Di"; break;
-				case "Wednesday": $day = "Mi"; break;
-				case "Thursday": $day = "Do"; break;
-				case "Friday": $day = "Fr"; break;
-				case "Saturday": $day = "Sa"; break;
-				case "Sunday": $day = "So"; break;
-				};
-
-				// Get event title
-				$text_event_title = get_the_title( $post_id_show );
-
-				// Calculate free seats
-				$free_seats = $event_seats - $reservation_quantity;
-
-				// Define free seats text
-				if ($reservation_quantity >= $event_seats){$free_seats_text = "ausverkauft";}
-				else{$free_seats_text = $free_seats."<br /><a href='".get_the_permalink( $post_id_show )."#reservieren' class='btn btn-tobi2' >reservieren</a>";}
-
-				//echo esc_attr($a['location']);
-				//echo esc_attr($a['show']);
-				?>
-
-				<div class="text short"><?php echo $day ?></div>
-				<div class="text">
-					<?php echo $text_event_datetime ?>
-				</div>
-				<div class="text long">
-					<a href="<?php echo get_the_permalink( $post_id_show ) ?>" class="btn btn-tobi2" ><?php echo $text_event_title ?></a>
-					<?php // echo $text_event_title ?>
-				</div>
-				<div class="text"><a href="<?php echo get_the_permalink( $event_location ) ?>" class="btn btn-tobi2" ><?php echo $location->post_title; ?></a></div>
-				<div class="text"><?php echo $free_seats_text ?></div>
-
-
-			</div>
-
-		<?php
-		// Ende unserer while-schleife
-		endwhile;
-		?>
-</div>
-
-		<?php
-		// reset data
-		wp_reset_postdata();
-
-		// return buffer
+		if ( file_exists( plugin_dir_path( __FILE__ ) . '../templates/nwswa_event_list.php' ) ) {
+			require_once(plugin_dir_path( __FILE__ ) . '../templates/nwswa_event_list.php');
+		}
 		return ob_get_clean();
+	}
+
+
+	private function get_eventlist_args_by_attrs($attributes_event_list=false) {
+		if($attributes_event_list===false || !is_array($attributes_event_list)) {
+			exit('missing attributes for event list');
+		}
+
+		// Checks if the shortcode loation attribute is not defined and create the args withouth this meta filter
+		if (0 == ($attributes_event_list['location']) && 0 != ($attributes_event_list['show'])) {
+			// echo "1";
+			// Loop Arguments
+			$arguments_event_list = array(
+				'post_type'         => 'nwswa_event',
+				'post_status'       => array( 'publish' ),
+				'posts_per_page'    => -1, // -1 = all posts
+
+				'meta_query' => array(
+					'relation' 				=> 'AND', // Optional, defaults to "OR"
+					'date_ordering' => array(
+						'key'  		=> 'nwswa_event_datetime',
+						'value' => date( "U" ),
+						'compare' => '>'
+					),
+					array(
+						'key'  => 'nwswa_event_show',
+						'value' => $attributes_event_list['show'],
+						'compare' => '=',
+					),
+				),
+
+			'orderby' => 'date_ordering',
+			'order' => 'ASC',
+			);
+		}
+
+		// Checks if the shortcode show attribute is not defined and create the args withouth this meta filter
+		elseif (0 == ($attributes_event_list['show']) && 0 != ($attributes_event_list['location'])) {
+			// echo "2";
+			// Loop Arguments
+			$arguments_event_list = array(
+				'post_type'         => 'nwswa_event',
+				'post_status'       => array( 'publish' ),
+				'posts_per_page'    => -1, // -1 = all posts
+
+				'meta_query' => array(
+					'relation' 				=> 'AND', // Optional, defaults to "OR"
+					'date_ordering' => array(
+						'key'  		=> 'nwswa_event_datetime',
+						'value' => date( "U" ),
+						'compare' => '>'
+					),
+
+					array(
+						'key'  => 'nwswa_event_location',
+						'value' => $attributes_event_list['location'],
+						'compare' => '=',
+					),
+
+				),
+
+			'orderby' => 'date_ordering',
+			'order' => 'ASC',
+			);
+		}
+		// If both shortcode  attributes are  defined create the args with all filters
+		elseif (0 != ($attributes_event_list['show']) && 0 != ($attributes_event_list['location'])) {
+			// echo "3";
+			// Loop Arguments
+			$arguments_event_list = array(
+				'post_type'         => 'nwswa_event',
+				'post_status'       => array( 'publish' ),
+				'posts_per_page'    => -1, // -1 = all posts
+
+				'meta_query' => array(
+					'relation' 				=> 'AND', // Optional, defaults to "OR"
+					'date_ordering' => array(
+						'key'  		=> 'nwswa_event_datetime',
+						'value' => date( "U" ),
+						'compare' => '>'
+					),
+
+					array(
+						'key'  => 'nwswa_event_location',
+						'value' => $attributes_event_list['location'],
+						'compare' => '=',
+					),
+
+					array(
+						'key'  => 'nwswa_event_show',
+						'value' => $attributes_event_list['show'],
+						'compare' => '=',
+					),
+				),
+
+			'orderby' => 'date_ordering',
+			'order' => 'ASC',
+			);
+		}
+
+		// If no  shortcode  attributes are  defined create the args without  all filters
+		else {
+			// echo "4";
+			// Loop Arguments
+			$arguments_event_list = array(
+				'post_type'         => 'nwswa_event',
+				'post_status'       => array( 'publish' ),
+				'posts_per_page'    => -1, // -1 = all posts
+
+				'meta_query' => array(
+					'relation' 				=> 'AND', // Optional, defaults to "OR"
+					'date_ordering' => array(
+						'key'  		=> 'nwswa_event_datetime',
+						'value' => date( "U" ),
+						'compare' => '>'
+					),
+		),
+
+
+			'orderby' => 'date_ordering',
+			'order' => 'ASC',
+			);
+		}
+		return $arguments_event_list;
 	}
 
 
