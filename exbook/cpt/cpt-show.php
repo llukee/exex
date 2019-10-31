@@ -218,10 +218,17 @@ class nwswa_cpt_show {
 		);
 		wp_insert_post($post);
 		
+		
 		// send e-mail to registered peorson
+		
+		$template_id = get_post_meta( $reservation_event, 'nwswa_event_mailtpl', true );
+		
+		$mail_subject = get_post_meta( $template_id, 'nwswa_mail_subject', true );
+		$mail_template = get_post_meta( $template_id, 'nwswa_content', true );
+		
 		$to = $reservation_email;
-		$subject = "Ihre Reservation";
-		$message = "Details.";
+		$subject = $mail_subject;
+		$message = $mail_template;
 		$headers = array(
 			'From: '.get_bloginfo( 'name' ).' <'.get_bloginfo( 'admin_email' ).'>'
 		);
