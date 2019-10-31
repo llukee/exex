@@ -242,18 +242,18 @@ class nwswa_cpt_show {
 				$get_date_day = date("l", $get_date);
 				switch($get_date_day)
 				{
-  				case "Monday": $day = "Mo"; break;
-  				case "Tuesday": $day = "Di"; break;
-  				case "Wednesday": $day = "Mi"; break;
-  				case "Thursday": $day = "Do"; break;
-  				case "Friday": $day = "Fr"; break;
-  				case "Saturday": $day = "Sa"; break;
-  				case "Sunday": $day = "So"; break;
+  				case "Monday": $get_date_day = "Mo"; break;
+  				case "Tuesday": $get_date_day = "Di"; break;
+  				case "Wednesday": $get_date_day = "Mi"; break;
+  				case "Thursday": $get_date_day = "Do"; break;
+  				case "Friday": $get_date_day = "Fr"; break;
+  				case "Saturday": $get_date_day = "Sa"; break;
+  				case "Sunday": $get_date_day = "So"; break;
 				};
 				
 		$show_date = $get_date_day;
 		$show_date .= ", ";
-		$show_date .= date("ld.m.Y, H:i", $get_date);		
+		$show_date .= date("d.m.Y, H:i", $get_date);		
 		
 		$show_reservation_quantity = $_POST['reservation_quantity'];
 		
