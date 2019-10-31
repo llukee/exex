@@ -223,7 +223,7 @@ class nwswa_cpt_show {
 		$subject = "Ihre Reservation";
 		$message = "Steve, I think this computer thing might really take off.";
 		$headers = array(
-			"From:" .bloginfo( 'name' ). "<".bloginfo( 'admin_email' ).">;",
+			"From:" .get_bloginfo( 'name' ). "<".get_bloginfo( 'admin_email' ).">;",
 			"BCC: My Other Name <myothername@example.com>;",
 		);
 
