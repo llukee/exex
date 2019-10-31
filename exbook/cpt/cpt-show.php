@@ -87,40 +87,97 @@ class nwswa_cpt_show {
 
 
 	public function save_frontend_registration() {
-		if(!isset($_POST['reservaton_form_submit'])) {
+		
+		
+		if(!isset($_POST['submit'])) {
 			return;
 		}
+			 // echo 'Test';
 
-		if( !wp_verify_nonce($_POST['reservaton_form_submit'], 'reservaton_form_submit') ) {
-				echo 'Bitte nur 1x eintragen.';
+		if( !wp_verify_nonce($_POST['cform_generate_nonce'], 'submit') ) {
+				return;
+		}
+		echo 'Nonce: Ok';
+		
+
+		if ( !isset($_POST['reservation_firstname']) ) {
+				echo 'Kein Namen';
+				$message = "Kein Namen";
 				return;
 		}
 
-		if ( !isset($_POST['firstname']) ) {
+		if (strlen($_POST['reservation_firstname']) < 3) {
+				echo 'Bitte füllen Sie das Feld Vorname aus.';
+				$message = "Bitte füllen Sie das Feld Vorname aus.";
+				return;
+		}
+		
+		if ( !isset($_POST['reservation_lastname']) ) {
+				echo 'Kein Nachnamen';
+				$message = "Kein Nachnamen";
 				return;
 		}
 
-		if (strlen($_POST['firstname']) < 3) {
-				echo 'Fehler-Div: Bitte einen Vornamen eintragen.';
+		if (strlen($_POST['reservation_lastname']) < 3) {
+				echo 'Bitte füllen Sie das Feld Nachname aus.';
+				$message = "Bitte füllen Sie das Feld Nachname aus.";
 				return;
 		}
+		
+		if ( !isset($_POST['reservation_phone']) ) {
+				echo 'Kein Telefon';
+				$message = "Kein Nachnamen";
+				return;
+		}
+
+		if (strlen($_POST['reservation_phone']) < 3) {
+				echo 'Bitte füllen Sie das Feld Telefon aus.';
+				$message = "Bitte füllen Sie das Feld Telefon aus.";
+				return;
+		}
+		
+		if ( !isset($_POST['reservation_email']) ) {
+				echo 'Kein EMail';
+				$message = "Kein E-Mail";
+				return;
+		}
+
+		if (strlen($_POST['reservation_email']) < 3) {
+				echo 'Bitte füllen Sie das Feld E-Mail aus.';
+				$message = "Bitte füllen Sie das Feld E-Mail aus.";
+				return;
+		}
+		
+		
 		if ($_POST['reservation_quantity'] <= 0) {
-				echo 'Fehler-Div: Sie müssen mindestens 1 Platz auswählen.';
+				echo 'Sie müssen mindestens 1 Platz auswählen.';
+				$message = "Sie müssen mindestens 1 Platz auswählen.";
 				return;
 		}
 
 		// Add the content of the form to $post as an array
 		$post = array(
-				'post_title'    => $_POST['title'],
-				'post_content'  => $_POST['content'],
+				// 'post_title'    => $_POST['title'],
+				// 'post_content'  => $_POST['content'],
 				'post_status'   => 'publish',
-				'post_type' 	=> 'nwswa_show'
+				'post_type' 	=> 'nwswa_reservation',
+				'meta_input'   => array(
+                    'nwswa_reservation_event' => $_POST['reservation_event'],
+					'nwswa_reservation_firstname' => $_POST['reservation_firstname'],
+					'nwswa_reservation_lastname' => $_POST['reservation_lastname'],
+					'nwswa_reservation_phone' => $_POST['reservation_phone'],
+					'nwswa_reservation_email' => $_POST['reservation_email'],
+                    'nwswa_reservation_quantity'   => $_POST['reservation_quantity'],
+					'nwswa_reservation_newsletter'   => $_POST['reservation_newsletter'],
+                ),
 		);
 		wp_insert_post($post);
 
 		/* todo: insert into mailchimp */
 
-		echo 'Success-Div: Reservation eingetragen.';
+		echo "Vielen Dank für Ihre Reservierung. Sie werden eine Bestätigung per E-Mail erhalten.";
+		$message = "Vielen Dank für Ihre Reservierung. Sie werden eine Bestätigung per E-Mail erhalten.";
+
 	}
 
 	/*
