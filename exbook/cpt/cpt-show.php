@@ -223,10 +223,10 @@ class nwswa_cpt_show {
 		$subject = "Ihre Reservation";
 		$message = "Details.";
 		$headers = array(
-			'From: Lukas <hi@lukasoppler.ch>'
+			'From: '.get_bloginfo( 'name' ).' <'.get_bloginfo( 'admin_email' ).'>'
 		);
 
-		wp_mail( $to, $subject, $message );
+		wp_mail( $to, $subject, $message, $headers );
 
 		
 		// generate sucess message
