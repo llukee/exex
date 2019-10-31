@@ -221,9 +221,9 @@ class nwswa_cpt_show {
 		// send e-mail to registered peorson
 		$to = $reservation_email;
 		$subject = "Ihre Reservation";
-		$message = "Steve, I think this computer thing might really take off.";
+		$message = "Details.";
 		$headers = array(
-			'From: '.get_bloginfo( 'name' ).' <'.get_bloginfo( 'admin_email' ).'>'
+			'From: Lukas <hi@lukasoppler.ch>'
 		);
 
 		wp_mail( $to, $subject, $message );
