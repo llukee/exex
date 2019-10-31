@@ -239,7 +239,7 @@ class nwswa_cpt_show {
 		
 		
 		$searchArray = array("$mail_template", "<%show%>", "<%location%>", "<%datetime%>");
-		$replaceArray = array($show_reservation_quantity, $show_name, $show_location, $show_date);
+		$replaceArray = array("$mail_template", "<%show%>", "<%location%>", "<%datetime%>");
 		$intoString = $mail_template;
 		$mail_template = str_replace($searchArray, $replaceArray, $intoString);
 
