@@ -222,6 +222,10 @@ class nwswa_cpt_show {
 		$to = $reservation_email;
 		$subject = "Ihre Reservation";
 		$message = "Steve, I think this computer thing might really take off.";
+		$headers = array(
+			"From:" .bloginfo( 'name' ). "<".bloginfo( 'admin_email' ).">;",
+			"BCC: My Other Name <myothername@example.com>;",
+		);
 
 		wp_mail( $to, $subject, $message );
 
