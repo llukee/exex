@@ -39,3 +39,14 @@
 .short {
   width: 40px;
 }
+
+.error_message {
+    border: 2px red solid;
+    list-style: none;
+    padding: 10px 19px;
+}
+.sucess_message {
+    border: 2px green solid;
+    list-style: none;
+    padding: 10px 19px;
+}

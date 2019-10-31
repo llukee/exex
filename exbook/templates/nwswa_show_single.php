@@ -33,11 +33,14 @@ get_header();
 
 				<div class="entry-content">
 					<?php the_content(); ?>
+				
+				<h2>Reservieren</h2>
+				<?php echo ($message_html); ?>
 
 				<?php
 				// Check if there are events in the future. If true, display registration form.
 						$post_id = get_the_ID();
-						$args = array(
+						$args_ = array(
 								'post_type'         => 'nwswa_event',
 								'post_status'       => array( 'publish' ),
 								'posts_per_page'    => -1, // -1 = all posts
@@ -54,15 +57,22 @@ get_header();
 									)
 								),
 							);
-						$query = new WP_Query( $args );
-						if ( $query->have_posts() ) { ?>
+						$query = new WP_Query( $args_ );
+						
+						
+						
+						
+						if ( $query->have_posts() && $formular_sent != 'true' ) { ?>
 
 
 					<form id="reservation" name="contact-form" action="" method="post">
-					<h2>Reservieren</h2>
+					
+					
 					<?php wp_nonce_field( 'submit', 'cform_generate_nonce' );?>
 
 					<p><label for="reservation_event">Vorstellung:</label>
+
+					
 					<select id="reservation_event" name="reservation_event">
 						
 						<?php 
@@ -128,12 +138,15 @@ get_header();
 											$reservation_quantity += (int)$nwswa_reservation_quantity;
 										}
 
+									}
+										
+									else {
+										
+										$reservation_quantity = 0;
+										
+									}
 									// Restore original Post Data
 										wp_reset_postdata();
-										
-									} else {
-										$reservation_quantity = 0;
-									}
 
 									
 									// Calculate free seats
@@ -166,17 +179,24 @@ get_header();
 								$selected = ' selected="selected"';
 							}
 							if ($free_seats_text == "ausverkauft"){
-										contine;
+										continue;
 									}
 							else{
-								echo '<option' . $selected . ' value=' . $event_id . '>' . $option_text . '</option>';
+								if ($reservation_event == $event_id) {
+									$selected_text = 'selected="'.$event_id.'"';
+								}
+								else {
+									$selected_text = '';
+								}
+								echo '<option' . $selected . ' value=' . $event_id . ' '.$selected_text .'>' . $option_text . '</option>';
 							}
 						}
 					  ?>
 					  </select></p>
 					  
+					  
 
-								<p><label>Vorname</label> <input type="text" value="<?php echo $firstname; ?>" name="reservation_firstname" class="text" id="vorname"></p>
+								<p><label>Vorname</label> <input type="text" value="<?php echo $reservation_firstname; ?>" name="reservation_firstname" class="text" id="vorname"></p>
 								<p><label>Nachname</label> <input type="text" value="<?php echo $reservation_lastname; ?>" name="reservation_lastname" class="text" id="nachname"></p>
 								<p><label>Telefon</label> <input type="text" value="<?php echo $reservation_phone; ?>" name="reservation_phone" class="text" id="telefon"></p>
 								<p><label>E-Mail</label> <input type="email" value="<?php echo $reservation_email; ?>" name="reservation_email" class="text" id="email"></p>
@@ -205,13 +225,13 @@ get_header();
 								
 								
 								<p><input type="submit" name="submit" class="button" value="Reservierung absenden" id="sendmessage"></p>
-								
-								<div class="formmessage"><p>Meldung: <?php echo $message_html; ?></p></div>
-								
-								
+
 							</form>
 					<?php } ?>
-
+					
+					
+					
+					
 					<?php endwhile; else : ?>
 						<p><?php esc_html_e( 'Sorry, no posts matched your criteria.' ); ?></p>
 					<?php endif; ?>

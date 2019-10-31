@@ -89,7 +89,7 @@ class nwswa_cpt_show {
 
 	public function save_frontend_registration() {
 		
-		
+
 		if(!isset($_POST['submit'])) {
 			return;
 		}
@@ -143,61 +143,67 @@ class nwswa_cpt_show {
 				$message[] .= "Bitte füllen Sie das Feld E-Mail aus.";
 		}
 		
+		if (!filter_var($_POST['reservation_email'], FILTER_VALIDATE_EMAIL)) {
+				// echo 'Bitte füllen Sie das Feld E-Mail aus.';
+				$message[] .= "Ihre E-Mail ist ungültig.";
+		}
+		
 		
 		if ($_POST['reservation_quantity'] <= 0) {
 				// echo 'Sie müssen mindestens 1 Platz auswählen.';
 				$message[] .= "Sie müssen mindestens 1 Platz auswählen.";
 		}
-		var_dump($message);
+
 		
 		 // Save post field user input into variables to ouptput as default form values
+		 global $reservation_event;
+		 global $reservation_firstname;
+		 global $reservation_lastname;
+		 global $reservation_phone;
+		 global $reservation_email;
+		 
+		 $reservation_event = '';
 		 $reservation_firstname = '';
 		 $reservation_lastname = '';
 		 $reservation_phone = '';
 		 $reservation_email = '';
 		 
+		 if ($_POST['reservation_event']){
+		 $reservation_event = $_POST['reservation_event'];}
+		 
 		 if ($_POST['reservation_firstname']){
-		 $firstname = $_POST['reservation_firstname'];}
+		 $reservation_firstname = $_POST['reservation_firstname'];}
 		 
 		 if ($_POST['reservation_lastname']){
-		 $firstname = $_POST['reservation_lastname'];}
+		 $reservation_lastname = $_POST['reservation_lastname'];}
 		 
 		 if ($_POST['reservation_phone']){
-		 $firstname = $_POST['reservation_phone'];}
+		 $reservation_phone = $_POST['reservation_phone'];}
 		 
 		 if ($_POST['reservation_email']){
-		 $firstname = $_POST['reservation_email'];}
-	 
-	 echo $firstname;
+		 $reservation_email = $_POST['reservation_email'];}
+
 	 // wp_mail....
 	 
 	 /* todo: insert into mailchimp */
 
-		// echo "Vielen Dank für Ihre Reservierung. Sie werden eine Bestätigung per E-Mail erhalten.";
 		
+		global $message_html;
 		
-		if (is_array($message) && count($message)>0) {
-			$message_html .= '<ul>';
-			
+		if (is_array($message) && count($message)>0) {	
+			$message_html .= '<ul class="error_message">';
 			foreach($message as $msg_line) {
 				$message_html .= '<li>'.$msg_line.'</li>';
 			}
-			
 			$message_html .= '</ul>';
-			
-
 		}
 		
+		
+		
 		else {
-			$message_html = "Vielen Dank für Ihre Reservierung. Sie werden eine Bestätigung per E-Mail erhalten.";
-		
-		
-		var_dump ($message_html);
 	
 		// Add the content of the form to $post as an array
 		$post = array(
-				// 'post_title'    => $_POST['title'],
-				// 'post_content'  => $_POST['content'],
 				'post_status'   => 'publish',
 				'post_type' 	=> 'nwswa_reservation',
 				'meta_input'   => array(
@@ -211,6 +217,21 @@ class nwswa_cpt_show {
                 ),
 		);
 		wp_insert_post($post);
+		
+		// send e-mail to registered peorson
+		$to = $reservation_email;
+		$subject = "Ihre Reservation";
+		$message = "Steve, I think this computer thing might really take off.";
+
+		wp_mail( $to, $subject, $message );
+
+		
+		// generate sucess message
+		global $formular_sent;
+		$formular_sent = "true";
+		$message_html .= '<ul class="sucess_message">';
+		$message_html .= "Vielen Dank für Ihre Reservierung. Sie werden in Kürze eine Bestätigung per E-Mail erhalten.";
+		$message_html .= '</ul>';
 		
 		}
 }
