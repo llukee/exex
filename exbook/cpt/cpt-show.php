@@ -224,7 +224,7 @@ class nwswa_cpt_show {
 		$template_id = get_post_meta( $reservation_event, 'nwswa_event_mailtpl', true );
 		
 		$mail_subject = get_post_meta( $template_id, 'nwswa_mailtpl_mail_subject', true );
-		$mail_template = get_post_meta( $template_id, 'nwswa_mailtpl_mail_message', true );
+		$mail_template = get_post_meta( $template_id, 'nwswa_mailtpl_mail_content', true );
 		
 		$to = $reservation_email;
 		$subject = $mail_subject;
