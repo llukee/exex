@@ -170,7 +170,30 @@ class nwswa_cpt_show {
 	 
 	 echo $firstname;
 	 // wp_mail....
+	 
+	 /* todo: insert into mailchimp */
+
+		// echo "Vielen Dank für Ihre Reservierung. Sie werden eine Bestätigung per E-Mail erhalten.";
 		
+		
+		if (is_array($message) && count($message)>0) {
+			$message_html .= '<ul>';
+			
+			foreach($message as $msg_line) {
+				$message_html .= '<li>'.$msg_line.'</li>';
+			}
+			
+			$message_html .= '</ul>';
+			
+
+		}
+		
+		else {
+			$message_html = "Vielen Dank für Ihre Reservierung. Sie werden eine Bestätigung per E-Mail erhalten.";
+		
+		
+		var_dump ($message_html);
+	
 		// Add the content of the form to $post as an array
 		$post = array(
 				// 'post_title'    => $_POST['title'],
@@ -188,30 +211,10 @@ class nwswa_cpt_show {
                 ),
 		);
 		wp_insert_post($post);
-
-		/* todo: insert into mailchimp */
-
-		// echo "Vielen Dank für Ihre Reservierung. Sie werden eine Bestätigung per E-Mail erhalten.";
 		
-		
-		if (is_array($message) && count($message)>0) {
-			$message_html .= '<ul>';
-			
-			foreach($message as $msg_line) {
-				$message_html .= '<li>'.$msg_line.'</li>';
-			}
-			
-			$message_html .= '</ul>';
-			
-			return $message_html;
 		}
+}
 		
-		else {
-			$message_html = "Vielen Dank für Ihre Reservierung. Sie werden eine Bestätigung per E-Mail erhalten.";
-		}
-		
-		var_dump ($message_html);
-	}
 	
 	 
 	 
