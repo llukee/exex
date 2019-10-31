@@ -237,7 +237,23 @@ class nwswa_cpt_show {
 		$show_location = get_post_meta( $reservation_event, 'nwswa_event_show', true );
 		
 		$get_date = get_post_meta( $reservation_event, 'nwswa_event_datetime', true );
-		$show_date = date("d.m.Y H:i", $get_date);		
+		
+		
+				$get_date_day = date("l", $get_date);
+				switch($get_date_day)
+				{
+  				case "Monday": $day = "Mo"; break;
+  				case "Tuesday": $day = "Di"; break;
+  				case "Wednesday": $day = "Mi"; break;
+  				case "Thursday": $day = "Do"; break;
+  				case "Friday": $day = "Fr"; break;
+  				case "Saturday": $day = "Sa"; break;
+  				case "Sunday": $day = "So"; break;
+				};
+				
+		$show_date = $get_date_day;
+		$show_date .= ", ";
+		$show_date .= date("ld.m.Y, H:i", $get_date);		
 		
 		$show_reservation_quantity = $_POST['reservation_quantity'];
 		
