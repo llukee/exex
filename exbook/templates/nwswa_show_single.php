@@ -55,7 +55,7 @@ get_header();
 								),
 							);
 						$query = new WP_Query( $args );
-						while ( $query->have_posts() ) { ?>
+						if ( $query->have_posts() ) { ?>
 
 
 					<form id="reservation" name="contact-form" action="" method="post">
