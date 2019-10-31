@@ -232,9 +232,13 @@ class nwswa_cpt_show {
 		
 		//Replace shortcodes  in message text
 		//Get meta fields
-		$show_name = get_post_meta( $reservation_event, 'nwswa_event_show', true );
-		$show_location = get_post_meta( $reservation_event, 'nwswa_event_location', true );
-		$show_date = get_post_meta( $reservation_event, 'nwswa_event_datetime', true );
+		$show_id = get_post_meta( $reservation_event, 'nwswa_event_show', true );
+		$show_name = get_the_title($show_id);
+		$show_location = get_post_meta( $reservation_event, 'nwswa_event_show', true );
+		
+		$get_date = get_post_meta( $reservation_event, 'nwswa_event_datetime', true );
+		$show_date = date("d.m.Y H:i", $get_date);		
+		
 		$show_reservation_quantity = $_POST['reservation_quantity'];
 		
 		
