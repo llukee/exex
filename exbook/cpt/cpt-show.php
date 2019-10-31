@@ -226,14 +226,20 @@ class nwswa_cpt_show {
 		$mail_subject = get_post_meta( $template_id, 'nwswa_mailtpl_mail_subject', true );
 		$mail_template = get_post_meta( $template_id, 'nwswa_mailtpl_mail_content', true );
 		
-		$show_name = get_post_meta( $reservation_event, 'nwswa_event_show', true );
-		$show_location = get_post_meta( $reservation_event, 'nwswa_event_location', true );
-		$show_date = get_post_meta( $reservation_event, 'nwswa_event_datetime', true );
+		
+		
 		
 		
 		//Replace shortcodes  in message text
+		//Get meta fields
+		$show_name = get_post_meta( $reservation_event, 'nwswa_event_show', true );
+		$show_location = get_post_meta( $reservation_event, 'nwswa_event_location', true );
+		$show_date = get_post_meta( $reservation_event, 'nwswa_event_datetime', true );
+		$show_reservation_quantity = $_POST['reservation_quantity'];
+		
+		
 		$searchArray = array("$mail_template", "<%show%>", "<%location%>", "<%datetime%>");
-		$replaceArray = array($_POST['reservation_quantity'], $show_name, $show_location, $show_date);
+		$replaceArray = array($show_reservation_quantity, $show_name, $show_location, $show_date);
 		$intoString = $mail_template;
 		$mail_template = str_replace($searchArray, $replaceArray, $intoString);
 
