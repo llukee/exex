@@ -234,7 +234,9 @@ class nwswa_cpt_show {
 		//Get meta fields
 		$show_id = get_post_meta( $reservation_event, 'nwswa_event_show', true );
 		$show_name = get_the_title($show_id);
-		$show_location = get_post_meta( $reservation_event, 'nwswa_event_show', true );
+		
+		$location_id = get_post_meta( $reservation_event, 'nwswa_event_show', true );
+		$show_name = get_the_title($location_id);
 		
 		$get_date = get_post_meta( $reservation_event, 'nwswa_event_datetime', true );
 		
