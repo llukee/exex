@@ -226,6 +226,15 @@ class nwswa_cpt_show {
 		$mail_subject = get_post_meta( $template_id, 'nwswa_mailtpl_mail_subject', true );
 		$mail_template = get_post_meta( $template_id, 'nwswa_mailtpl_mail_content', true );
 		
+		str_replace("world","Peter", $mail_template);
+		
+		$searchArray = array("<%quantity%>", "<%show%>", "<%location%>", "<%datetime%>");
+		$replaceArray = array("1", "Gododt", "Draussen", "Sonntag");
+		$intoString = $mail_template;
+		$mail_template = str_replace($searchArray, $replaceArray, $intoString);
+
+		//it should print "Here is word one, as well sound two and etc three"
+		
 		$to = $reservation_email;
 		$subject = $mail_subject;
 		$message = $mail_template;
