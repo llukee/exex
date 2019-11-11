@@ -223,6 +223,7 @@ get_header();
 								
 								<p><label>News abonnieren?</label> <input type="checkbox"name="reservation_newsletter" checked="checked"></input></p>
 								
+								<p><label>Wie heisst unser Theater (4 Wörter)?</label> <input type="text" value="<?php echo $security_check; ?>" name="security_check" class="text" id="security_check"></p>
 								
 								<p><input type="submit" name="submit" class="button" value="Reservierung absenden" id="sendmessage"></p>
 

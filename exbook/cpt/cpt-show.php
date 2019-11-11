@@ -148,6 +148,20 @@ class nwswa_cpt_show {
 				$message[] .= "Ihre E-Mail ist ungültig.";
 		}
 		
+		if ( !isset($_POST['security_check']) ) {
+				// echo 'Kein Nachnamen';
+				$message[] .= "Keine Sicherheitsfrage";
+		}
+		
+		if (strlen($_POST['security_check']) < 3) {
+				// echo 'Bitte füllen Sie das Feld E-Mail aus.';
+				$message[] .= "Bitte füllen Sie das Feld Sicherheitsfrage aus.";
+		}
+		if (strtolower($_POST['security_check']) != "exex") {
+				// echo 'Bitte füllen Sie das Feld E-Mail aus.';
+				$message[] .= "Die Sicherheitsfrage wurde nicht korrekt beantwortet.";
+		}
+		
 		
 		if ($_POST['reservation_quantity'] <= 0) {
 				// echo 'Sie müssen mindestens 1 Platz auswählen.';
@@ -161,12 +175,14 @@ class nwswa_cpt_show {
 		 global $reservation_lastname;
 		 global $reservation_phone;
 		 global $reservation_email;
+		 global $security_check;
 		 
 		 $reservation_event = '';
 		 $reservation_firstname = '';
 		 $reservation_lastname = '';
 		 $reservation_phone = '';
 		 $reservation_email = '';
+		 $security_check = '';
 		 
 		 if ($_POST['reservation_event']){
 		 $reservation_event = $_POST['reservation_event'];}
@@ -182,8 +198,11 @@ class nwswa_cpt_show {
 		 
 		 if ($_POST['reservation_email']){
 		 $reservation_email = $_POST['reservation_email'];}
+		 
+		 if ($_POST['security_check']){
+		 $security_check = $_POST['security_check'];}
 
-	 // wp_mail....
+
 	 
 	 /* todo: insert into mailchimp */
 
