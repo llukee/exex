@@ -95,17 +95,18 @@ class nwswa_cpt_show {
 		}
 			 // echo 'Test';
 
-		if( !wp_verify_nonce($_POST['cform_generate_nonce'], 'submit') ) {
-				return;
-		}
-		// echo 'Nonce: Ok';
 		
 		
 		$message = array();
+		
+		if ( !isset( $_POST['cform_generate_nonce'] ) &&
+		!wp_verify_nonce( $_POST['cform_generate_nonce'], 'submit' ) ) {
+		$message[] .= "Anfrage abgelehnt. Bitte versuchen Sie es erneut.";
+	}
 
 		if ( !isset($_POST['reservation_firstname']) ) {
 				// echo 'Kein Namen';
-				$message[] = "Kein Namen";
+				$message[] .= "Kein Namen";
 		}
 
 		if (strlen($_POST['reservation_firstname']) < 3) {
