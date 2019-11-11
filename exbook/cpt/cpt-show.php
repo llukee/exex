@@ -330,7 +330,7 @@ class nwswa_cpt_show {
 
 		// Verify this came from the our screen and with proper authorization,
 		// because save_post can be triggered at other times.
-		if ( ! isset( $_POST['nwswa_event_fields'] ) || ! wp_verify_nonce( $_POST['nwswa_event_fields'], plugin_basename(__FILE__) ) ) {
+		if ( ! isset( $_POST['cform_generate_nonce'] ) || ! wp_verify_nonce( $_POST['cform_generate_nonce'], plugin_basename(__FILE__) ) ) {
 			return $post_id;
 		}
 
