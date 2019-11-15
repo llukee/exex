@@ -242,28 +242,28 @@ class nwswa_cpt_show {
 			if(is_object($response)) {
 			  if( $response->status == 400 ) {
 			    foreach( $response->errors as $error ) {
-				  $message_mailchimp[] .= 'Debug: Fehler kein Mailchimp Eintrag. Grund: ' . $error->message;
+				  $message_mailchimp[] .= "Debug: Fehler kein Mailchimp Eintrag. Grund: " . $error->message;
 			    }
 					exit();
-			  } elseif( $response->status == 'subscribed' ){
-					 $message_mailchimp[] .= 'Debug: Sie sind bereits registriert.';
+			  } elseif( $response->status == "subscribed" ){
+					 $message_mailchimp[] .= "Debug: Sie sind bereits registriert.";
 			    
-			  } elseif( $response->status == 'pending' ){
-					 $message_mailchimp[] .= 'Debug: Sie haben sich für den Newsletter angemeldet.';
+			  } elseif( $response->status == "pending" ){
+					 $message_mailchimp[] .= "Debug: Sie haben sich für den Newsletter angemeldet.";
 			  }
 			} else {
-				$message_mailchimp[] .= 'Debug: Fehler - Rückgabe kein Objekt.';
+				$message_mailchimp[] .= "Debug: Fehler - Rückgabe kein Objekt.";
 				exit();
 			}
 			// Save Mailchimp messages / debug in global variable
-			global $message_mailchimp__html;
+			global $message_mailchimp_html;
 
 		if (is_array($message_mailchimp) && count($message_mailchimp)>0) {
-			$message_mailchimp__html .= '<ul class="error_message">';
+			$message_mailchimp_html .= '<ul class="error_message">';
 			foreach($message_mailchimp as $msg_line) {
-				$message_mailchimp__html .= '<li>'.$msg_line.'</li>';
+				$message_mailchimp_html .= '<li>'.$msg_line.'</li>';
 			}
-			$message_mailchimp__html .= '</ul>';
+			$message_mailchimp_html .= '</ul>';
 		}
 
 		}
