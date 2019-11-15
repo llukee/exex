@@ -243,20 +243,20 @@ class nwswa_cpt_show {
 			  if( $response->status == 400 ) {
 			    foreach( $response->errors as $error ) {
 				  $message_mailchimp[] .= "Debug: Fehler kein Mailchimp Eintrag. Grund: " . $error->message;
-				  echo "Debug: Fehler kein Mailchimp Eintrag. Grund: " . $error->message;
+				  // echo "Debug: Fehler kein Mailchimp Eintrag. Grund: " . $error->message;
 			    }
 					exit();
 			  } elseif( $response->status == "subscribed" ){
-					 $message_mailchimp[] .= "Debug: Sie sind bereits registriert.";
-					 echo "Debug: Sie sind bereits registriert.";
+					 // $message_mailchimp[] .= "Debug: Sie sind bereits registriert.";
+					 // echo "Debug: Sie sind bereits registriert.";
 			    
 			  } elseif( $response->status == "pending" ){
-					 $message_mailchimp[] .= "Debug: Sie haben sich für den Newsletter angemeldet.";
-					 echo "Debug: Sie haben sich für den Newsletter angemeldet.";
+					 // $message_mailchimp[] .= "Debug: Sie haben sich für den Newsletter angemeldet.";
+					 // echo "Debug: Sie haben sich für den Newsletter angemeldet.";
 			  }
 			} else {
 				$message_mailchimp[] .= "Debug: Fehler - Rückgabe kein Objekt.";
-				echo "Debug: Fehler - Rückgabe kein Objekt.";
+				// echo "Debug: Fehler - Rückgabe kein Objekt.";
 				exit();
 			}
 			// Save Mailchimp messages / debug in global variable
