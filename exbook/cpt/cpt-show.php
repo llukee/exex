@@ -244,10 +244,10 @@ class nwswa_cpt_show {
 			    }
 					exit();
 			  } elseif( $response->status == 'subscribed' ){
-					// $message[] .= 'Debug: Sie sind bereits registriert.';
+					 $message[] .= 'Debug: Sie sind bereits registriert.';
 			    
 			  } elseif( $response->status == 'pending' ){
-					// $message[] .= 'Debug: Sie haben sich für den Newsletter angemeldet.';
+					 $message[] .= 'Debug: Sie haben sich für den Newsletter angemeldet.';
 			  }
 			} else {
 				$message[] .= 'Debug: Fehler - Rückgabe kein Objekt.';
