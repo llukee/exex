@@ -36,6 +36,8 @@ get_header();
 				
 				<h2 id="reservieren">Reservieren</h2>
 				<?php echo ($message_html); ?>
+				<?php echo ($message_mailchimp__html); ?>
+				
 
 				<?php
 				// Check if there are events in the future. If true, display registration form.
