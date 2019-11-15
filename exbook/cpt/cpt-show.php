@@ -88,17 +88,17 @@ class nwswa_cpt_show {
 
 
 	public function save_frontend_registration() {
-		
+
 
 		if(!isset($_POST['submit'])) {
 			return;
 		}
 			 // echo 'Test';
 
-		
-		
+
+
 		$message = array();
-		
+
 		if ( !isset( $_POST['cform_generate_nonce'] ) &&
 		!wp_verify_nonce( $_POST['cform_generate_nonce'], 'submit' ) ) {
 		$message[] .= "Anfrage abgelehnt. Bitte versuchen Sie es erneut.";
@@ -113,7 +113,7 @@ class nwswa_cpt_show {
 				// echo 'Bitte füllen Sie das Feld Vorname aus.';
 				$message[] .= "Bitte füllen Sie das Feld Vorname aus.";
 		}
-		
+
 		if ( !isset($_POST['reservation_lastname']) ) {
 				// echo 'Kein Nachnamen';
 				$message[] .= "Kein Nachnamen";
@@ -123,7 +123,7 @@ class nwswa_cpt_show {
 				// echo 'Bitte füllen Sie das Feld Nachname aus.';
 				$message[] .= "Bitte füllen Sie das Feld Nachname aus.";
 		}
-		
+
 		if ( !isset($_POST['reservation_phone']) ) {
 				// echo 'Kein Telefon';
 				$message[] .= "Kein Nachnamen";
@@ -133,7 +133,7 @@ class nwswa_cpt_show {
 				// echo 'Bitte füllen Sie das Feld Telefon aus.';
 				$message[] .= "Bitte füllen Sie das Feld Telefon aus.";
 		}
-		
+
 		if ( !isset($_POST['reservation_email']) ) {
 				// echo 'Kein EMail';
 				$message[] .= "Kein E-Mail";
@@ -143,17 +143,17 @@ class nwswa_cpt_show {
 				// echo 'Bitte füllen Sie das Feld E-Mail aus.';
 				$message[] .= "Bitte füllen Sie das Feld E-Mail aus.";
 		}
-		
+
 		if (!filter_var($_POST['reservation_email'], FILTER_VALIDATE_EMAIL)) {
 				// echo 'Bitte füllen Sie das Feld E-Mail aus.';
 				$message[] .= "Ihre E-Mail ist ungültig.";
 		}
-		
+
 		if ( !isset($_POST['security_check']) ) {
 				// echo 'Kein Nachnamen';
 				$message[] .= "Keine Sicherheitsfrage";
 		}
-		
+
 		if (strlen($_POST['security_check']) < 3) {
 				// echo 'Bitte füllen Sie das Feld E-Mail aus.';
 				$message[] .= "Bitte füllen Sie das Feld Sicherheitsfrage aus.";
@@ -162,14 +162,14 @@ class nwswa_cpt_show {
 				// echo 'Bitte füllen Sie das Feld E-Mail aus.';
 				$message[] .= "Die Sicherheitsfrage wurde nicht korrekt beantwortet.";
 		}
-		
-		
+
+
 		if ($_POST['reservation_quantity'] <= 0) {
 				// echo 'Sie müssen mindestens 1 Platz auswählen.';
 				$message[] .= "Sie müssen mindestens 1 Platz auswählen.";
 		}
 
-		
+
 		 // Save post field user input into variables to ouptput as default form values
 		 global $reservation_event;
 		 global $reservation_firstname;
@@ -177,51 +177,100 @@ class nwswa_cpt_show {
 		 global $reservation_phone;
 		 global $reservation_email;
 		 global $security_check;
-		 
+
 		 $reservation_event = '';
 		 $reservation_firstname = '';
 		 $reservation_lastname = '';
 		 $reservation_phone = '';
 		 $reservation_email = '';
 		 $security_check = '';
-		 
+
 		 if ($_POST['reservation_event']){
 		 $reservation_event = $_POST['reservation_event'];}
-		 
+
 		 if ($_POST['reservation_firstname']){
 		 $reservation_firstname = $_POST['reservation_firstname'];}
-		 
+
 		 if ($_POST['reservation_lastname']){
 		 $reservation_lastname = $_POST['reservation_lastname'];}
-		 
+
 		 if ($_POST['reservation_phone']){
 		 $reservation_phone = $_POST['reservation_phone'];}
-		 
+
 		 if ($_POST['reservation_email']){
 		 $reservation_email = $_POST['reservation_email'];}
-		 
+
 		 if ($_POST['security_check']){
 		 $security_check = $_POST['security_check'];}
 
 
-	 
-	 /* todo: insert into mailchimp */
 
-		
+	 	/* mailchimp start */
+		$mailchimp_apikey = trim(get_option('exbook_mailchimp_apikey'));
+		$mailchimp_listid = trim(get_option('exbook_mailchimp_listid'));
+
+		if($mailchimp_apikey!=='' && $mailchimp_listid!=='' && $reservation_email!=='') {
+	    $mailchimp_data = array(
+	      'apikey'        => $mailchimp_apikey,
+	      'email_address' => $reservation_email,
+	      'status'     => 'subscribed',
+	      'merge_fields'  => array(
+	            'FNAME' => $reservation_firstname,
+	            'LNAME' => $reservation_lastname
+	          )
+	    );
+
+		  // URL to request
+		  $API_URL =   'https://' . substr($mailchimp_apikey,strpos($mailchimp_apikey,'-') + 1 ) . '.api.mailchimp.com/3.0/lists/' . $mailchimp_listid . '/members/' . md5(strtolower($mailchimp_data['email_address']));
+
+		  $ch = curl_init();
+		  curl_setopt($ch, CURLOPT_URL, $API_URL);
+		  curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Authorization: Basic '.base64_encode( 'user:'.$mailchimp_apikey )));
+		  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT');
+		  curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+		  curl_setopt($ch, CURLOPT_POST, true);
+		  curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		  curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($mailchimp_data) );
+		  $result = curl_exec($ch);
+		  curl_close($ch);
+
+		  $response = json_decode($result);
+
+			if(is_object($response)) {
+			  if( $response->status == 400 ) {
+			    foreach( $response->errors as $error ) {
+			      echo 'Debug: Fehler kein Mailchimp Eintrag. Grund: ' . $error->message . '<br>';
+			    }
+					exit();
+			  } elseif( $response->status == 'subscribed' ){
+			    echo 'Debug: Sie sind bereits registriert.';
+			  } elseif( $response->status == 'pending' ){
+			    echo 'Debug: Sie haben sich für den Newsletter angemeldet.';
+			  }
+			} else {
+				echo 'Debug: Fehler - Rückgabe kein Objekt.<br>';
+				exit();
+			}
+		}
+
+		/* mailchimp end */
+
+
 		global $message_html;
-		
-		if (is_array($message) && count($message)>0) {	
+
+		if (is_array($message) && count($message)>0) {
 			$message_html .= '<ul class="error_message">';
 			foreach($message as $msg_line) {
 				$message_html .= '<li>'.$msg_line.'</li>';
 			}
 			$message_html .= '</ul>';
 		}
-		
-		
-		
+
+
+
 		else {
-	
+
 		// Add the content of the form to $post as an array
 		$post = array(
 				'post_status'   => 'publish',
@@ -237,30 +286,30 @@ class nwswa_cpt_show {
                 ),
 		);
 		wp_insert_post($post);
-		
-		
+
+
 		// send e-mail to registered peorson
-		
+
 		$template_id = get_post_meta( $reservation_event, 'nwswa_event_mailtpl', true );
-		
+
 		$mail_subject = get_post_meta( $template_id, 'nwswa_mailtpl_mail_subject', true );
 		$mail_template = get_post_meta( $template_id, 'nwswa_mailtpl_mail_content', true );
-		
-		
-		
-		
-		
+
+
+
+
+
 		//Replace shortcodes  in message text
 		//Get meta fields
 		$show_id = get_post_meta( $reservation_event, 'nwswa_event_show', true );
 		$show_name = get_the_title($show_id);
-		
+
 		$location_id = get_post_meta( $reservation_event, 'nwswa_event_location', true );
 		$show_location = get_the_title($location_id);
-		
+
 		$get_date = get_post_meta( $reservation_event, 'nwswa_event_datetime', true );
-		
-		
+
+
 				$get_date_day = date("l", $get_date);
 				switch($get_date_day)
 				{
@@ -272,20 +321,20 @@ class nwswa_cpt_show {
   				case "Saturday": $get_date_day = "Sa"; break;
   				case "Sunday": $get_date_day = "So"; break;
 				};
-				
+
 		$show_date = $get_date_day;
 		$show_date .= ", ";
-		$show_date .= date("d.m.Y, H:i", $get_date);		
-		
+		$show_date .= date("d.m.Y, H:i", $get_date);
+
 		$show_reservation_quantity = $_POST['reservation_quantity'];
-		
-		
+
+
 		$searchArray = array("<%quantity%>", "<%show%>", "<%location%>", "<%datetime%>");
 		$replaceArray = array($show_reservation_quantity, $show_name, $show_location, $show_date);
 		$intoString = $mail_template;
 		$mail_template = str_replace($searchArray, $replaceArray, $intoString);
 
-		
+
 		$to = $reservation_email;
 		$subject = $mail_subject;
 		$message = $mail_template;
@@ -295,26 +344,26 @@ class nwswa_cpt_show {
 
 		wp_mail( $to, $subject, $message, $headers );
 
-		
+
 		// generate sucess message
 		global $formular_sent;
 		$formular_sent = "true";
 		$message_html .= '<ul class="sucess_message">';
 		$message_html .= "Vielen Dank für Ihre Reservierung. Sie werden in Kürze eine Bestätigung per E-Mail erhalten.";
 		$message_html .= '</ul>';
-		
+
 		}
 }
-		
-	
-	 
-	 
-	 
+
+
+
+
+
 	/*
 	 * Save registration form input data
 	 * */
 	public function _save($post_id, $post, $update){
-		
+
 
 		$post_type = get_post_type($post_id);
 		if ( "nwswa_event" != $post_type ) return;
