@@ -88,7 +88,7 @@
 
 				// Define free seats text
 				if ($reservation_quantity >= $event_seats){$free_seats_text = "ausverkauft";}
-				else{$free_seats_text = $free_seats."<br /><a href='".get_the_permalink( $post_id_show )."#reservation' class='btn btn-tobi2' >reservieren</a>";}
+				else{$free_seats_text = $free_seats."<br /><a href='".get_the_permalink( $post_id_show )."#reservieren' class='btn btn-tobi2' >reservieren</a>";}
 
 				//echo esc_attr($arguments_event_list]'location']);
 				//echo esc_attr($arguments_event_list['show']);

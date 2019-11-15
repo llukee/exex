@@ -34,7 +34,7 @@ get_header();
 				<div class="entry-content">
 					<?php the_content(); ?>
 				
-				<h2>Reservieren</h2>
+				<h2 id="reservieren">Reservieren</h2>
 				<?php echo ($message_html); ?>
 
 				<?php
