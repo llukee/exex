@@ -245,7 +245,7 @@ class nwswa_cpt_show {
 					exit();
 			  } elseif( $response->status == 'subscribed' ){
 					// $message[] .= 'Debug: Sie sind bereits registriert.';
-			    echo 'Debug: Sie sind bereits registriert.';
+			    
 			  } elseif( $response->status == 'pending' ){
 					// $message[] .= 'Debug: Sie haben sich für den Newsletter angemeldet.';
 			  }
