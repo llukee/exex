@@ -240,16 +240,17 @@ class nwswa_cpt_show {
 			if(is_object($response)) {
 			  if( $response->status == 400 ) {
 			    foreach( $response->errors as $error ) {
-			      echo 'Debug: Fehler kein Mailchimp Eintrag. Grund: ' . $error->message . '<br>';
+				  $message[] .= 'Debug: Fehler kein Mailchimp Eintrag. Grund: ' . $error->message;
 			    }
 					exit();
 			  } elseif( $response->status == 'subscribed' ){
+					$message[] .= 'Debug: Sie sind bereits registriert.';
 			    echo 'Debug: Sie sind bereits registriert.';
 			  } elseif( $response->status == 'pending' ){
-			    echo 'Debug: Sie haben sich für den Newsletter angemeldet.';
+					$message[] .= 'Debug: Sie haben sich für den Newsletter angemeldet.';
 			  }
 			} else {
-				echo 'Debug: Fehler - Rückgabe kein Objekt.<br>';
+				$message[] .= 'Debug: Fehler - Rückgabe kein Objekt.';
 				exit();
 			}
 		}
