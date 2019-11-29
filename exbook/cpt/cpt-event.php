@@ -350,7 +350,7 @@ class nwswa_cpt_event {
     for ( $i = 1; $i < 101; $i = $i +1 ) {
         $seats_html .= "\t\t\t" . '<option value="' . $i . '"';
         if ( $i == $seats )
-            $seats .= ' selected="selected"';
+            $seats_html .= ' selected="selected"';
         $seats_html .= '>' . $i . "</option>\n";
     }
     $seats_html .= '</select></p>';
