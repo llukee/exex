@@ -289,7 +289,7 @@ class nwswa_cpt_event {
     $time_adj = current_time( 'timestamp' );
     $datetime = get_post_meta( $post->ID, 'nwswa_event_datetime', true );
 	
-	if ($datetime <= 0)){
+	if ($datetime <= 0){
 		$datetime = time();
 	}
 	
