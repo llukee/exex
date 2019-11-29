@@ -289,11 +289,10 @@ class nwswa_cpt_event {
     $time_adj = current_time( 'timestamp' );
     $datetime = get_post_meta( $post->ID, 'nwswa_event_datetime', true );
 	
-	if (!is_int($datetime)){
+	if ($datetime <= 0)){
 		$datetime = time();
 	}
 	
-	$datetime_int = is_int($datetime);
 		$month = date("m", $datetime);
 		$day = date("d", $datetime);
 		$year = date("Y", $datetime);
