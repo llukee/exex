@@ -25,7 +25,7 @@ function mpdf_create($post_id=0, $pdf_content_file='') {
   require_once( _MPDF_PATH . 'mpdf.php' );
 
   $post = get_post($post_id);
-  $pdf_filename = $post->ID;
+  $pdf_filename = $post->ID.".pdf";
 
   global $pdf_margin_left;
   global $pdf_margin_right;
