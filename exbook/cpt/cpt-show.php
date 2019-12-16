@@ -319,6 +319,9 @@ class nwswa_cpt_show {
 
 
 		//Replace shortcodes  in message text
+		// Get E-mail sender from setting page
+		$mail_sender = trim(get_option('exbook_email_sender'));
+		
 		//Get meta fields
 		$show_id = get_post_meta( $reservation_event, 'nwswa_event_show', true );
 		$show_name = get_the_title($show_id);
@@ -358,7 +361,7 @@ class nwswa_cpt_show {
 		$subject = $mail_subject;
 		$message = $mail_template;
 		$headers = array(
-			'From: '.get_bloginfo( 'name' ).' <'.get_bloginfo( 'admin_email' ).'>'
+			'From: '.get_bloginfo( 'name' ).' <'.$mail_sender.'>'
 		);
 
 		wp_mail( $to, $subject, $message, $headers );
