@@ -35,12 +35,16 @@ function exbook_options_page() {
 <td><input type="text" id="exbook_mailchimp_listid" name="exbook_mailchimp_listid" value="<?php echo get_option('exbook_mailchimp_listid'); ?>" /></td>
 </tr>
 
-<tr valign="top">
-<th scope="row"><label for="exbook_email_sender">E-mail sender</label></th>
-<td><input type="text" id="exbook_email_sender" name="exbook_email_sender" value="<?php echo get_option('exbook_email_sender'); ?>" /></td>
-</tr>
-
 </table>
+
+<h3>General</h3>
+<table>
+	<tr valign="top">
+		<th scope="row"><label for="exbook_email_sender">E-mail sender</label></th>
+		<td><input type="text" id="exbook_email_sender" name="exbook_email_sender" value="<?php echo get_option('exbook_email_sender'); ?>" /></td>
+	</tr>
+</table>
+
 <?php submit_button(); ?>
 </form>
 </div>
