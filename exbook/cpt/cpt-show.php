@@ -321,7 +321,7 @@ class nwswa_cpt_show {
 		//Replace shortcodes  in message text
 		// Get E-mail sender from setting page
 		$mail_sender = trim(get_option('exbook_email_sender'));
-		if empty($mail_sender){
+		if (empty($mail_sender)){
 			$mail_sender = get_bloginfo( 'admin_email' );	
 		}
 		
