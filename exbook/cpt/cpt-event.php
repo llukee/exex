@@ -493,6 +493,13 @@ label {
 		$columns['event_mailtpl'] = __('Mailvorlage', 'nwswa_exbook');
 		return $columns;
 	}
+	
+	public function get_sortable_columns() {
+		  $sortable_columns = array(
+			'event_show' => array( 'event_show', true ),
+		  );
+		  return $sortable_columns;
+}
 
 	public function _fill_columns($column_name, $post_id) {
     global $wpdb;
@@ -501,6 +508,7 @@ label {
 					$event_show = get_post_meta( $post_id, 'nwswa_event_show', true );
 					$show = get_post($event_show);
 					echo $show->post_title;
+					
             break;
 				case 'event_datetime':
 					$event_datetime = get_post_meta( $post_id, 'nwswa_event_datetime', true );
