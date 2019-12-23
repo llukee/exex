@@ -501,6 +501,42 @@ label {
 		  return $sortable_columns;
 }
 
+
+// Make the custom column sortable -- replace ht_kb with your CPT slug
+
+function itsg_add_custom_column_make_sortable( $columns ) {
+	$columns['event_show'] = 'event_show';
+
+	return $columns;
+}
+
+// Handle the custom column sorting
+function itsg_add_custom_column_do_sortable( $vars ) {
+
+
+
+		// check if sorting has been applied
+		if ( isset( $vars['orderby'] ) && 'usefulness' == $vars['orderby'] ) {
+
+			// apply the sorting to the post list
+			$vars = array_merge(
+				$vars,
+				array(
+					'meta_key' => 'event_show',
+					'orderby' => 'meta_value_num'
+				)
+			);
+		}
+	
+
+	return $vars;
+}
+
+
+
+
+
+
 	public function _fill_columns($column_name, $post_id) {
     global $wpdb;
     switch ($column_name) {
