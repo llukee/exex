@@ -494,15 +494,9 @@ label {
 		return $columns;
 	}
 	
-	public function get_sortable_columns() {
-		  $sortable_columns = array(
-			'event_show' => array( 'event_show', true ),
-		  );
-		  return $sortable_columns;
-}
 
 
-// Make the custom column sortable -- replace ht_kb with your CPT slug
+// Make the custom column sortable
 
 function itsg_add_custom_column_make_sortable( $columns ) {
 	$columns['event_show'] = 'event_show';
@@ -516,7 +510,7 @@ function itsg_add_custom_column_do_sortable( $vars ) {
 
 
 		// check if sorting has been applied
-		if ( isset( $vars['orderby'] ) && 'usefulness' == $vars['orderby'] ) {
+		if ( isset( $vars['orderby'] ) && 'event_show' == $vars['orderby'] ) {
 
 			// apply the sorting to the post list
 			$vars = array_merge(
