@@ -497,11 +497,13 @@ label {
 
 
 // Make the custom column sortable
-
-function itsg_add_custom_column_make_sortable( $columns ) {
-	$columns['event_show'] = 'event_show';
-
-	return $columns;
+function my_sortable_cake_column( $columns ) {
+    $columns['event_show'] = 'event_show';
+ 
+    //To make a column 'un-sortable' remove it from the array
+    //unset($columns['date']);
+ 
+    return $columns;
 }
 
 // Handle the custom column sorting
@@ -517,7 +519,7 @@ function itsg_add_custom_column_do_sortable( $vars ) {
 				$vars,
 				array(
 					'meta_key' => 'event_show',
-					'orderby' => 'meta_value_num'
+					'orderby' => 'meta_value'
 				)
 			);
 		}
