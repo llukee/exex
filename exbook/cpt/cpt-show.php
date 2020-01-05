@@ -158,7 +158,7 @@ class nwswa_cpt_show {
 				// echo 'Bitte füllen Sie das Feld E-Mail aus.';
 				$message[] .= "Bitte füllen Sie das Feld Sicherheitsfrage aus.";
 		}
-		if (strtolower($_POST['security_check']) != "exex") {
+		if (strtolower($_POST['security_check']) != 8) {
 				// echo 'Bitte füllen Sie das Feld E-Mail aus.';
 				$message[] .= "Die Sicherheitsfrage wurde nicht korrekt beantwortet.";
 		}
