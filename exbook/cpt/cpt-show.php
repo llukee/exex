@@ -154,7 +154,7 @@ class nwswa_cpt_show {
 				$message[] .= "Keine Sicherheitsfrage";
 		}
 
-		if (strlen($_POST['security_check']) < 3) {
+		if (strlen($_POST['security_check']) < 1) {
 				// echo 'Bitte füllen Sie das Feld E-Mail aus.';
 				$message[] .= "Bitte füllen Sie das Feld Sicherheitsfrage aus.";
 		}
