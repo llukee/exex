@@ -203,7 +203,7 @@ get_header();
 								<p><label>Telefon</label> <input type="text" value="<?php echo $reservation_phone; ?>" name="reservation_phone" class="text" id="telefon"></p>
 								<p><label>E-Mail</label> <input type="email" value="<?php echo $reservation_email; ?>" name="reservation_email" class="text" id="email"></p>
 								
-								<p><label for="reservation_quantity" value="text">Anzahl Pl&auml;tze :</label>
+								<p><label for="reservation_quantity" value="text">Anzahl Pl&auml;tze:</label>
 								
 								<?php 
 								// Check how many seats are available
