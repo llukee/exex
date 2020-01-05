@@ -306,6 +306,7 @@ class nwswa_cpt_show {
 					'nwswa_reservation_phone' => $_POST['reservation_phone'],
 					'nwswa_reservation_email' => $_POST['reservation_email'],
                     'nwswa_reservation_quantity'   => $_POST['reservation_quantity'],
+					'nwswa_reservation_memo' => $_POST['reservation_memo'],
 					'nwswa_reservation_newsletter'   => $_POST['reservation_newsletter'],
                 ),
 		);
