@@ -224,9 +224,7 @@ get_header();
 									</select></p>
 									
 								<p><label>Kommentar</label> 
-								<textarea name="reservation_memo" class="text" id="reservation_memo" cols="50" rows="5">
-								<?php echo $reservation_memo; ?>
-								</textarea>
+								<textarea name="reservation_memo" class="text" id="reservation_memo" cols="50" rows="5"><?php echo $reservation_memo; ?></textarea>
 								</p>
 								
 								<p><label>News abonnieren?</label> <input type="checkbox"name="reservation_newsletter" checked="checked"></input></p>
