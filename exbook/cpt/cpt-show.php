@@ -176,6 +176,7 @@ class nwswa_cpt_show {
 		 global $reservation_lastname;
 		 global $reservation_phone;
 		 global $reservation_email;
+		 global $reservation_memo;
 		 global $security_check;
 
 		 $reservation_event = '';
@@ -183,6 +184,7 @@ class nwswa_cpt_show {
 		 $reservation_lastname = '';
 		 $reservation_phone = '';
 		 $reservation_email = '';
+		 $reservation_memo = '';
 		 $security_check = '';
 
 		 if ($_POST['reservation_event']){
@@ -199,6 +201,9 @@ class nwswa_cpt_show {
 
 		 if ($_POST['reservation_email']){
 		 $reservation_email = $_POST['reservation_email'];}
+		 
+		 if ($_POST['reservation_memo']){
+		 $reservation_memo = $_POST['reservation_memo'];}
 
 		 if ($_POST['security_check']){
 		 $security_check = $_POST['security_check'];}

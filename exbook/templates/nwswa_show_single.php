@@ -222,6 +222,8 @@ get_header();
 										echo '<option value="'.$q.'" '.$selected.'>'.$q.'</option>';
 									} ?>
 									</select></p>
+									
+								<p><label>Kommentar</label> <input type="textarea" value="<?php echo $reservation_memo; ?>" name="reservation_memo" class="text" id="reservation_memo"></p>
 								
 								<p><label>News abonnieren?</label> <input type="checkbox"name="reservation_newsletter" checked="checked"></input></p>
 								
