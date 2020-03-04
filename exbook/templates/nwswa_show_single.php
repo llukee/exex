@@ -214,7 +214,7 @@ get_header();
 								
 								?>
 									<select name="reservation_quantity">
-									 <?php for($q=1;$q<=10;$q++) {
+									 <?php for($q=1;$q<=$free_seats;$q++) {
 										$selected = '';
 										if($q==$quantity) {
 											$selected = ' selected="selected" ';
