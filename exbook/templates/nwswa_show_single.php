@@ -33,11 +33,11 @@ get_header();
 
 				<div class="entry-content">
 					<?php the_content(); ?>
-				
+
 				<h2 id="reservieren">Reservieren</h2>
 				<?php echo ($message_html); ?>
 				<?php echo ($message_mailchimp_html); ?>
-				
+
 
 				<?php
 				// Check if there are events in the future. If true, display registration form.
@@ -60,24 +60,24 @@ get_header();
 								),
 							);
 						$query = new WP_Query( $args_ );
-						
-						
-						
-						
+
+
+
+
 						if ( $query->have_posts() && $formular_sent != 'true' ) { ?>
 
 
 					<form id="reservation" name="contact-form" action="" method="post">
-					
-					
+
+
 					<?php wp_nonce_field( 'submit', 'cform_generate_nonce' );?>
 
 					<p><label for="reservation_event">Vorstellung:</label>
 
-					
+
 					<select id="reservation_event" name="reservation_event">
-						
-						<?php 
+
+						<?php
 						// Query the shows here
 						$post_id = get_the_ID();
 						$args = array(
@@ -101,22 +101,22 @@ get_header();
 							);
 						$query = new WP_Query( $args );
 						while ( $query->have_posts() ) {
-									
 
-									
+
+
 									$option_text = '';
 									$query->the_post();
 									$event_id = get_the_ID();
-									
-									
+
+
 									//////////////
 									// Start
 									// Chek if there are free seats available
 									//////////
-									
+
 									// Get total seats
 									$event_seats = get_post_meta( $event_id, 'nwswa_event_seats', true );
-								
+
 									// Get number of reservations
 									//$reservation_quantity = (int)get_post_meta( $post_id, 'reservation_quantity', true );
 
@@ -141,29 +141,29 @@ get_header();
 										}
 
 									}
-										
+
 									else {
-										
+
 										$reservation_quantity = 0;
-										
+
 									}
 									// Restore original Post Data
 										wp_reset_postdata();
 
-									
+
 									// Calculate free seats
 									$free_seats = $event_seats - $reservation_quantity;
-									
+
 									// Create reservation text
 									if ($reservation_quantity >= $event_seats){$free_seats_text = "ausverkauft";}
 									else{$free_seats_text = "Freie Plätze: ".$free_seats;}
-									
+
 									//////////////
 									// End
-									// Chek if there are free seats available 
+									// Chek if there are free seats available
 									//////////
-									
-									
+
+
 									// show title + event datetime
 									$show_id = get_post_meta( $event_id, 'nwswa_event_show', true );
 									$show = get_post($show_id);
@@ -177,17 +177,15 @@ get_header();
 
 							$selected = "";
 
-							if($event_id == $event){
+							if($event_id == $event) {
 								$selected = ' selected="selected"';
 							}
 							if ($free_seats_text == "ausverkauft"){
 										continue;
-									}
-							else{
+							} else {
 								if ($reservation_event == $event_id) {
 									$selected_text = 'selected="'.$event_id.'"';
-								}
-								else {
+								} else {
 									$selected_text = '';
 								}
 								echo '<option' . $selected . ' value=' . $event_id . ' '.$selected_text .'>' . $option_text . '</option>';
@@ -195,23 +193,23 @@ get_header();
 						}
 					  ?>
 					  </select></p>
-					  
-					  
+
+
 
 								<p><label>Vorname</label> <input type="text" value="<?php echo $reservation_firstname; ?>" name="reservation_firstname" class="text" id="vorname"></p>
 								<p><label>Nachname</label> <input type="text" value="<?php echo $reservation_lastname; ?>" name="reservation_lastname" class="text" id="nachname"></p>
 								<p><label>Telefon</label> <input type="text" value="<?php echo $reservation_phone; ?>" name="reservation_phone" class="text" id="telefon"></p>
 								<p><label>E-Mail</label> <input type="email" value="<?php echo $reservation_email; ?>" name="reservation_email" class="text" id="email"></p>
-								
+
 								<p><label for="reservation_quantity" value="text">Anzahl Pl&auml;tze:</label>
-								
-								<?php 
+
+								<?php
 								// Check how many seats are available
-								
-								
-								
-								
-								
+
+
+
+
+
 								?>
 									<select name="reservation_quantity">
 									 <?php for($q=1;$q<=40;$q++) {
@@ -222,23 +220,23 @@ get_header();
 										echo '<option value="'.$q.'" '.$selected.'>'.$q.'</option>';
 									} ?>
 									</select></p>
-									
-								<p><label>Kommentar</label> 
+
+								<p><label>Kommentar</label>
 								<textarea name="reservation_memo" class="text" id="reservation_memo" cols="50" rows="5"><?php echo $reservation_memo; ?></textarea>
 								</p>
-								
+
 								<p><label>News abonnieren?</label> <input type="checkbox"name="reservation_newsletter" checked="checked"></input></p>
-								
+
 								<p><label>Bitte löse folgende Rechnungsaufgabe: <br />Was ergibt 2 x 4?</label> <input type="text" value="<?php echo $security_check; ?>" name="security_check" class="text" id="security_check"></p>
-								
+
 								<p><input type="submit" name="submit" class="button" value="Reservierung absenden" id="sendmessage"></p>
 
 							</form>
 					<?php } ?>
-					
-					
-					
-					
+
+
+
+
 					<?php endwhile; else : ?>
 						<p><?php esc_html_e( 'Sorry, no posts matched your criteria.' ); ?></p>
 					<?php endif; ?>

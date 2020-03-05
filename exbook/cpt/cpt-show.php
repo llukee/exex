@@ -75,6 +75,11 @@ class nwswa_cpt_show {
 
 		global $post;
 
+		$reservation_event = '';
+		if (isset($_GET['event_id']) && $_GET['event_id']>0) {
+		 $reservation_event = $_GET['event_id'];
+		}
+
 		if ( $post->post_type == 'nwswa_show' ) {
 				$this->save_frontend_registration();
 		    if ( file_exists( plugin_dir_path( __DIR__ ) . '/templates/'.$post->post_type.'_single.php' ) ) {
@@ -187,8 +192,9 @@ class nwswa_cpt_show {
 		 $reservation_memo = '';
 		 $security_check = '';
 
-		 if ($_POST['reservation_event']){
-		 $reservation_event = $_POST['reservation_event'];}
+		 if ($_POST['reservation_event']) {
+		 	$reservation_event = $_POST['reservation_event'];
+	 	 }
 
 		 if ($_POST['reservation_firstname']){
 		 $reservation_firstname = $_POST['reservation_firstname'];}
@@ -201,7 +207,7 @@ class nwswa_cpt_show {
 
 		 if ($_POST['reservation_email']){
 		 $reservation_email = $_POST['reservation_email'];}
-		 
+
 		 if ($_POST['reservation_memo']){
 		 $reservation_memo = $_POST['reservation_memo'];}
 
@@ -241,7 +247,7 @@ class nwswa_cpt_show {
 		  curl_close($ch);
 
 		  $response = json_decode($result);
-		  
+
 		  $message_mailchimp = array();
 
 			if(is_object($response)) {
@@ -254,7 +260,7 @@ class nwswa_cpt_show {
 			  } elseif( $response->status == "subscribed" ){
 					 // $message_mailchimp[] .= "Debug: Sie sind bereits registriert.";
 					 // echo "Debug: Sie sind bereits registriert.";
-			    
+
 			  } elseif( $response->status == "pending" ){
 					 // $message_mailchimp[] .= "Debug: Sie haben sich für den Newsletter angemeldet.";
 					 // echo "Debug: Sie haben sich für den Newsletter angemeldet.";
@@ -289,8 +295,8 @@ class nwswa_cpt_show {
 			}
 			$message_html .= '</ul>';
 		}
-		
-		
+
+
 
 
 		else {
@@ -328,9 +334,9 @@ class nwswa_cpt_show {
 		// Get E-mail sender from setting page
 		$mail_sender = trim(get_option('exbook_email_sender'));
 		if (empty($mail_sender)){
-			$mail_sender = get_bloginfo( 'admin_email' );	
+			$mail_sender = get_bloginfo( 'admin_email' );
 		}
-		
+
 		//Get meta fields
 		$show_id = get_post_meta( $reservation_event, 'nwswa_event_show', true );
 		$show_name = get_the_title($show_id);
@@ -370,7 +376,7 @@ class nwswa_cpt_show {
 		$subject = $mail_subject;
 		$message = $mail_template;
 		$headers = array(
-			'From: '.get_bloginfo( 'name' ).' <'.$mail_sender.'>'	
+			'From: '.get_bloginfo( 'name' ).' <'.$mail_sender.'>'
 		);
 
 		wp_mail( $to, $subject, $message, $headers );
