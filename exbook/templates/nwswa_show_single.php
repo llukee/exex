@@ -2,11 +2,10 @@
 /**
  * The template for displaying all single shows
  */
-
-<?php
 						if (isset($_GET['event_id']) && $_GET['event_id']>0) {
 						 $reservation_event = $_GET['event_id'];
-				}?>
+				}
+				
 get_header();
 ?>
 <style>
