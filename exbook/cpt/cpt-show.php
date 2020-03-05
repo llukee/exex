@@ -75,10 +75,6 @@ class nwswa_cpt_show {
 
 		global $post;
 
-		$reservation_event = '';
-		if (isset($_GET['event_id']) && $_GET['event_id']>0) {
-		 $reservation_event = $_GET['event_id'];
-		}
 
 		if ( $post->post_type == 'nwswa_show' ) {
 				$this->save_frontend_registration();

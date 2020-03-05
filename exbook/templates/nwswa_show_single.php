@@ -3,7 +3,10 @@
  * The template for displaying all single shows
  */
 
-
+<?php
+						if (isset($_GET['event_id']) && $_GET['event_id']>0) {
+						 $reservation_event = $_GET['event_id'];
+				}?>
 get_header();
 ?>
 <style>
@@ -37,7 +40,7 @@ get_header();
 				<h2 id="reservieren">Reservieren</h2>
 				<?php echo ($message_html); ?>
 				<?php echo ($message_mailchimp_html); ?>
-
+			
 
 				<?php
 				// Check if there are events in the future. If true, display registration form.
