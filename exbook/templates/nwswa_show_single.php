@@ -78,7 +78,7 @@ get_header();
 
 					
 					
-					<select id="reservation_event" name="reservation_event">
+					<select id="reservation_event" class="onchange" name="reservation_event">
 
 						<?php
 						// Query the shows here
