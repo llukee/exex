@@ -77,7 +77,7 @@ get_header();
 					<p><label for="reservation_event">Vorstellung:</label>
 
 
-					<select id="reservation_event" name="reservation_event">
+					<select id="reservation_event" name="reservation_event" onchange="this.form.submit()">
 
 						<?php
 						// Query the shows here
