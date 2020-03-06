@@ -150,8 +150,7 @@ get_header();
 										$reservation_quantity = 0;
 
 									}
-									// Restore original Post Data
-										wp_reset_postdata();
+									
 
 
 									// Calculate free seats
@@ -160,6 +159,9 @@ get_header();
 									// Create reservation text
 									if ($reservation_quantity >= $event_seats){$free_seats_text = "ausverkauft";}
 									else{$free_seats_text = "Freie Plätze: ".$free_seats;}
+									
+									// Restore original Post Data
+										wp_reset_postdata();
 
 									//////////////
 									// End
