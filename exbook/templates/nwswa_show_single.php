@@ -161,6 +161,8 @@ get_header();
 									if ($reservation_quantity >= $event_seats){$free_seats_text = "ausverkauft";}
 									else{$free_seats_text = "Freie Plätze: ".$free_seats."reservation_quantity".$reservation_quantity."event_seats".$event_seats;}
 									
+									$reservation_quantity = 0; 
+									
 									
 
 									//////////////
