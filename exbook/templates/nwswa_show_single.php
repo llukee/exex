@@ -140,14 +140,14 @@ get_header();
 										while ( $the_query->have_posts() ) {
 											$the_query->the_post();
 											$nwswa_reservation_quantity = get_post_meta( get_the_ID(), 'nwswa_reservation_quantity', true);
-											$reservation_quantity += (int)$nwswa_reservation_quantity;
+											$reservation_quantity_select_event += (int)$nwswa_reservation_quantity;
 										}
 
 									}
 
 									else {
 
-										$reservation_quantity = 0;
+										$reservation_quantity_select_event = 0;
 
 									}
 									// Restore original Post Data
@@ -155,11 +155,11 @@ get_header();
 
 
 									// Calculate free seats
-									$free_seats = $event_seats - $reservation_quantity;
+									$free_seats_select_event = $event_seats_select_event - $reservation_quantity_select_event;
 
 									// Create reservation text
-									if ($reservation_quantity >= $event_seats){$free_seats_text = "ausverkauft";}
-									else{$free_seats_text = "Freie Plätze: ".$free_seats;}
+									if ($reservation_quantity_select_event >= $event_seats_select_event){$free_seats_text_select_event = "ausverkauft";}
+									else{$free_seats_text_select_event = "Freie Plätze: ".$free_seats_select_event;}
 
 									//////////////
 									// End
