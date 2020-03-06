@@ -24,14 +24,17 @@ function exbook_options_page() {
 <form method="post" action="options.php">
 <?php settings_fields( 'exbook_options' ); ?>
 <h3>Mailchimp</h3>
-<p>Bitte die ListID aus <a href="https://us5.admin.mailchimp.com/lists/settings/defaults?id=292359">https://us5.admin.mailchimp.com/lists/settings/defaults?id=292359</a> einfügen.</p>
+
+<p>Dein API Key findest du nach dem Login bei Mail Chimp unter Account -> Extras -> API keys</p>
+
+<p><a href="https://mailchimp.com/help/find-audience-id/">Wie finde ich die Audience ID?</a></p>
 <table>
 <tr valign="top">
 <th scope="row"><label for="exbook_mailchimp_apikey">API Key</label></th>
 <td><input type="text" id="exbook_mailchimp_apikey" name="exbook_mailchimp_apikey" value="<?php echo get_option('exbook_mailchimp_apikey'); ?>" /></td>
 </tr>
 <tr valign="top">
-<th scope="row"><label for="exbook_mailchimp_listid">List ID</label></th>
+<th scope="row"><label for="exbook_mailchimp_listid">Audience ID</label></th>
 <td><input type="text" id="exbook_mailchimp_listid" name="exbook_mailchimp_listid" value="<?php echo get_option('exbook_mailchimp_listid'); ?>" /></td>
 </tr>
 
