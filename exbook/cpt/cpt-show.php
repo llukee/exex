@@ -91,7 +91,7 @@ class nwswa_cpt_show {
 	public function save_frontend_registration() {
 
 
-		if(!isset($_POST['submit'])) {
+		if(!isset($_POST['SubmitButton'])) {
 			return;
 		}
 			 // echo 'Test';
@@ -101,7 +101,7 @@ class nwswa_cpt_show {
 		$message = array();
 
 		if ( !isset( $_POST['cform_generate_nonce'] ) &&
-		!wp_verify_nonce( $_POST['cform_generate_nonce'], 'submit' ) ) {
+		!wp_verify_nonce( $_POST['cform_generate_nonce'], 'SubmitButton' ) ) {
 		$message[] .= "Anfrage abgelehnt. Bitte versuchen Sie es erneut.";
 	}
 
