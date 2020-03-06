@@ -151,17 +151,17 @@ get_header();
 
 									}
 									
-
+										// Restore original Post Data
+										wp_reset_postdata();
 
 									// Calculate free seats
 									$free_seats = $event_seats - $reservation_quantity;
 
 									// Create reservation text
 									if ($reservation_quantity >= $event_seats){$free_seats_text = "ausverkauft";}
-									else{$free_seats_text = "Freie Plätze: ".$free_seats;}
+									else{$free_seats_text = "Freie Plätze: ".$free_seats.$reservation_quantity.$event_seats;}
 									
-									// Restore original Post Data
-										wp_reset_postdata();
+									
 
 									//////////////
 									// End
@@ -215,9 +215,6 @@ get_header();
 								// Get total seats
 								$event_seats_select = get_post_meta( $reservation_event, 'nwswa_event_seats', true );
 								
-								echo "Event Seats";
-								echo $event_seats_select;
-								
 								
 								// Calculate reservation quanitity basel on selected event
 								$args = array (
@@ -242,19 +239,11 @@ get_header();
 
 									}
 									
-									
-								
-								echo "reservation_quantity";
-								echo $reservation_quantity_select;
 
 								// Calculate free seats
 								$free_seats_select = $event_seats_select - $reservation_quantity_select;
-								
-								echo "free_seats";
-								echo $free_seats_select;
-								
 
-
+								
 
 
 								?>
