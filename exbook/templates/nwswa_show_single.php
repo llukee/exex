@@ -215,9 +215,32 @@ get_header();
 								
 								echo "Event Seats";
 								echo $event_seats;
+								
+								
+								// Calculate reservation quanitity basel on selected event
+								$args = array (
+									// Post or Page ID
+									'post_type' => 'nwswa_reservation',
+									'meta_key'  => 'nwswa_reservation_event',
+									'meta_value' => $reservation_event,
+									'meta_compare' => '='
+									);
 
-								$nwswa_reservation_quantity = get_post_meta( $reservation_event, 'nwswa_reservation_quantity', true);
-								$reservation_quantity += (int)$nwswa_reservation_quantity;
+									// The Query
+									$the_query = new WP_Query( $args );
+
+									// The Loop
+									if ( $the_query->have_posts() ) {
+
+										while ( $the_query->have_posts() ) {
+											$the_query->the_post();
+											$nwswa_reservation_quantity = get_post_meta( get_the_ID(), 'nwswa_reservation_quantity', true);
+											$reservation_quantity += (int)$nwswa_reservation_quantity;
+										}
+
+									}
+									
+									
 								
 								echo "reservation_quantity";
 								echo $reservation_quantity;
