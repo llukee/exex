@@ -2,6 +2,9 @@
 /* Exit if file access directly */
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+/* Load on change dropdown script to submit form when dropdown changed */
+wp_enqueue_script('onchange-script', plugin_dir_path( __FILE__ ) .'/assets/onchange.js', array('jquery'), null, true);
+
 // Call an instance from our class
 $nwswa_cpt_show = new nwswa_cpt_show();
 
@@ -96,6 +99,7 @@ class nwswa_cpt_show {
 		}
 			 // echo 'Test';
 
+	
 
 
 		$message = array();
