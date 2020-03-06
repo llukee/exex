@@ -72,7 +72,7 @@ get_header();
 					<form id="reservation" name="contact-form" action="" method="post">
 
 
-					<?php wp_nonce_field( 'submit', 'cform_generate_nonce' );?>
+					<?php wp_nonce_field( 'SubmitButton', 'cform_generate_nonce' );?>
 
 					<p><label for="reservation_event">Vorstellung:</label>
 
