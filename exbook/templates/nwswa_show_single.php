@@ -68,7 +68,15 @@ get_header();
 
 						if ( $query->have_posts() && $formular_sent != 'true' ) { ?>
 
-
+					<script>
+						$(document).ready(function() {
+							$('#reservation_event').on('change', function() {
+							var $form = $(this).closest('form');
+							$form.find('input[type=submit]').click();
+							 });
+						});
+					</script>
+					
 					<form id="reservation" name="contact-form" action="" method="post">
 
 
@@ -76,8 +84,9 @@ get_header();
 
 					<p><label for="reservation_event">Vorstellung:</label>
 
-
-					<select onchange="this.form.submit()" id="reservation_event" name="reservation_event">
+					
+					
+					<select id="reservation_event" name="reservation_event">
 
 						<?php
 						// Query the shows here
