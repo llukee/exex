@@ -118,7 +118,7 @@ get_header();
 									//////////
 
 									// Get total seats
-									$event_seats = get_post_meta( $event_id, 'nwswa_event_seats', true );
+									$event_seats_select_event = get_post_meta( $event_id, 'nwswa_event_seats', true );
 
 									// Get number of reservations
 									//$reservation_quantity = (int)get_post_meta( $post_id, 'reservation_quantity', true );
