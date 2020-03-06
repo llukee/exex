@@ -207,8 +207,27 @@ get_header();
 								<p><label for="reservation_quantity" value="text">Anzahl Pl&auml;tze:</label>
 
 								<?php
-								// Check how many seats are available
+								// Check how many seats are available for selected event
+								
+								
+								// Get total seats
+								$event_seats = get_post_meta( $reservation_event, 'nwswa_event_seats', true );
+								
+								echo "Event Seats";
+								echo $event_seats;
 
+								$nwswa_reservation_quantity = get_post_meta( $reservation_event, 'nwswa_reservation_quantity', true);
+								$reservation_quantity += (int)$nwswa_reservation_quantity;
+								
+								echo "reservation_quantity";
+								echo $reservation_quantity;
+
+								// Calculate free seats
+								$free_seats = $event_seats - $reservation_quantity;
+								
+								echo "free_seats";
+								echo $free_seats;
+								
 
 
 
