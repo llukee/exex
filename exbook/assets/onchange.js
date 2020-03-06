@@ -1,4 +1,3 @@
-<script>
 				(function($) {
 							$(document).ready(function() {
 							$('.onchange').on('change', function() {
@@ -7,4 +6,3 @@
 							 });
 						});
 				})( jQuery );
-</script>
