@@ -179,9 +179,66 @@ class nwswa_cpt_reservation {
 		*/
 		$quantity = get_post_meta( $reservation_id, 'nwswa_reservation_quantity', true );
 
+		
+		
+		<?php				
+								///////
+								// Start: Check how many seats are available for selected event
+								///////
+								
+								// Get total seats
+								$event_seats_select = get_post_meta( $reservation_event, 'nwswa_event_seats', true );
+								
+								
+								// Calculate reservation quanitity basel on selected event
+								$args = array (
+									// Post or Page ID
+									'post_type' => 'nwswa_reservation',
+									
+									'meta_query' => array(
+										'relation' => 'AND',
+										'post_id' => array(
+											'key'     => 'nwswa_reservation_event',
+											'value' => $reservation_event,
+											'compare' => '=',
+										),
+										'post_status' => array(
+											'key'     => 'nwswa_reservation_status',
+											'value' => 'storniert',
+											'compare' => '!=',
+										), 
+									)
+									);
+
+									// The Query
+									$the_query = new WP_Query( $args );
+
+									// The Loop
+									if ( $the_query->have_posts() ) {
+
+										while ( $the_query->have_posts() ) {
+											$the_query->the_post();
+											$nwswa_reservation_quantity = get_post_meta( get_the_ID(), 'nwswa_reservation_quantity', true);
+											$reservation_quantity_select += (int)$nwswa_reservation_quantity;
+										}
+
+									}
+									
+
+								// Calculate free seats
+								$free_seats_select = $event_seats_select - $reservation_quantity_select;
+
+								///////
+								// End: Check how many seats are available for selected event
+								///////
+
+
+								?>
+		
+		
 		echo '<p><label for="reservation_quantity">Anzahl Plätze:</label>';
 		echo '<select name="reservation_quantity">';
-		for($q=1;$q<=100;$q++) {
+		for($q=1;$q<=$free_seats_select;$q++) {
 			$selected = '';
 			if($q==$quantity) {
 				$selected = ' selected="selected" ';
