@@ -180,8 +180,7 @@ class nwswa_cpt_reservation {
 		$quantity = get_post_meta( $reservation_id, 'nwswa_reservation_quantity', true );
 
 		
-		
-		<?php				
+					
 								///////
 								// Start: Check how many seats are available for selected event
 								///////
@@ -233,7 +232,6 @@ class nwswa_cpt_reservation {
 								///////
 
 
-								?>
 		
 		
 		echo '<p><label for="reservation_quantity">Anzahl Plätze:</label>';
