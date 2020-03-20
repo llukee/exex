@@ -128,18 +128,18 @@ get_header();
 									'post_type' => 'nwswa_reservation',
 									'meta_key'  => 'nwswa_reservation_event',
 									'meta_query' => array(
-										'relation' => 'AND',
-										'post_id' => array(
-											'key'     => 'nwswa_reservation_event',
-											'value' => $post_id,
-											'compare' => '=',
+											'relation' => 'AND',
+											'post_id' => array(
+												'key'     => 'nwswa_reservation_event',
+												'value' => $post_id,
+												'compare' => '=',
+											),
+											'post_status' => array(
+												'key'     => 'nwswa_reservation_status',
+												'value' => 'storniert',
+												'compare' => '!=',
+											), 
 										),
-										'post_status' => array(
-											'key'     => 'nwswa_reservation_status',
-											'value' => 'storniert',
-											'compare' => '!=',
-										), 
-									),
 									);
 
 									// The Query
