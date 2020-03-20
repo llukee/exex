@@ -94,10 +94,15 @@ get_header();
 										'value' => date( "U" ),
 										'compare' => '>'
 									),
-									array(
+									'post_id' => array(
 										'key' => 'nwswa_event_show',
 										'value' => $post_id,
-									)
+									),
+									'post_status' => array(
+										'key'     => 'nwswa_reservation_status',
+										'value' => 'storniert',
+										'compare' => '!=',
+									), 	
 								),
 							'orderby' => 'date_ordering',
 							'order' => 'ASC',
