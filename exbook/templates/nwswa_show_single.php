@@ -94,7 +94,7 @@ get_header();
 										'value' => date( "U" ),
 										'compare' => '>'
 									),
-									'post_id' => array(
+									array(
 										'key' => 'nwswa_event_show',
 										'value' => $post_id,
 									),
