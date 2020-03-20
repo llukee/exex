@@ -95,14 +95,20 @@ get_header();
 										'compare' => '>'
 									),
 									array(
-										'key' => 'nwswa_event_show',
-										'value' => $post_id,
+									
+										'meta_query' => array(
+											'relation' 				=> 'AND', 
+											'post_id' => array(
+												'key' => 'nwswa_event_show',
+												'value' => $post_id,
+											)
+											'post_status' => array(
+												'key'     => 'nwswa_reservation_status',
+												'value' => 'storniert',
+												'compare' => '!=',
+											), 
 									),
-									'post_status' => array(
-										'key'     => 'nwswa_reservation_status',
-										'value' => 'storniert',
-										'compare' => '!=',
-									), 	
+									
 								),
 							'orderby' => 'date_ordering',
 							'order' => 'ASC',
