@@ -188,6 +188,8 @@ class nwswa_cpt_reservation {
 								// Get total seats
 								$event_seats_select = get_post_meta( $reservation_event, 'nwswa_event_seats', true );
 								
+								echo '$event_seats_select';
+								echo $event_seats_select;
 								
 								// Calculate reservation quanitity basel on selected event
 								$args = array (
@@ -244,6 +246,11 @@ class nwswa_cpt_reservation {
 			echo '<option value="'.$q.'" '.$selected.'>'.$q.'</option>';
 		}
 		echo '</select></p>';
+		
+		
+		
+		
+	
 
 		/***
 		* FIELD STATUS
