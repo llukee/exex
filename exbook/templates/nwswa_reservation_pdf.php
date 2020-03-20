@@ -141,6 +141,7 @@
 					'Nachname' => get_post_meta($reservation_id, 'nwswa_reservation_lastname', true),
 					'Telefonnummer' => get_post_meta($reservation_id, 'nwswa_reservation_phone', true),
 					'E-Mail' => get_post_meta($reservation_id, 'nwswa_reservation_email', true),
+					'Kommentar' => get_post_meta($reservation_id, 'nwswa_reservation_memo', true),
 					'Anzahl Plätze' => get_post_meta($reservation_id, 'nwswa_reservation_quantity', true),
 				);
 
