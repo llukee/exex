@@ -186,7 +186,7 @@ class nwswa_cpt_reservation {
 								///////
 								
 								// Get total seats
-								$event_seats_select = get_post_meta( $reservation_event, 'nwswa_event_seats', true );
+								$event_seats_select = get_post_meta( $event_id, 'nwswa_event_seats', true );
 								
 								echo '$event_seats_select';
 								echo $event_seats_select;
