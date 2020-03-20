@@ -130,7 +130,7 @@ get_header();
 											'relation' => 'AND',
 											'post_id' => array(
 												'key'     => 'nwswa_reservation_event',
-												'value' => $post_id,
+												'value' => $event_id,
 												'compare' => '=',
 											),
 											'post_status' => array(
