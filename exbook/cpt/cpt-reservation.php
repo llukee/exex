@@ -196,7 +196,7 @@ class nwswa_cpt_reservation {
 		$status = get_post_meta( $reservation_id, 'nwswa_reservation_status', true );
 
 		echo '<p><label for="reservation_status">Status:</label>';
-		echo '<select name="reservation_status">';
+		echo '<select name="reservation_status" value="'.$status.'">';
 		foreach(array('bestätigt','storniert') as $reservation_status) {
 			$selected = '';
 			if($q==$status) {
