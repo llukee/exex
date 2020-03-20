@@ -33,13 +33,7 @@
 				// Post or Page ID
 				'post_type' => 'nwswa_reservation',
 				'meta_key'  => 'nwswa_reservation_event',
-				// 'meta_value' => $post_id,
-				// 'meta_compare' => '=',
-				
-				
-				
-				
-					'meta_query' => array(
+				'meta_query' => array(
 						'relation' => 'AND',
 						'post_id' => array(
 							'key'     => 'nwswa_reservation_event',
@@ -51,7 +45,7 @@
 							'value' => 'storniert',
 							'compare' => '!=',
 						), 
-					),
+				),
 			);
 
 			// The Query
