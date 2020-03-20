@@ -259,7 +259,7 @@ get_header();
 									} ?>
 									</select></p>
 
-								<p><label>News abonnieren?</label> <input type="checkbox"name="reservation_newsletter" checked="checked" value="true"></input></p>
+								<p><label>News abonnieren?</label> <input type="checkbox"name="reservation_newsletter" checked="checked" value="1"></input></p>
 
 								<p><label>Bitte löse folgende Rechnungsaufgabe: <br />Was ergibt 2 x 4?</label> <input type="text" value="<?php echo $security_check; ?>" name="security_check" class="text" id="security_check"></p>
 
