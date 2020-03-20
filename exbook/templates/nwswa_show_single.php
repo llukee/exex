@@ -197,9 +197,9 @@ get_header();
 							if($event_id == $event) {
 								$selected = ' selected="selected"';
 							}
-							// if ($free_seats_text == "ausverkauft"){
-										// continue;
-							// } 
+							if ($free_seats_text == "ausverkauft"){
+										continue;
+							} 
 							else {
 								if ($reservation_event == $event_id) {
 									$selected_text = 'selected="'.$event_id.'"';
