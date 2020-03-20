@@ -233,9 +233,20 @@ get_header();
 								$args = array (
 									// Post or Page ID
 									'post_type' => 'nwswa_reservation',
-									'meta_key'  => 'nwswa_reservation_event',
-									'meta_value' => $reservation_event,
-									'meta_compare' => '='
+									
+									'meta_query' => array(
+										'relation' => 'AND',
+										'post_id' => array(
+											'key'     => 'nwswa_reservation_event',
+											'value' => $reservation_event,
+											'compare' => '=',
+										),
+										'post_status' => array(
+											'key'     => 'nwswa_reservation_status',
+											'value' => 'storniert',
+											'compare' => '!=',
+										), 
+									)
 									);
 
 									// The Query
