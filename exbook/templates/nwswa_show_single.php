@@ -97,8 +97,7 @@ get_header();
 									array(
 										'key' => 'nwswa_event_show',
 										'value' => $post_id,
-									),
-									
+									)
 								),
 							'orderby' => 'date_ordering',
 							'order' => 'ASC',
