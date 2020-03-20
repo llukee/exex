@@ -213,7 +213,7 @@ class nwswa_cpt_reservation {
 
 		echo '<p><label for="reservation_newsletter">Newsletter:</label>';
 		echo '<select name="reservation_newsletter">';
-		foreach(array(0=>'nicht gewünscht',1=>'abonniert', 'on'=>'abonniert') as $key=>$reservation_newsletter) {
+		foreach(array(0=>'nicht gewünscht',1=>'abonniert') as $key=>$reservation_newsletter) {
 			$selected = '';
 			if($key==$newsletter) {
 				$selected = ' selected="selected" ';
