@@ -249,7 +249,7 @@ class nwswa_cpt_show {
 			  if( $response->status == 400 ) {
 			    foreach( $response->errors as $error ) {
 				  $message_mailchimp[] .= "Debug: Fehler kein Mailchimp Eintrag. Grund: " . $error->message;
-				  // echo "Debug: Fehler kein Mailchimp Eintrag. Grund: " . $error->message;
+				  echo "Debug: Fehler kein Mailchimp Eintrag. Grund: " . $error->message;
 			    }
 					exit();
 			  } elseif( $response->status == "subscribed" ){
