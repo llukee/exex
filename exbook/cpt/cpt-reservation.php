@@ -372,7 +372,10 @@ label {
     }
 	}
 	
-	add_filter( 'manage_edit-nwswa_cpt_reservation_sortable_columns', 'my_sortable_cake_column' );
+	
+
+}
+add_filter( 'manage_edit-nwswa_cpt_reservation_sortable_columns', 'my_sortable_cake_column' );
 		function my_sortable_cake_column( $columns ) {
 			$columns['reservation_event'] = 'reservation_events';
 		 
@@ -381,5 +384,3 @@ label {
 		 
 			return $columns;
 		}
-
-}
