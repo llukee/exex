@@ -308,6 +308,7 @@ class nwswa_cpt_show {
 					'nwswa_reservation_email' => $_POST['reservation_email'],
                     'nwswa_reservation_quantity'   => $_POST['reservation_quantity'],
 					'nwswa_reservation_newsletter'   => $_POST['reservation_newsletter'],
+					'nwswa_reservation_status'   => 'bestätigt',
                 ),
 		);
 		wp_insert_post($post);
