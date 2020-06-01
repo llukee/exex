@@ -22,6 +22,8 @@ class nwswa_cpt_reservation {
 		// Set columns in list view admin
 		add_action('manage_nwswa_reservation_posts_columns', array($this, '_add_columns'), 10, 2);
 		add_action('manage_nwswa_reservation_posts_custom_column', array($this, '_fill_columns'), 10, 2);
+		// Make columns sortable
+		add_filter('manage_edit-nwswa_cpt_reservation_sortable_columns', array ( $this, 'set_custom_columns_sortable' ) );
 	}
 
 	/*
@@ -307,8 +309,8 @@ label {
 	}
 
 	public function _add_columns($columns) {
-		//unset($columns['date']);
-		//unset($columns['title']);
+		unset($columns['date']);
+		unset($columns['title']);
 		$columns['reservation_event'] = __('Vorstellung', 'nwswa_exbook');
 		$columns['reservation_fullname'] = __('Name', 'nwswa_exbook');
 		$columns['reservation_phone'] = __('Telefon', 'nwswa_exbook');
@@ -375,12 +377,7 @@ label {
 	
 
 }
-add_filter( 'manage_edit-nwswa_cpt_reservation_sortable_columns', 'my_sortable_cake_column' );
-		function my_sortable_cake_column( $columns ) {
-			$columns['reservation_event'] = 'reservation_event';
-		 
-			//To make a column 'un-sortable' remove it from the array
-			//unset($columns['date']);
-		 
-			return $columns;
-		}
+public_function set_custom_columns_sortable($columns){
+	$columns['reservation_event'] = 'reservation_event';
+	return $columns;
+}
