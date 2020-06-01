@@ -372,15 +372,14 @@ label {
     }
 	}
 	
-	add_action( 'pre_get_posts','clientarea_default_order', 5 );
-		function clientarea_default_order( $query ){
-			if( $query->get('post_type')=='nwswa_cpt_reservation' ){
-				if( $query->get('orderby') == '' )
-					$query->set('orderby','reservation_event');
-
-				if( $query->get('order') == '' )
-					$query->set('order','desc');
-			}
+	add_filter( 'manage_edit-nwswa_cpt_reservation_sortable_columns', 'my_sortable_cake_column' );
+		function my_sortable_cake_column( $columns ) {
+			$columns['reservation_event'] = 'reservation_events';
+		 
+			//To make a column 'un-sortable' remove it from the array
+			//unset($columns['date']);
+		 
+			return $columns;
 		}
 
 }
