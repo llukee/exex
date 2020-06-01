@@ -455,7 +455,7 @@ public function set_custom_columns_sortable($columns)
 			if (isset($_GET['post_type'])) {
 				$type = $_GET['post_type'];
 			}
-			if ( 'POST_TYPE' == $type && is_admin() && $pagenow=='edit.php' && isset($_GET['ADMIN_FILTER_FIELD_VALUE']) && $_GET['ADMIN_FILTER_FIELD_VALUE'] != '') {
+			if ( 'nwswa_reservation' == $type && is_admin() && $pagenow=='edit.php' && isset($_GET['ADMIN_FILTER_FIELD_VALUE']) && $_GET['ADMIN_FILTER_FIELD_VALUE'] != '') {
 				$query->query_vars['meta_key'] = 'nwswa_event_show';
 				$query->query_vars['meta_value'] = $_GET['ADMIN_FILTER_FIELD_VALUE'];
 			}
