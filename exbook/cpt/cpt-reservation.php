@@ -307,8 +307,8 @@ label {
 	}
 
 	public function _add_columns($columns) {
-		unset($columns['date']);
-		unset($columns['title']);
+		//unset($columns['date']);
+		//unset($columns['title']);
 		$columns['reservation_event'] = __('Vorstellung', 'nwswa_exbook');
 		$columns['reservation_fullname'] = __('Name', 'nwswa_exbook');
 		$columns['reservation_phone'] = __('Telefon', 'nwswa_exbook');
