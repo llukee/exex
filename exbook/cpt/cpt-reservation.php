@@ -371,5 +371,16 @@ label {
             break;
     }
 	}
+	
+	add_action( 'pre_get_posts','clientarea_default_order', 9 );
+		function clientarea_default_order( $query ){
+			if( $query->get('post_type')=='nwswa_cpt_reservation' ){
+				if( $query->get('orderby') == '' )
+					$query->set('orderby','reservation_event');
+
+				if( $query->get('order') == '' )
+					$query->set('order','desc');
+			}
+		}
 
 }
