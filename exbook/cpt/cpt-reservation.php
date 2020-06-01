@@ -378,7 +378,7 @@ label {
 	
 	public function set_custom_columns_sortable($columns)
 	{
-		$columns[ 'reservation_event' ] = 'nwswa_reservation_event';
+		$columns[ 'reservation_event' ] = 'reservation_event';
 		return $columns;
 	}
 	
