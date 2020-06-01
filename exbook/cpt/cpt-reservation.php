@@ -489,7 +489,7 @@ function wpse45437_admin_posts_filter_restrict_manage_posts(){
         //change this to the list of values you want to show
         //in 'label' => 'value' format
         $values = array(
-			'Veranstaltung 1' => '1630', 
+			'Veranstaltung 1' => '1644', 
 			'Veranstaltung 2' => '1560',
         );
         ?>
