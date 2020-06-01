@@ -310,7 +310,7 @@ label {
 	}
 
 	public function _add_columns($columns) {
-		unset($columns['date']);
+		//unset($columns['date']);
 		unset($columns['title']);
 		$columns['reservation_event'] = __('Vorstellung', 'nwswa_exbook');
 		$columns['reservation_fullname'] = __('Name', 'nwswa_exbook');
@@ -325,6 +325,7 @@ label {
 	public function _fill_columns($column_name, $post_id) {
     global $wpdb;
     switch ($column_name) {
+		
         case 'reservation_event':
 					$reservation_event = get_post_meta( $post_id, 'nwswa_reservation_event', true );
 					$event = get_post($reservation_event);
