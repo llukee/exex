@@ -419,7 +419,7 @@ function add_extra_tablenav($post_type){
         ORDER BY "%3$s"',
         $wpdb->postmeta,
         $wpdb->posts,
-        'nwswa_reservation_status', // Your meta key - change as required
+        'reservation_event', // Your meta key - change as required
         'publish',          // Post status - change as required
         $post_type
     );
@@ -437,7 +437,7 @@ function add_extra_tablenav($post_type){
     }
 
     /** Grab all of the options that should be shown */
-    $options[] = sprintf('<option value="-1">%1$s</option>', __('All Competitions', 'your-text-domain'));
+    $options[] = sprintf('<option value="-1">%1$s</option>', __('Alle Veranstaltungen', 'exbook'));
     foreach($results as $result) :
         if ($result == $selectedName) {
             $options[] = sprintf('<option value="%1$s" selected>%2$s</option>', esc_attr($result), $result);
