@@ -24,9 +24,8 @@ class nwswa_cpt_reservation {
 		add_action('manage_nwswa_reservation_posts_custom_column', array($this, '_fill_columns'), 10, 2);
 		
 		// Make columns sortable
-		//add_filter('manage_edit-nwswa_reservation_columns', array ( $this, 'set_custom_columns_sortable' ) );
-		// Make columns sortable
-		add_filter('manage_nwswa_reservation_posts_columns', array ( $this, 'set_custom_columns_sortable' ) );
+		add_filter('manage_edit-nwswa_reservation_columns', array ( $this, 'set_custom_columns_sortable' ) );
+		//add_filter('manage_nwswa_reservation_posts_columns', array ( $this, 'set_custom_columns_sortable' ) );
 	}
 
 	/*
@@ -380,7 +379,7 @@ label {
 	
 public function set_custom_columns_sortable($columns)
 	{
-		$columns[ 'reservation_event' ] = 'nwswa_event_show';
+		$columns[ 'reservation_event' ] = 'nwswa_reservation_event';
 		$columns[ 'reservation_fullname' ] = 'nwswa_reservation_firstname';
 		$columns[ 'reservation_status' ] = 'nwswa_reservation_status';
 		return $columns;
