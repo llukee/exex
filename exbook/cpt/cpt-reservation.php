@@ -425,9 +425,9 @@ function wpse45436_admin_posts_filter_restrict_manage_posts(){
         //in 'label' => 'value' format
         $values = array(
             'Bestätigt' => '1', 
-			'Bestätigt' => 'on', 
-			'Bestätigt' => 'bestätigt', 
-			'Bestätigt' => 'bestaetigt', 
+			'Bestätigt2' => 'on', 
+			'Bestätigt3' => 'bestätigt', 
+			'Bestätigt4' => 'bestaetigt', 
             'Storniert' => '0',
         );
         ?>
