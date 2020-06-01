@@ -377,7 +377,7 @@ label {
 }
 add_filter( 'manage_edit-nwswa_cpt_reservation_sortable_columns', 'my_sortable_cake_column' );
 		function my_sortable_cake_column( $columns ) {
-			$columns['reservation_event'] = 'reservation_events';
+			$columns['reservation_event'] = 'reservation_event';
 		 
 			//To make a column 'un-sortable' remove it from the array
 			//unset($columns['date']);
