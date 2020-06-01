@@ -352,10 +352,6 @@ label {
 					$reservation_phone = get_post_meta( $post_id, 'nwswa_reservation_phone', true );
 					echo $reservation_phone;
             break;
-				case 'reservation_phone':
-					$reservation_phone = get_post_meta( $post_id, 'nwswa_reservation_phone', true );
-					echo $reservation_phone;
-            break;
 				case 'reservation_email':
 					$reservation_email = get_post_meta( $post_id, 'nwswa_reservation_email', true );
 					echo $reservation_email;
