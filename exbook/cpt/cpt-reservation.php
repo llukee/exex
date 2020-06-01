@@ -372,7 +372,7 @@ label {
     }
 	}
 	
-	add_action( 'pre_get_posts','clientarea_default_order', 9 );
+	add_action( 'pre_get_posts','clientarea_default_order', 5 );
 		function clientarea_default_order( $query ){
 			if( $query->get('post_type')=='nwswa_cpt_reservation' ){
 				if( $query->get('orderby') == '' )
