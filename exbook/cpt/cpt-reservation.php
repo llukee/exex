@@ -389,23 +389,12 @@ public function set_custom_columns_sortable($columns)
 		return $columns;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-			/**
+
+
+
+}
+
+	/**
 		 * First create the dropdown
 		 * make sure to change POST_TYPE to the name of your custom post type
 		 * 
@@ -471,7 +460,4 @@ public function set_custom_columns_sortable($columns)
 				$query->query_vars['meta_value'] = $_GET['ADMIN_FILTER_FIELD_VALUE'];
 			}
 		}
-
-
-}
 
