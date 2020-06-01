@@ -494,7 +494,7 @@ function wpse45437_admin_posts_filter_restrict_manage_posts(){
         );
         ?>
         <select name="ADMIN_FILTER_FIELD_VALUE_2">
-        <option value=""><?php _e('Theaterstück ', 'wose45436'); ?></option>
+        <option value=""><?php _e('Vorstellung ', 'wose45436'); ?></option>
         <?php
             $current_v = isset($_GET['ADMIN_FILTER_FIELD_VALUE_2'])? $_GET['ADMIN_FILTER_FIELD_VALUE_2']:'';
             foreach ($values as $label => $value) {
