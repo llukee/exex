@@ -414,7 +414,7 @@ add_action( 'restrict_manage_posts', 'wpse45436_admin_posts_filter_restrict_mana
  * @return void
  */
 function wpse45436_admin_posts_filter_restrict_manage_posts(){
-    $type = 'post';
+    $type = 'nwswa_reservation';
     if (isset($_GET['post_type'])) {
         $type = $_GET['post_type'];
     }
