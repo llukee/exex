@@ -394,15 +394,8 @@ public function set_custom_columns_sortable($columns)
 
 
 
-
-/*
-Plugin Name: Admin Filter BY Custom Fields
-Plugin URI: http://en.bainternet.info
-Description: answer to http://wordpress.stackexchange.com/q/45436/2487
-Version: 1.0
-Author: Bainternet
-Author URI: http://en.bainternet.info
-*/
+//////////////////
+// Filte by status
 
 add_action( 'restrict_manage_posts', 'wpse45436_admin_posts_filter_restrict_manage_posts' );
 /**
@@ -459,7 +452,7 @@ add_filter( 'parse_query', 'wpse45436_posts_filter' );
  * 
  * @return Void
  */
-function wpse45436_posts_filter( $query ){
+function wpse45437_posts_filter( $query ){
     global $pagenow;
     $type = 'post';
     if (isset($_GET['post_type'])) {
@@ -467,6 +460,78 @@ function wpse45436_posts_filter( $query ){
     }
     if ( 'nwswa_reservation' == $type && is_admin() && $pagenow=='edit.php' && isset($_GET['ADMIN_FILTER_FIELD_VALUE']) && $_GET['ADMIN_FILTER_FIELD_VALUE'] != '') {
         $query->query_vars['meta_key'] = 'nwswa_reservation_status';
+        $query->query_vars['meta_value'] = $_GET['ADMIN_FILTER_FIELD_VALUE'];
+    }
+}
+
+
+
+//////////////////
+// Filte by event
+
+add_action( 'restrict_manage_posts', 'wpse45437_admin_posts_filter_restrict_manage_posts' );
+/**
+ * First create the dropdown
+ * make sure to change POST_TYPE to the name of your custom post type
+ * 
+ * @author Ohad Raz
+ * 
+ * @return void
+ */
+function wpse45437_admin_posts_filter_restrict_manage_posts(){
+    $type = 'nwswa_reservation';
+    if (isset($_GET['post_type'])) {
+        $type = $_GET['post_type'];
+    }
+
+    //only add filter to post type you want
+    if ('nwswa_reservation' == $type){
+        //change this to the list of values you want to show
+        //in 'label' => 'value' format
+        $values = array(
+			'Veranstaltung 1' => '1630', 
+			'Veranstaltung 2' => '1560',
+        );
+        ?>
+        <select name="ADMIN_FILTER_FIELD_VALUE">
+        <option value=""><?php _e('Theaterstück ', 'wose45436'); ?></option>
+        <?php
+            $current_v = isset($_GET['ADMIN_FILTER_FIELD_VALUE'])? $_GET['ADMIN_FILTER_FIELD_VALUE']:'';
+            foreach ($values as $label => $value) {
+                printf
+                    (
+                        '<option value="%s"%s>%s</option>',
+                        $value,
+                        $value == $current_v? ' selected="selected"':'',
+                        $label
+                    );
+                }
+        ?>
+        </select>
+        <?php
+    }
+}
+
+
+add_filter( 'parse_query', 'wpse45437_posts_filter' );
+/**
+ * if submitted filter by post meta
+ * 
+ * make sure to change META_KEY to the actual meta key
+ * and POST_TYPE to the name of your custom post type
+ * @author Ohad Raz
+ * @param  (wp_query object) $query
+ * 
+ * @return Void
+ */
+function wpse45437_posts_filter( $query ){
+    global $pagenow;
+    $type = 'post';
+    if (isset($_GET['post_type'])) {
+        $type = $_GET['post_type'];
+    }
+    if ( 'nwswa_reservation' == $type && is_admin() && $pagenow=='edit.php' && isset($_GET['ADMIN_FILTER_FIELD_VALUE']) && $_GET['ADMIN_FILTER_FIELD_VALUE'] != '') {
+        $query->query_vars['meta_key'] = 'reservation_event';
         $query->query_vars['meta_value'] = $_GET['ADMIN_FILTER_FIELD_VALUE'];
     }
 }
