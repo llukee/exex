@@ -400,13 +400,16 @@ function wisdom_filter_tracked_plugins() {
   global $typenow;
   global $wp_query;
     if ( $typenow == 'nwswa_reservation' ) { // Your custom post type slug
-      $plugins = array( 'reservation_status', 'wp-discussion-board', 'discussion-board-pro' ); // Options for the filter select field
+	
+		$reservation_status = get_post_meta( $post_id, 'nwswa_reservation_status', true );
+		
+      $plugins = array( $reservation_status, 'wp-discussion-board', 'discussion-board-pro' ); // Options for the filter select field
       $current_plugin = '';
       if( isset( $_GET['slug'] ) ) {
         $current_plugin = $_GET['slug']; // Check if option has been selected
       } ?>
       <select name="slug" id="slug">
-        <option value="all" <?php selected( 'all', $current_plugin ); ?>><?php _e( 'All', 'wisdom-plugin' ); ?></option>
+        <option value="all" <?php selected( 'all', $current_plugin ); ?>><?php _e( 'Alle Vorstellungen', 'exbook' ); ?></option>
         <?php foreach( $plugins as $key=>$value ) { ?>
           <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $key, $current_plugin ); ?>><?php echo esc_attr( $key ); ?></option>
         <?php } ?>
