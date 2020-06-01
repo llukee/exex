@@ -391,7 +391,7 @@ public function set_custom_columns_sortable($columns)
 }
 
 add_filter( 'parse_query', 'ba_admin_posts_filter' );
-add_action( 'restrict_manage_posts', 'ba_admin_posts_filter_restrict_manage_posts' );
+add_action( 'restrict_manage_posts', ba_admin_posts_filter_restrict_manage_posts );
  
 function ba_admin_posts_filter( $query )
 {
