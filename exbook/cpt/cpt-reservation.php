@@ -25,9 +25,7 @@ class nwswa_cpt_reservation {
 		
 		// Make columns sortable
 		add_filter('manage_edit-nwswa_reservation_sortable_columns', array ( $this, 'set_custom_columns_sortable' ) );
-		
-		//add_action( 'restrict_manage_posts', 'wpse45436_admin_posts_filter_restrict_manage_posts' );
-	}
+			}
 
 	/*
 	 * Register Custom Post Type
@@ -352,6 +350,10 @@ label {
 					$reservation_phone = get_post_meta( $post_id, 'nwswa_reservation_phone', true );
 					echo $reservation_phone;
             break;
+				case 'reservation_phone':
+					$reservation_phone = get_post_meta( $post_id, 'nwswa_reservation_phone', true );
+					echo $reservation_phone;
+            break;
 				case 'reservation_email':
 					$reservation_email = get_post_meta( $post_id, 'nwswa_reservation_email', true );
 					echo $reservation_email;
@@ -384,49 +386,49 @@ public function set_custom_columns_sortable($columns)
 		$columns[ 'reservation_newsletter' ] = 'nwswa_reservation_newsletter';
 		return $columns;
 	}
-	
-
-
 
 }
 
-add_filter( 'parse_query', 'ba_admin_posts_filter' );
-add_action( 'restrict_manage_posts', 'ba_admin_posts_filter_restrict_manage_posts' );
- 
-function ba_admin_posts_filter( $query )
-{
-    global $pagenow;
-    if ( is_admin() && $pagenow=='edit.php' && isset($_GET['ADMIN_FILTER_FIELD_NAME']) && $_GET['ADMIN_FILTER_FIELD_NAME'] != '') {
-        $query->query_vars['meta_key'] = $_GET['ADMIN_FILTER_FIELD_NAME'];
-    if (isset($_GET['ADMIN_FILTER_FIELD_VALUE']) && $_GET['ADMIN_FILTER_FIELD_VALUE'] != '')
-        $query->query_vars['meta_value'] = $_GET['ADMIN_FILTER_FIELD_VALUE'];
-    }
+
+
+/**
+ * Filter slugs
+ * @since 1.1.0
+ * @return void
+ */
+function wisdom_filter_tracked_plugins() {
+  global $typenow;
+  global $wp_query;
+    if ( $typenow == 'nwswa_reservation' ) { // Your custom post type slug
+      $plugins = array( 'reservation_status', 'wp-discussion-board', 'discussion-board-pro' ); // Options for the filter select field
+      $current_plugin = '';
+      if( isset( $_GET['slug'] ) ) {
+        $current_plugin = $_GET['slug']; // Check if option has been selected
+      } ?>
+      <select name="slug" id="slug">
+        <option value="all" <?php selected( 'all', $current_plugin ); ?>><?php _e( 'All', 'wisdom-plugin' ); ?></option>
+        <?php foreach( $plugins as $key=>$value ) { ?>
+          <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $key, $current_plugin ); ?>><?php echo esc_attr( $key ); ?></option>
+        <?php } ?>
+      </select>
+  <?php }
 }
- 
-function ba_admin_posts_filter_restrict_manage_posts()
-{
-    global $wpdb;
-    $sql = 'SELECT DISTINCT meta_key FROM '.$wpdb->postmeta.' ORDER BY 1';
-    $fields = $wpdb->get_results($sql, ARRAY_N);
-?>
-<select name="ADMIN_FILTER_FIELD_NAME">
-<option value=""><?php _e('Filter By Custom Fields', 'baapf'); ?></option>
-<?php
-    $current = isset($_GET['ADMIN_FILTER_FIELD_NAME'])? $_GET['ADMIN_FILTER_FIELD_NAME']:'';
-    $current_v = isset($_GET['ADMIN_FILTER_FIELD_VALUE'])? $_GET['ADMIN_FILTER_FIELD_VALUE']:'';
-    foreach ($fields as $field) {
-        if (substr($field[0],0,1) != "_"){
-        printf
-            (
-                '<option value="%s"%s>%s</option>',
-                $field[0],
-                $field[0] == $current? ' selected="selected"':'',
-                $field[0]
-            );
-        }
-    }
-?>
-</select> <?php _e('Value:', 'baapf'); ?><input type="TEXT" name="ADMIN_FILTER_FIELD_VALUE" value="<?php echo $current_v; ?>" />
-<?php
+add_action( 'restrict_manage_posts', 'wisdom_filter_tracked_plugins' );
+
+/**
+ * Update query
+ * @since 1.1.0
+ * @return void
+ */
+function wisdom_sort_plugins_by_slug( $query ) {
+  global $pagenow;
+  // Get the post type
+  $post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : '';
+  if ( is_admin() && $pagenow=='edit.php' && $post_type == 'tracked-plugin' && isset( $_GET['slug'] ) && $_GET['slug'] !='all' ) {
+    $query->query_vars['meta_key'] = 'wisdom_plugin_slug';
+    $query->query_vars['meta_value'] = $_GET['slug'];
+    $query->query_vars['meta_compare'] = '=';
+  }
 }
+add_filter( 'parse_query', 'wisdom_sort_plugins_by_slug' );
 
