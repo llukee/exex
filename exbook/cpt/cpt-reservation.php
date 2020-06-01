@@ -22,6 +22,7 @@ class nwswa_cpt_reservation {
 		// Set columns in list view admin
 		add_action('manage_nwswa_reservation_posts_columns', array($this, '_add_columns'), 10, 2);
 		add_action('manage_nwswa_reservation_posts_custom_column', array($this, '_fill_columns'), 10, 2);
+		
 		// Make columns sortable
 		add_filter('manage_edit-nwswa_cpt_reservation_sortable_columns', array ( $this, 'set_custom_columns_sortable' ) );
 	}
@@ -371,16 +372,15 @@ label {
             break;
         default:
             break;
-    }
+		}
 	}
 	
 	
-	public function set_custom_columns_sortable($columns){
-		
-		$columns['reservation_event'] = 'reservation_event';
-		
+	public function set_custom_columns_sortable($columns)
+	{
+		$columns[ 'reservation_event' ] = 'reservation_event';
 		return $columns;
-}
+	}
 	
 	
 
