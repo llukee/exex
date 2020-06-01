@@ -493,10 +493,10 @@ function wpse45437_admin_posts_filter_restrict_manage_posts(){
 			'Veranstaltung 2' => '1560',
         );
         ?>
-        <select name="ADMIN_FILTER_FIELD_VALUE">
+        <select name="ADMIN_FILTER_FIELD_VALUE_2">
         <option value=""><?php _e('Theaterstück ', 'wose45436'); ?></option>
         <?php
-            $current_v = isset($_GET['ADMIN_FILTER_FIELD_VALUE'])? $_GET['ADMIN_FILTER_FIELD_VALUE']:'';
+            $current_v = isset($_GET['ADMIN_FILTER_FIELD_VALUE_2'])? $_GET['ADMIN_FILTER_FIELD_VALUE_2']:'';
             foreach ($values as $label => $value) {
                 printf
                     (
@@ -530,8 +530,8 @@ function wpse45437_posts_filter( $query ){
     if (isset($_GET['post_type'])) {
         $type = $_GET['post_type'];
     }
-    if ( 'nwswa_reservation' == $type && is_admin() && $pagenow=='edit.php' && isset($_GET['ADMIN_FILTER_FIELD_VALUE']) && $_GET['ADMIN_FILTER_FIELD_VALUE'] != '') {
+    if ( 'nwswa_reservation' == $type && is_admin() && $pagenow=='edit.php' && isset($_GET['ADMIN_FILTER_FIELD_VALUE_2']) && $_GET['ADMIN_FILTER_FIELD_VALUE_2'] != '') {
         $query->query_vars['meta_key'] = 'nwswa_event_show';
-        $query->query_vars['meta_value'] = $_GET['ADMIN_FILTER_FIELD_VALUE'];
+        $query->query_vars['meta_value'] = $_GET['ADMIN_FILTER_FIELD_VALUE_2'];
     }
 }
