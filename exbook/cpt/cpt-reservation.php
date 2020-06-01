@@ -452,7 +452,7 @@ add_filter( 'parse_query', 'wpse45436_posts_filter' );
  * 
  * @return Void
  */
-function wpse45437_posts_filter( $query ){
+function wpse45436_posts_filter( $query ){
     global $pagenow;
     $type = 'post';
     if (isset($_GET['post_type'])) {
