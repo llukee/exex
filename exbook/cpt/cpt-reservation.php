@@ -391,47 +391,82 @@ public function set_custom_columns_sortable($columns)
 
 
 
-/**
- * Filter slugs
- * @since 1.1.0
- * @return void
- */
-function wisdom_filter_tracked_plugins() {
-  global $typenow;
-  global $wp_query;
-    if ( $typenow == 'nwswa_reservation' ) { // Your custom post type slug
-	
-		$reservation_status = get_post_meta( $post_id, 'nwswa_reservation_status', true );
-		
-      $plugins = array( $reservation_status, 'wp-discussion-board', 'discussion-board-pro' ); // Options for the filter select field
-      $current_plugin = '';
-      if( isset( $_GET['slug'] ) ) {
-        $current_plugin = $_GET['slug']; // Check if option has been selected
-      } ?>
-      <select name="slug" id="slug">
-        <option value="all" <?php selected( 'all', $current_plugin ); ?>><?php _e( 'Alle Vorstellungen', 'exbook' ); ?></option>
-        <?php foreach( $plugins as $key=>$value ) { ?>
-          <option value="<?php echo esc_attr( $key ); ?>" <?php selected( $key, $current_plugin ); ?>><?php echo esc_attr( $key ); ?></option>
-        <?php } ?>
-      </select>
-  <?php }
-}
-add_action( 'restrict_manage_posts', 'wisdom_filter_tracked_plugins' );
+
+
+
 
 /**
- * Update query
- * @since 1.1.0
- * @return void
+ * Add extra dropdowns to the List Tables
+ *
+ * @param required string $post_type    The Post Type that is being displayed
  */
-function wisdom_sort_plugins_by_slug( $query ) {
-  global $pagenow;
-  // Get the post type
-  $post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : '';
-  if ( is_admin() && $pagenow=='edit.php' && $post_type == 'tracked-plugin' && isset( $_GET['slug'] ) && $_GET['slug'] !='all' ) {
-    $query->query_vars['meta_key'] = 'wisdom_plugin_slug';
-    $query->query_vars['meta_value'] = $_GET['slug'];
+add_action('restrict_manage_posts', 'add_extra_tablenav');
+function add_extra_tablenav($post_type){
+
+    global $wpdb;
+
+    /** Ensure this is the correct Post Type*/
+    if($post_type !== 'nwswa_reservation')
+        return;
+
+    /** Grab the results from the DB */
+    $query = $wpdb->prepare('
+        SELECT DISTINCT pm.meta_value FROM %1$s pm
+        LEFT JOIN %2$s p ON p.ID = pm.post_id
+        WHERE pm.meta_key = "%3$s" 
+        AND p.post_status = "%4$s" 
+        AND p.post_type = "%5$s"
+        ORDER BY "%3$s"',
+        $wpdb->postmeta,
+        $wpdb->posts,
+        'nwswa_reservation_status', // Your meta key - change as required
+        'publish',          // Post status - change as required
+        $post_type
+    );
+    $results = $wpdb->get_col($query);
+
+    /** Ensure there are options to show */
+    if(empty($results))
+        return;
+
+    // get selected option if there is one selected
+    if (isset( $_GET['competition-name'] ) && $_GET['competition-name'] != '') {
+        $selectedName = $_GET['competition-name'];
+    } else {
+        $selectedName = -1;
+    }
+
+    /** Grab all of the options that should be shown */
+    $options[] = sprintf('<option value="-1">%1$s</option>', __('All Competitions', 'your-text-domain'));
+    foreach($results as $result) :
+        if ($result == $selectedName) {
+            $options[] = sprintf('<option value="%1$s" selected>%2$s</option>', esc_attr($result), $result);
+        } else {
+            $options[] = sprintf('<option value="%1$s">%2$s</option>', esc_attr($result), $result);
+        }
+    endforeach;
+
+    /** Output the dropdown menu */
+    echo '<select class="" id="competition-name" name="competition-name">';
+    echo join("\n", $options);
+    echo '</select>';
+
+}
+
+add_filter( 'parse_query', 'prefix_parse_filter' );
+function  prefix_parse_filter($query) {
+   global $pagenow;
+   $current_page = isset( $_GET['post_type'] ) ? $_GET['post_type'] : '';
+
+   if ( is_admin() && 
+     'competition' == $current_page &&
+     'edit.php' == $pagenow && 
+      isset( $_GET['competition-name'] ) && 
+      $_GET['competition-name'] != '') {
+
+    $competion_name = $_GET['competition-name'];
+    $query->query_vars['meta_key'] = 'competition_name';
+    $query->query_vars['meta_value'] = $competition_name;
     $query->query_vars['meta_compare'] = '=';
   }
 }
-add_filter( 'parse_query', 'wisdom_sort_plugins_by_slug' );
-
