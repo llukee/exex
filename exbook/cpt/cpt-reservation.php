@@ -419,7 +419,7 @@ function add_extra_tablenav($post_type){
         ORDER BY "%3$s"',
         $wpdb->postmeta,
         $wpdb->posts,
-        'nwswa_event_show', // Your meta key - change as required
+        'nwswa_reservation_newsletter', // Your meta key - change as required
         'publish',          // Post status - change as required
         $post_type
     );
