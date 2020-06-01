@@ -424,11 +424,8 @@ function wpse45436_admin_posts_filter_restrict_manage_posts(){
         //change this to the list of values you want to show
         //in 'label' => 'value' format
         $values = array(
-            'Bestätigt' => '1', 
-			'Bestätigt2' => 'on', 
-			'Bestätigt3' => 'bestätigt', 
-			'Bestätigt4' => 'bestaetigt', 
-            'Storniert' => '0',
+			'Bestätigt' => 'bestätigt', 
+			'Storniert' => 'storniert',
         );
         ?>
         <select name="ADMIN_FILTER_FIELD_VALUE">
