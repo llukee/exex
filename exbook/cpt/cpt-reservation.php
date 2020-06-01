@@ -394,70 +394,43 @@ public function set_custom_columns_sortable($columns)
 
 }
 
-	/**
-		 * First create the dropdown
-		 * make sure to change POST_TYPE to the name of your custom post type
-		 * 
-		 * @author Ohad Raz
-		 * 
-		 * @return void
-		 */
-		function wpse45436_admin_posts_filter_restrict_manage_posts(){
-			$type = 'post';
-			if (isset($_GET['post_type'])) {
-				$type = $_GET['post_type'];
-			}
-
-			//only add filter to post type you want
-			if ('nwswa_reservation' == $type){
-				//change this to the list of values you want to show
-				//in 'label' => 'value' format
-				$values = array(
-					'label' => 'value', 
-					'label1' => 'value1',
-					'label2' => 'value2',
-				);
-				?>
-				<select name="ADMIN_FILTER_FIELD_VALUE">
-				<option value=""><?php _e('Filter By ', 'wose45436'); ?></option>
-				<?php
-					$current_v = isset($_GET['ADMIN_FILTER_FIELD_VALUE'])? $_GET['ADMIN_FILTER_FIELD_VALUE']:'';
-					foreach ($values as $label => $value) {
-						printf
-							(
-								'<option value="%s"%s>%s</option>',
-								$value,
-								$value == $current_v? ' selected="selected"':'',
-								$label
-							);
-						}
-				?>
-				</select>
-				<?php
-			}
-		}
-
-
-		add_filter( 'parse_query', 'wpse45436_posts_filter' );
-		/**
-		 * if submitted filter by post meta
-		 * 
-		 * make sure to change META_KEY to the actual meta key
-		 * and POST_TYPE to the name of your custom post type
-		 * @author Ohad Raz
-		 * @param  (wp_query object) $query
-		 * 
-		 * @return Void
-		 */
-		function wpse45436_posts_filter( $query ){
-			global $pagenow;
-			$type = 'post';
-			if (isset($_GET['post_type'])) {
-				$type = $_GET['post_type'];
-			}
-			if ( 'nwswa_reservation' == $type && is_admin() && $pagenow=='edit.php' && isset($_GET['ADMIN_FILTER_FIELD_VALUE']) && $_GET['ADMIN_FILTER_FIELD_VALUE'] != '') {
-				$query->query_vars['meta_key'] = 'nwswa_event_show';
-				$query->query_vars['meta_value'] = $_GET['ADMIN_FILTER_FIELD_VALUE'];
-			}
-		}
+add_filter( 'parse_query', 'ba_admin_posts_filter' );
+add_action( 'restrict_manage_posts', 'ba_admin_posts_filter_restrict_manage_posts' );
+ 
+function ba_admin_posts_filter( $query )
+{
+    global $pagenow;
+    if ( is_admin() && $pagenow=='edit.php' && isset($_GET['ADMIN_FILTER_FIELD_NAME']) && $_GET['ADMIN_FILTER_FIELD_NAME'] != '') {
+        $query->query_vars['meta_key'] = $_GET['ADMIN_FILTER_FIELD_NAME'];
+    if (isset($_GET['ADMIN_FILTER_FIELD_VALUE']) && $_GET['ADMIN_FILTER_FIELD_VALUE'] != '')
+        $query->query_vars['meta_value'] = $_GET['ADMIN_FILTER_FIELD_VALUE'];
+    }
+}
+ 
+function ba_admin_posts_filter_restrict_manage_posts()
+{
+    global $wpdb;
+    $sql = 'SELECT DISTINCT meta_key FROM '.$wpdb->postmeta.' ORDER BY 1';
+    $fields = $wpdb->get_results($sql, ARRAY_N);
+?>
+<select name="ADMIN_FILTER_FIELD_NAME">
+<option value=""><?php _e('Filter By Custom Fields', 'baapf'); ?></option>
+<?php
+    $current = isset($_GET['ADMIN_FILTER_FIELD_NAME'])? $_GET['ADMIN_FILTER_FIELD_NAME']:'';
+    $current_v = isset($_GET['ADMIN_FILTER_FIELD_VALUE'])? $_GET['ADMIN_FILTER_FIELD_VALUE']:'';
+    foreach ($fields as $field) {
+        if (substr($field[0],0,1) != "_"){
+        printf
+            (
+                '<option value="%s"%s>%s</option>',
+                $field[0],
+                $field[0] == $current? ' selected="selected"':'',
+                $field[0]
+            );
+        }
+    }
+?>
+</select> <?php _e('Value:', 'baapf'); ?><input type="TEXT" name="ADMIN_FILTER_FIELD_VALUE" value="<?php echo $current_v; ?>" />
+<?php
+}
 
