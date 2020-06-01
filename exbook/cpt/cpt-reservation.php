@@ -24,7 +24,7 @@ class nwswa_cpt_reservation {
 		add_action('manage_nwswa_reservation_posts_custom_column', array($this, '_fill_columns'), 10, 2);
 		
 		// Make columns sortable
-		add_filter('manage_edit-nwswa_reservation_columns', array ( $this, 'set_custom_columns_sortable' ) );
+		add_filter('manage_edit-nwswa_reservation_posts_columns', array ( $this, 'set_custom_columns_sortable' ) );
 		//add_filter('manage_nwswa_reservation_posts_columns', array ( $this, 'set_custom_columns_sortable' ) );
 	}
 
