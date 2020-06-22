@@ -383,7 +383,7 @@ class nwswa_cpt_show {
 			'From: '.get_bloginfo( 'name' ).' <'.$mail_sender.'>',
 			'Reply-To: '.$reservation_firstname.' '.$reservation_lastname.' <'.$reservation_email.'>',
 		);
-		$message .= $reservation_event.', '.$reservation_quantity.' Plätze<br />'.$reservation_firstname.' '.$reservation_lastname.'<br />Telefon:'.$reservation_phone.'<br />E-Mail: '.$reservation_email;
+		$message .= '\r\n\r\n'.$show_name.', '.$show_location.', '.$show_date.', '.$show_reservation_quantity.' Plätze\r\n\r\n'.$reservation_firstname.' '.$reservation_lastname.'\r\n\r\nTelefon:'.$reservation_phone.'\r\n\r\nE-Mail: '.$reservation_email;
 		wp_mail( $to, $subject, $message, $headers );
 
 
