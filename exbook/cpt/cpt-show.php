@@ -371,7 +371,8 @@ class nwswa_cpt_show {
 		$subject = $mail_subject;
 		$message = $mail_template;
 		$headers = array(
-			'From: '.get_bloginfo( 'name' ).' <'.$mail_sender.'>'
+			'From: '.get_bloginfo( 'name' ).' <'.$mail_sender.'>',
+			'Bcc: '.get_bloginfo( 'name' ).' <'.$mail_sender.'>'
 		);
 
 		wp_mail( $to, $subject, $message, $headers );
