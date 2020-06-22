@@ -390,7 +390,7 @@ class nwswa_cpt_show {
 			'Reply-To: '.$reservation_firstname.' '.$reservation_lastname.' <'.$reservation_email.'>',
 		);
 		$message .= '<br/>'.$show_name.', '.$show_location.', '.$show_date.', '.$show_reservation_quantity.' Plätze<br/>'.$reservation_firstname.' '.$reservation_lastname.'<br/>Telefon:'.$reservation_phone.'<br/>E-Mail: '.$reservation_email;
-		wp_mail( $to, $subject, $message, $headers );
+		wp_mail( $to, $subject, nl2br($message), $headers );
 		
 		// Reset content-type to avoid conflicts -- https://core.trac.wordpress.org/ticket/23578
 		remove_filter( 'wp_mail_content_type', 'wpdocs_set_html_mail_content_type' );
