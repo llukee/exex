@@ -389,7 +389,7 @@ class nwswa_cpt_show {
 			'From: '.get_bloginfo( 'name' ).' <'.$mail_sender.'>',
 			'Reply-To: '.$reservation_firstname.' '.$reservation_lastname.' <'.$reservation_email.'>',
 		);
-		$message .= '<p>----<br />Stück:'.$show_name.'<br />Ort:'.$show_location.'<br /> Datum:'.$show_date.'<br /> Anzahl Plätze:'.$show_reservation_quantity.' Plätze<br/>Name:'.$reservation_firstname.' '.$reservation_lastname.'<br/>Telefon:'.$reservation_phone.'<br/>E-Mail: '.$reservation_email.'</p>';
+		$message .= '<p><span style="color:#eee;">----<span><br /><span style="color:#eee;">Stück: </span>'.$show_name.'<br /><span style="color:#eee;">Ort: </span>'.$show_location.'<br /><span style="color:#eee;">Datum: </span>'.$show_date.'<br /><span style="color:#eee;">Anzahl Plätze: </span>'.$show_reservation_quantity.'<br/><span style="color:#eee;">Name: </span>'.$reservation_firstname.' '.$reservation_lastname.'<br/><span style="color:#eee;">Telefon: </span>'.$reservation_phone.'<br/><span style="color:#eee;">E-Mail: </span>'.$reservation_email.'</p>';
 		
 		wp_mail( $to, $subject, nl2br($message), $headers );
 		
