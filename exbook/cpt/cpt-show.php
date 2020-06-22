@@ -314,7 +314,7 @@ class nwswa_cpt_show {
 		wp_insert_post($post);
 
 
-		// send e-mail to registered peorson
+		// send e-mail to registered person
 
 		$template_id = get_post_meta( $reservation_event, 'nwswa_event_mailtpl', true );
 
@@ -338,7 +338,7 @@ class nwswa_cpt_show {
 
 		$location_id = get_post_meta( $reservation_event, 'nwswa_event_location', true );
 		$show_location = get_the_title($location_id);
-
+				
 		$get_date = get_post_meta( $reservation_event, 'nwswa_event_datetime', true );
 
 
@@ -372,9 +372,16 @@ class nwswa_cpt_show {
 		$message = $mail_template;
 		$headers = array(
 			'From: '.get_bloginfo( 'name' ).' <'.$mail_sender.'>',
-			'Bcc: '.get_bloginfo( 'name' ).' <'.$mail_sender.'>'
 		);
 
+		wp_mail( $to, $subject, $message, $headers );
+		
+		// Send admin mail
+		$to = $mail_sender;
+		$subject = 'Juhee, eine neue Reservierung: '.$mail_subject;
+		$headers = array(
+			'From: '.$reservation_firstname.' '.$reservation_lastname.' <'.$reservation_email.'>',
+		);
 		wp_mail( $to, $subject, $message, $headers );
 
 
