@@ -389,7 +389,8 @@ class nwswa_cpt_show {
 			'From: '.get_bloginfo( 'name' ).' <'.$mail_sender.'>',
 			'Reply-To: '.$reservation_firstname.' '.$reservation_lastname.' <'.$reservation_email.'>',
 		);
-		$message .= '<br/>'.$show_name.', '.$show_location.', '.$show_date.', '.$show_reservation_quantity.' Plätze<br/>'.$reservation_firstname.' '.$reservation_lastname.'<br/>Telefon:'.$reservation_phone.'<br/>E-Mail: '.$reservation_email;
+		$message .= '<p>----<br />Stück:'.$show_name.'<br />Ort:'.$show_location.'<br /> Datum:'.$show_date.'<br /> Anzahl Plätze:'.$show_reservation_quantity.' Plätze<br/>Name:'.$reservation_firstname.' '.$reservation_lastname.'<br/>Telefon:'.$reservation_phone.'<br/>E-Mail: '.$reservation_email.'</p>';
+		
 		wp_mail( $to, $subject, nl2br($message), $headers );
 		
 		// Reset content-type to avoid conflicts -- https://core.trac.wordpress.org/ticket/23578
