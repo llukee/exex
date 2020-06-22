@@ -376,16 +376,24 @@ class nwswa_cpt_show {
 
 		wp_mail( $to, $subject, $message, $headers );
 		
-		// Send admin mail
+		// Send admin mail in HTML
+		
+		function wpdocs_set_html_mail_content_type() {
+			return 'text/html';
+		}
+		add_filter( 'wp_mail_content_type', 'wpdocs_set_html_mail_content_type' );
+
 		$to = $mail_sender;
 		$subject = 'Juhee, eine neue Reservation: '.$mail_subject;
 		$headers = array(
 			'From: '.get_bloginfo( 'name' ).' <'.$mail_sender.'>',
 			'Reply-To: '.$reservation_firstname.' '.$reservation_lastname.' <'.$reservation_email.'>',
 		);
-		$message .= '\n'.$show_name.', '.$show_location.', '.$show_date.', '.$show_reservation_quantity.' Plätze\n'.$reservation_firstname.' '.$reservation_lastname.'\nTelefon:'.$reservation_phone.'\nE-Mail: '.$reservation_email;
+		$message .= '<br/>'.$show_name.', '.$show_location.', '.$show_date.', '.$show_reservation_quantity.' Plätze<br/>'.$reservation_firstname.' '.$reservation_lastname.'<br/>Telefon:'.$reservation_phone.'<br/>E-Mail: '.$reservation_email;
 		wp_mail( $to, $subject, $message, $headers );
-
+		
+		// Reset content-type to avoid conflicts -- https://core.trac.wordpress.org/ticket/23578
+		remove_filter( 'wp_mail_content_type', 'wpdocs_set_html_mail_content_type' );
 
 		// generate sucess message
 		global $formular_sent;
