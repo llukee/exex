@@ -378,7 +378,7 @@ class nwswa_cpt_show {
 		
 		// Send admin mail
 		$to = $mail_sender;
-		$subject = 'Juhee, eine neue Reservierung: '.$mail_subject;
+		$subject = 'Juhee, eine neue Reservation: '.$mail_subject;
 		$headers = array(
 			'From: '.$reservation_firstname.' '.$reservation_lastname.' <'.$reservation_email.'>',
 		);
