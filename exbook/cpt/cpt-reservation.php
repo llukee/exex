@@ -505,7 +505,7 @@ $query_events_filter = new WP_Query( 'post_type=nwswa_event' );
 						$show = get_post($show_id);
 						$datetime_ts = get_post_meta( $event_id, 'nwswa_event_datetime', true );
 
-						$option_text .= $show->post_title;
+						$option_text = $show->post_title;
 						$option_text .= ' - ';
 						$option_text .= date("d.m.Y H:i", $datetime_ts);
 
