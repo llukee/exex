@@ -505,7 +505,7 @@ $query = new WP_Query( 'post_type=nwswa_event' );
 						$option_text .= ' - ';
 						$option_text .= date("d.m.Y H:i", $datetime_ts);
 
-				$event_list .= "'".$option_text."' => '".$event_id."' ";
+				$event_list .= "'".$option_text."' => '".$event_id."', ";
 			}
 	
 	
