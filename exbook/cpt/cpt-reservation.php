@@ -486,11 +486,33 @@ function wpse45437_admin_posts_filter_restrict_manage_posts(){
 
     //only add filter to post type you want
     if ('nwswa_reservation' == $type){
+		
+		
+
+	
+	
         //change this to the list of values you want to show
         //in 'label' => 'value' format
         $values = array(
-			'Veranstaltung 1' => '1644', 
-			'Veranstaltung 2' => '1560',
+			
+					$query = new WP_Query( 'post_type=nwswa_event' );
+			while ( $query->have_posts() ) {
+						$option_text = '';
+				$query->the_post();
+						$event_id = get_the_ID();
+
+						// show title + event datetime
+						$show_id = get_post_meta( $event_id, 'nwswa_event_show', true );
+						$show = get_post($show_id);
+						$datetime_ts = get_post_meta( $event_id, 'nwswa_event_datetime', true );
+
+						$option_text .= $show->post_title;
+						$option_text .= ' - ';
+						$option_text .= date("d.m.Y H:i", $datetime_ts);
+
+				echo  "'".$option_text."' => '".$event_id."'", 
+			}
+	
         );
         ?>
         <select name="ADMIN_FILTER_FIELD_VALUE_2">
