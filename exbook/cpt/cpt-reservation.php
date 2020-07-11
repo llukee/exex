@@ -485,18 +485,18 @@ function wpse45437_admin_posts_filter_restrict_manage_posts(){
     }
 
     //only add filter to post type you want
-
+    if ('nwswa_reservation' == $type){
 		
 		
 		
 // Get all events as array
-$query = new WP_Query( 'post_type=nwswa_event' );
+$query_events_filter = new WP_Query( 'post_type=nwswa_event' );
 			
 			$values = array();
 
-			while ( $query->have_posts() ) {
+			while ( $query_events_filter->have_posts() ) {
 						$option_text = '';
-				$query->the_post();
+				$query_events_filter->the_post();
 						$event_id = get_the_ID();
 
 						// show title + event datetime
@@ -531,7 +531,7 @@ $query = new WP_Query( 'post_type=nwswa_event' );
         ?>
         </select>
         <?php
-    
+    }
 }
 
 
