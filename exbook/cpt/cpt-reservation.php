@@ -493,9 +493,10 @@ function wpse45437_admin_posts_filter_restrict_manage_posts(){
 $query_events_filter = new WP_Query( 'post_type=nwswa_event' );
 			
 			$values = array();
-
+			$option_text = "";
+			
 			while ( $query_events_filter->have_posts() ) {
-						$option_text = '';
+						
 				$query_events_filter->the_post();
 						$event_id = get_the_ID();
 
