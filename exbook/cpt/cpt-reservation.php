@@ -490,7 +490,14 @@ function wpse45437_admin_posts_filter_restrict_manage_posts(){
 		
 		
 // Get all events as array
+			$values = array(
+			'Test' => $option_text, 
+			'Tes2t' => $event_id,
+        );
+
 			$query_events_filter = new WP_Query( 'post_type=nwswa_event' );
+			
+			
 			
 			$values = array();
 			$option_text = '';
@@ -513,10 +520,7 @@ function wpse45437_admin_posts_filter_restrict_manage_posts(){
 				
 			}
 		
-		$values = array(
-			'Bestätigt' => $option_text, 
-			'Storniert' => $event_id,
-        );
+		
 	
         //change this to the list of values you want to show
         //in 'label' => 'value' format
