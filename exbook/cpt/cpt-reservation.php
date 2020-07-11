@@ -485,7 +485,7 @@ function wpse45437_admin_posts_filter_restrict_manage_posts(){
     }
 
     //only add filter to post type you want
-    if ('nwswa_reservation' == $type){
+
 		
 		
 		
@@ -531,7 +531,7 @@ $query = new WP_Query( 'post_type=nwswa_event' );
         ?>
         </select>
         <?php
-    }
+    
 }
 
 
