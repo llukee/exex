@@ -490,15 +490,9 @@ function wpse45437_admin_posts_filter_restrict_manage_posts(){
 		
 		
 // Get all events as array
-			$values = array(
-			'Test' => $option_text, 
-			'Tes2t' => $event_id,
-        );
 
 			$query_events_filter = new WP_Query( 'post_type=nwswa_event' );
-			
-			
-			
+
 			$values = array();
 			$option_text = '';
 			
