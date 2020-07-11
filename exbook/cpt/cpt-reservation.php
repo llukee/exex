@@ -469,6 +469,26 @@ function wpse45436_posts_filter( $query ){
 //////////////////
 // Filte by event
 
+add_action( 'restrict_manage_posts', 'wpse45437_admin_posts_filter_restrict_manage_posts' );
+/**
+ * First create the dropdown
+ * make sure to change POST_TYPE to the name of your custom post type
+ * 
+ * @author Ohad Raz
+ * 
+ * @return void
+ */
+function wpse45437_admin_posts_filter_restrict_manage_posts(){
+    $type = 'nwswa_reservation';
+    if (isset($_GET['post_type'])) {
+        $type = $_GET['post_type'];
+    }
+
+    //only add filter to post type you want
+    if ('nwswa_reservation' == $type){
+		
+		
+		
 // Get all events as array
 $query = new WP_Query( 'post_type=nwswa_event' );
 			
@@ -493,28 +513,6 @@ $query = new WP_Query( 'post_type=nwswa_event' );
 				$values [$option_text] = $event_id;
 				
 			}
-
-add_action( 'restrict_manage_posts', 'wpse45437_admin_posts_filter_restrict_manage_posts' );
-/**
- * First create the dropdown
- * make sure to change POST_TYPE to the name of your custom post type
- * 
- * @author Ohad Raz
- * 
- * @return void
- */
-function wpse45437_admin_posts_filter_restrict_manage_posts(){
-    $type = 'nwswa_reservation';
-    if (isset($_GET['post_type'])) {
-        $type = $_GET['post_type'];
-    }
-
-    //only add filter to post type you want
-    if ('nwswa_reservation' == $type){
-		
-		
-		
-
 	
 	
         //change this to the list of values you want to show
