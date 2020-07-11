@@ -378,7 +378,6 @@ label {
 	
 public function set_custom_columns_sortable($columns)
 	{
-		$columns[ 'reservation_event' ] = 'nwswa_event_show';
 		$columns[ 'reservation_fullname' ] = 'nwswa_reservation_lastname';
 		$columns[ 'reservation_email' ] = 'nwswa_reservation_email';
 		$columns[ 'reservation_quantity' ] = 'nwswa_reservation_quantity';
