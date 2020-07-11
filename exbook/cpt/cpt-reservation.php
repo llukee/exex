@@ -488,6 +488,7 @@ function wpse45437_admin_posts_filter_restrict_manage_posts(){
     if ('nwswa_reservation' == $type){
 		
 		
+		
 // Get all events as array
 $query = new WP_Query( 'post_type=nwswa_event' );
 			while ( $query->have_posts() ) {
@@ -511,7 +512,7 @@ $query = new WP_Query( 'post_type=nwswa_event' );
         //change this to the list of values you want to show
         //in 'label' => 'value' format
         $values = array(
-			$event_list
+			echo $event_list;
         );
         ?>
         <select name="ADMIN_FILTER_FIELD_VALUE_2">
