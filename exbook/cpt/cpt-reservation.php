@@ -122,6 +122,7 @@ class nwswa_cpt_reservation {
     echo '<select id="reservation_event" name="reservation_event">';
     // Query the shows here
     $query = new WP_Query( 'post_type=nwswa_event' );
+	$values_event_filter = array();
     while ( $query->have_posts() ) {
 				$option_text = '';
         $query->the_post();
@@ -135,7 +136,10 @@ class nwswa_cpt_reservation {
 				$option_text .= $show->post_title;
 				$option_text .= ' - ';
 				$option_text .= date("d.m.Y H:i", $datetime_ts);
-
+		
+		$values_event_filter [$option_text] = $event_id;
+		
+		
         $selected = "";
 
         if($event_id == $event){
@@ -491,28 +495,6 @@ function wpse45437_admin_posts_filter_restrict_manage_posts(){
 		
 // Get all events as array
 
-			$query_events_filter = new WP_Query( 'post_type=nwswa_event' );
-
-			$values = array();
-			$option_text = '';
-			
-			while ( $query_events_filter->have_posts() ) {
-						
-				$query_events_filter->the_post();
-						$event_id = get_the_ID();
-
-						// show title + event datetime
-						$show_id = get_post_meta( $event_id, 'nwswa_event_show', true );
-						$show = get_post($show_id);
-						$datetime_ts = get_post_meta( $event_id, 'nwswa_event_datetime', true );
-
-						$option_text = $show->post_title;
-						$option_text .= ' - ';
-						$option_text .= date("d.m.Y H:i", $datetime_ts);
-
-				$values [$option_text] = $event_id;
-				
-			}
 		
 		
 	
@@ -523,12 +505,12 @@ function wpse45437_admin_posts_filter_restrict_manage_posts(){
         <option value=""><?php _e('Vorstellung ', 'wose45436'); ?></option>
         <?php
             $current_v = isset($_GET['ADMIN_FILTER_FIELD_VALUE_2'])? $_GET['ADMIN_FILTER_FIELD_VALUE_2']:'';
-            foreach ($values as $label => $value) {
+            foreach ($values_event_filter as $label => $value_event_filter) {
                 printf
                     (
                         '<option value="%s"%s>%s</option>',
-                        $value,
-                        $value == $current_v? ' selected="selected"':'',
+                        $value_event_filter,
+                        $value_event_filter == $current_v? ' selected="selected"':'',
                         $label
                     );
                 }
