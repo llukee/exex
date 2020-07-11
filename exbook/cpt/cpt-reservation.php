@@ -382,7 +382,6 @@ public function set_custom_columns_sortable($columns)
 		$columns[ 'reservation_email' ] = 'nwswa_reservation_email';
 		$columns[ 'reservation_quantity' ] = 'nwswa_reservation_quantity';
 		$columns[ 'reservation_status' ] = 'nwswa_reservation_status';
-		$columns[ 'reservation_newsletter' ] = 'nwswa_reservation_newsletter';
 		return $columns;
 	}
 
