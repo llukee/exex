@@ -512,7 +512,8 @@ $query = new WP_Query( 'post_type=nwswa_event' );
         //change this to the list of values you want to show
         //in 'label' => 'value' format
         $values = array(
-			'Fast täglich kamen Flüchtlinge - 04.07.2020 09:18' => '1644', 'Fast täglich kamen Flüchtlinge - 29.12.2020 12:36' => '1630', 'Fast täglich kamen Flüchtlinge - 17.11.2019 15:30' => '1560', 'Fast täglich kamen Flüchtlinge - 16.11.2019 15:30' => '1559', 'Fast täglich kamen Flüchtlinge - 15.11.2019 15:30' => '1558', 'Fast täglich kamen Flüchtlinge - 17.09.2019 15:30' => '946', 'Fast täglich kamen Flüchtlinge - 24.09.2019 18:00' => '948', 'Fast täglich kamen Flüchtlinge - 10.09.2019 13:45' => '947', 'Fast täglich kamen Flüchtlinge - 17.09.2019 19:00' => '943', 'Fast täglich kamen Flüchtlinge - 17.09.2019 13:30' => '945', );
+			$event_list
+			);
         ?>
         <select name="ADMIN_FILTER_FIELD_VALUE_2">
         <option value=""><?php _e('Vorstellung ', 'wose45436'); ?></option>
