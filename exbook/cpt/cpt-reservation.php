@@ -490,7 +490,13 @@ function wpse45437_admin_posts_filter_restrict_manage_posts(){
 		
 		
 // Get all events as array
-$query = new WP_Query( 'post_type=nwswa_event' );
+
+	
+	
+        //change this to the list of values you want to show
+        //in 'label' => 'value' format
+        $values = array(
+			$query = new WP_Query( 'post_type=nwswa_event' );
 			while ( $query->have_posts() ) {
 						$option_text = '';
 				$query->the_post();
@@ -505,14 +511,8 @@ $query = new WP_Query( 'post_type=nwswa_event' );
 						$option_text .= ' - ';
 						$option_text .= date("d.m.Y H:i", $datetime_ts);
 
-				$event_list .= "'".$option_text."' => '".$event_id."', ";
+				echo = "'".$option_text."' => '".$event_id."', ";
 			}
-	
-	
-        //change this to the list of values you want to show
-        //in 'label' => 'value' format
-        $values = array(
-			$event_list
 			);
         ?>
         <select name="ADMIN_FILTER_FIELD_VALUE_2">
