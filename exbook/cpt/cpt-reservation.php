@@ -512,7 +512,7 @@ $query = new WP_Query( 'post_type=nwswa_event' );
         //change this to the list of values you want to show
         //in 'label' => 'value' format
         $values = array(
-			$event_list;
+			$event_list
 			);
         ?>
         <select name="ADMIN_FILTER_FIELD_VALUE_2">
