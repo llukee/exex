@@ -473,7 +473,8 @@ class nwswa_cpt_show {
 		$args = array(
 			'post_type'         => 'nwswa_show',
 			'post_status'       => array( 'publish' ),
-			'posts_per_page'    => -1 // -1 = all posts
+			'posts_per_page'    => -1,
+			'post_count' => -1,
 		);
 
 		// Daten abfragen
@@ -530,6 +531,7 @@ class nwswa_cpt_show {
 					$args = array(
 		        'post_type'     => 'nwswa_event',
 		        'post_status'   => 'publish',
+				'post_count' => -1,
 		        'meta_query'    => array(
 	            array(
 	                'key'   => 'nwswa_event_show',
