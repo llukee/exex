@@ -93,7 +93,7 @@ class nwswa_cpt_location {
 			'post_type'         => 'nwswa_location',
 			'post_status'       => array( 'publish' ),
 			'posts_per_page'    => -1,
-			'post_count' => -1,
+			'post_count' => '-1',
 		);
 
 		// Daten abfragen
