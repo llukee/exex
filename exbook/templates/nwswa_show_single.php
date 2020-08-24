@@ -126,7 +126,7 @@ get_header();
 									$args = array (
 									// Post or Page ID
 									'post_type' => 'nwswa_reservation',
-									'post_count' => 100,
+									'posts_per_page'    => -1,
 									'meta_query' => array(
 											'relation' => 'AND',
 											'post_id' => array(

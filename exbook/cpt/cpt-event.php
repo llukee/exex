@@ -133,7 +133,6 @@ class nwswa_cpt_event {
 				'post_type'         => 'nwswa_event',
 				'post_status'       => array( 'publish' ),
 				'posts_per_page'    => -1,
-				'post_count' => 100,
 				'meta_query' => array(
 					'relation' 				=> 'AND', // Optional, defaults to "OR"
 					'date_ordering' => array(
@@ -161,7 +160,7 @@ class nwswa_cpt_event {
 				'post_type'         => 'nwswa_event',
 				'post_status'       => array( 'publish' ),
 				'posts_per_page'    => -1, // -1 = all posts
-				'post_count' => 100,
+				
 				'meta_query' => array(
 					'relation' 				=> 'AND', // Optional, defaults to "OR"
 					'date_ordering' => array(
@@ -225,7 +224,7 @@ class nwswa_cpt_event {
 				'post_type'         => 'nwswa_event',
 				'post_status'       => array( 'publish' ),
 				'posts_per_page'    => -1, // -1 = all posts
-				'post_count' => 100,
+				
 				'meta_query' => array(
 					'relation' 				=> 'AND', // Optional, defaults to "OR"
 					'date_ordering' => array(
