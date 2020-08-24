@@ -26,7 +26,7 @@
 		// Post or Page ID
 		'post_type' => 'nwswa_reservation',
 		'meta_key'  => 'nwswa_reservation_event',
-		'post_count' => '-1',
+		'post_count' => '100',
 		'meta_query' => array(
 						'relation' => 'AND',
 						'post_id' => array(
