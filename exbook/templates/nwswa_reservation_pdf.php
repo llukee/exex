@@ -28,7 +28,7 @@
 		'meta_key'  => 'nwswa_reservation_event',
 		
 		'orderby' => 'title',
-		'order' => 'DESC',
+		'order' => 'DES',
 		
 		'posts_per_page'    => -1,
 		'meta_query' => array(
