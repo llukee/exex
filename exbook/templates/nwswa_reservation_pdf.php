@@ -26,8 +26,10 @@
 		// Post or Page ID
 		'post_type' => 'nwswa_reservation',
 		'meta_key'  => 'nwswa_reservation_event',
-		'orderby' => 'nwswa_reservation_lastname',
+		
+		'orderby' => 'title',
 		'order' => 'ASC',
+		
 		'posts_per_page'    => -1,
 		'meta_query' => array(
 						'relation' => 'AND',
