@@ -43,7 +43,7 @@
 							'value' => 'storniert',
 							'compare' => '!=',
 						), 
-					'orderby' => 'reservation_lastname',
+					'orderby' => 'nwswa_reservation_event',
 					),
 
 	);
