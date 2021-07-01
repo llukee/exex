@@ -27,7 +27,7 @@
 		'post_type' => 'nwswa_reservation',
 		'meta_key'  => 'nwswa_reservation_event',
 		'orderby' => 'nwswa_reservation_lastname',
-		'order' => 'DESC',
+		'order' => 'ASC',
 		'posts_per_page'    => -1,
 		'meta_query' => array(
 						'relation' => 'AND',
