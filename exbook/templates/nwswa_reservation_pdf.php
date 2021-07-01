@@ -44,7 +44,7 @@
 							'compare' => '!=',
 						), 
 					),
-		'orderby' => 'nwswa_reservation_lastname',
+		'orderby' => 'reservation_lastname',
 		'order' => 'ASC',
 	);
 
