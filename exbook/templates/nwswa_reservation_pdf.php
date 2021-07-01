@@ -43,9 +43,9 @@
 							'value' => 'storniert',
 							'compare' => '!=',
 						), 
+					'orderby' => 'reservation_lastname',
 					),
-		'orderby' => 'reservation_lastname',
-		'order' => 'ASC',
+
 	);
 
 	// get all reservations
