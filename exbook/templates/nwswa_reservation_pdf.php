@@ -25,7 +25,7 @@
 	$args_nwswa_reservations = array (
 		// Post or Page ID
 		'post_type' => 'nwswa_reservation',
-		'meta_key'  => 'nwswa_reservation_lastname',
+		'meta_key'  => 'reservation_lastname',
 		
 		
 		
