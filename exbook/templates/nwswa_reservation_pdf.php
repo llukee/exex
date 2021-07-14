@@ -30,7 +30,7 @@
 		
 		
 		'orderby' => 'meta_value',
-		'order' => 'ASC',
+		'order' => 'DESC',
 		'posts_per_page'    => -1,
 		'meta_query' => array(
 						'relation' => 'AND',
