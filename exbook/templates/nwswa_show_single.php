@@ -286,7 +286,7 @@ get_header();
 
 								<p><label>Bitte löse folgende Rechnungsaufgabe: <br />Was ergibt 2 x 4?</label> <input type="text" value="<?php echo $security_check; ?>" name="security_check" class="text" id="security_check"></p>
 
-								<p><input type="submit" name="SubmitButton" class="button" value="Reservierung absenden" id="sendmessage"></p>
+								<p><input type="submit" name="SubmitButton" class="button" value="Reservierung absenden" id="sendmessage" onclick="this.disabled=true;this.form.submit();"></p>
 
 							</form>
 					<?php } ?>
