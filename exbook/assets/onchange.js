@@ -7,3 +7,12 @@
 							 });
 						});
 				})( jQuery );
+				
+				
+				(function($) {
+					$(document).ready(function(){
+						$("#sendmessage").click(function(){
+							$("#sendmessage").css("pointer-events","none");
+						});
+					});
+				})( jQuery );
