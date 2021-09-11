@@ -68,8 +68,26 @@ function mpdf_create($post_id=0, $pdf_content_file='') {
   $assetsPath = dirname( __FILE__ ) . '/assets/';
 
   $cp = 'utf-8';
-  $mpdf = new \Mpdf\Mpdf();
+  //$mpdf = new \Mpdf\Mpdf( $cp, 'A4', '', '', $pdf_margin_left, $pdf_margin_right, $pdf_margin_top, $pdf_margin_bottom, $pdf_margin_header, $pdf_margin_footer, $pdf_orientation );
+  $mpdf = new \Mpdf\Mpdf( [
+      'mode' => $cp,
+      'format' => 'A4',
+      'orientation' => $pdf_orientation,
+      'margin_left' => $pdf_margin_left,
+      'margin_right' => $pdf_margin_right,
+      'margin_top' => $pdf_margin_top,
+      'margin_bottom' => $pdf_margin_bottom,
+      'margin_header' => $pdf_margin_header,
+      'margin_footer' => $pdf_margin_footer,
 
+  ]);
+
+  $mpdf->SetUserRights();
+  $mpdf->title2annots = false;
+  $mpdf->use_embeddedfonts_1252 = true;
+  $mpdf->SetBasePath( $templatePath );
+  $mpdf->SetAuthor( 'exex' );
+  $mpdf->SetCreator( 'exex' );
 
   require_once($pdf_content_file);
 
