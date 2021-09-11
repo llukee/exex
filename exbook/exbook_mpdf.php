@@ -68,7 +68,7 @@ function mpdf_create($post_id=0, $pdf_content_file='') {
   $assetsPath = dirname( __FILE__ ) . '/assets/';
 
   $cp = 'utf-8';
-  $mpdf = new \mpdf\mpdf( $cp, 'A4', '', '', $pdf_margin_left, $pdf_margin_right, $pdf_margin_top, $pdf_margin_bottom, $pdf_margin_header, $pdf_margin_footer, $pdf_orientation );
+  $mpdf = new \mpdf\mpdf();
   $mpdf->SetUserRights();
   $mpdf->title2annots = false;
   $mpdf->use_embeddedfonts_1252 = true;
