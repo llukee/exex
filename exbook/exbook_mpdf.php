@@ -82,7 +82,7 @@ function mpdf_create($post_id=0, $pdf_content_file='') {
 
   ]);
 
-  $mpdf->SetUserRights();
+  //$mpdf->SetUserRights();
   $mpdf->title2annots = false;
   $mpdf->use_embeddedfonts_1252 = true;
   $mpdf->SetBasePath( $templatePath );
