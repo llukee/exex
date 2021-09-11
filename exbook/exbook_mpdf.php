@@ -3,7 +3,7 @@ $cacheDirectory = mpdf_getcachedir();
 if ( ! is_dir( $cacheDirectory . 'tmp' ) ) {
   @mkdir( $cacheDirectory . 'tmp' );
 }
-define( '_MPDF_PATH', dirname( __FILE__ ) . '/mpdf/' );
+define( '_MPDF_PATH', dirname( __FILE__ ) . '/vendor/mpdf/' );
 define( '_MPDF_TEMP_PATH', $cacheDirectory . 'tmp/' );
 define( '_MPDF_TTFONTDATAPATH', _MPDF_TEMP_PATH );
 
@@ -68,7 +68,7 @@ function mpdf_create($post_id=0, $pdf_content_file='') {
   $assetsPath = dirname( __FILE__ ) . '/assets/';
 
   $cp = 'utf-8';
-  $mpdf = new mPDF( $cp, 'A4', '', '', $pdf_margin_left, $pdf_margin_right, $pdf_margin_top, $pdf_margin_bottom, $pdf_margin_header, $pdf_margin_footer, $pdf_orientation );
+  $mpdf = new \Mpdf\Mpdf( $cp, 'A4', '', '', $pdf_margin_left, $pdf_margin_right, $pdf_margin_top, $pdf_margin_bottom, $pdf_margin_header, $pdf_margin_footer, $pdf_orientation );
   $mpdf->SetUserRights();
   $mpdf->title2annots = false;
   $mpdf->use_embeddedfonts_1252 = true;
