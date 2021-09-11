@@ -22,7 +22,7 @@ function mpdf_getcachedir() {
 }
 
 function mpdf_create($post_id=0, $pdf_content_file='') {
-  require_once _MPDF_PATH . 'autoload.php';
+  require_once __DIR__ . '/vendor/autoload.php';
 
   $post = get_post($post_id);
   $pdf_filename = $post->ID.".pdf";
