@@ -50,3 +50,7 @@
     list-style: none;
     padding: 10px 19px;
 }
+
+#sendmessage, #reservation_event{
+	cursor:pointer;
+}
