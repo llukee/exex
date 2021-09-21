@@ -88,7 +88,7 @@ get_header();
 
 					<p><label for="reservation_event">Vorstellung:</label>
 
-					<input name="token" type="hidden" value="<?php echo $form_token; ?>">
+					<input id="token" name="token" type="hidden" value="<?php echo $form_token; ?>">
 					
 					<select id="reservation_event" class="onchange" name="reservation_event">
 
