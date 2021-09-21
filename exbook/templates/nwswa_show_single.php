@@ -8,8 +8,11 @@
 								$_SESSION['form_token'] = $form_token;
 								
 								echo $_SESSION["form_token"];
-								echo "<br />";
+								echo "<br /> Form token";
 								echo $form_token;
+
+								echo "<br /> Post form Token";
+								echo $_POST['form_token']
 ?>
 
 <?php
