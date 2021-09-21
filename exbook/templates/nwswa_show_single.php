@@ -8,6 +8,7 @@
 								$_SESSION['form_token'] = $form_token;
 								
 								echo $_SESSION["form_token"];
+								echo "<br />";
 								echo $form_token;
 ?>
 
