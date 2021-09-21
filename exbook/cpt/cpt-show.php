@@ -111,11 +111,6 @@ class nwswa_cpt_show {
 		if($_POST['form_token'] != $_SESSION['form_token']) {
 			$message[] .= "Die Anmdeldung wurde bereits gesandt. Wenn Sie eine neue Anmeldung eigeben möchten, starten Sie von neuem."; 
 		}
-		
-		if ( !isset($_POST['form_token']) ) {
-			// echo 'Kein Token';
-			$message[] .= "Kein Token";
-	}
 
 		if ( !isset($_POST['reservation_firstname']) ) {
 				// echo 'Kein Namen';
