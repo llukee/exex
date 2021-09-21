@@ -408,7 +408,7 @@ class nwswa_cpt_show {
 			window.history.replaceState( null, null, window.location.href );
 		}
 	</script>
-	"
+	";
 
 		}
 }
