@@ -108,7 +108,7 @@ class nwswa_cpt_show {
 		!wp_verify_nonce( $_POST['cform_generate_nonce'], 'SubmitButton' ) ) {
 		$message[] .= "Anfrage abgelehnt. Bitte versuchen Sie es erneut.";
 	}
-		if($_POST['form_token'] == $_SESSION['form_token']) {
+		if($_POST['form_token'] != $_SESSION['form_token']) {
 			$message[] .= "Die Anmdeldung wurde bereits gesandt. Wenn Sie eine neue Anmeldung eigeben möchten, starten Sie von neuem."; 
 		}
 
