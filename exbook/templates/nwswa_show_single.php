@@ -6,6 +6,7 @@
 						
 								// create form token session variable and store generated id in it.
 								$_SESSION['form_token'] = $form_token;
+								echo "hello";
 ?>
 
 <?php
