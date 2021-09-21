@@ -1,22 +1,4 @@
 <?php
-								// start the session
-								session_start();
-								// form token 
-								$form_token = uniqid();
-						
-								// create form token session variable and store generated id in it.
-								$_SESSION['form_token'] = $form_token;
-								
-								echo $_SESSION["form_token"];
-								echo "<br /> Form token";	echo "<br />";
-								echo $form_token;
-								echo "<br />";
-								echo "<br /> Post form Token";
-								echo "<br />";
-								echo $_POST['form_token'];
-?>
-
-<?php
 /**
  * The template for displaying all single shows
  */
