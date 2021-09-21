@@ -69,6 +69,16 @@ get_header();
 						if ( $query->have_posts() && $formular_sent != 'true' ) { ?>
 
 					
+						<?php
+								// start the session
+								session_start();
+								// form token 
+								$form_token = uniqid();
+						
+								// create form token session variable and store generated id in it.
+								$_SESSION['form_token'] = $form_token;
+						?>
+
 					<form id="reservation" name="contact-form" action="" method="post">
 
 
@@ -76,7 +86,7 @@ get_header();
 
 					<p><label for="reservation_event">Vorstellung:</label>
 
-					
+					<input name="token" type="hidden" value="<?php echo $form_token; ?>">
 					
 					<select id="reservation_event" class="onchange" name="reservation_event">
 
